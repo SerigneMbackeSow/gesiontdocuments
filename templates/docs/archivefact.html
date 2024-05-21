@@ -1,0 +1,195 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Liste Archives{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1 style="color: white">BIENVENUE</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#" style="color: white">Dashboard</a></li>
+                            <li><a href="#" style="color: white">List</a></li>
+                            <li class="active" style="color: white">Archive</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="box-title">Boite : {{ boite.numero_boite  }} </h4>
+                <ul class="nav justify-content-end">
+                    {% if doc   and  boite.etat == False or 1%}
+  <li class="nav-item">
+
+  <li class="nav-item" style="margin-right: 5px">
+    <button type="button" class="btn btn-warning"><a href="/doc/ajouterdossier/{{ boite.id_boite }}" class=" float-end">
+                    Ajouter</a></button>
+  </li>
+
+
+
+  <li class="nav-item">
+   <button type="button" class="btn btn-warning" style="background-color: black;color: #edd183"><a href="/doc/update/{{ boite.id_boite }}" class=" float-end">
+                    CLOTURE</a></button>
+  </li>
+                    {% else %}
+                                        <li></li>
+                                    {% endif %}
+</ul>
+                <!--<nav class="navbar navbar-light bg-light justify-content-between">
+
+  <form class="form-inline" action="/doc/recherche/" method="POST"  class="form-inline" class="col-xl-12">
+      {% csrf_token %}
+      <input type="search" id="form1" class="form-control"  name="bl"/>
+      <input type="hidden" name="id_user" value="{{ user.id_utilisateur }}">
+      <input type="hidden" name="id_boite" value="{{ boite.id_boite }}">
+
+    <input  class="form-control form-control-lg" type="search" placeholder="Numero Dossier" aria-label="Search" name="bl">
+    <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" style="background-color:#edd183;color: black ">Recherche</button>
+  </form>
+</nav>-->
+                <p>Tapez un mot a rechercher</p>
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <br>
+            </div>
+            <div class="card-body--">
+
+
+
+
+
+
+                <div class="table-stats order-table ov-h">
+                    <table class="table ">
+                         <thead>
+      <tr style="background-color: #edd183;color: black">
+                                <!---<th class="serial" style="background-color: #edd183;color: black">Numero Boite</th>
+                                -->
+          <th style="background-color: #edd183;color: black">Numero DOSSIER</th>
+                                <th style="background-color: #edd183;color: black">DATE</th>
+                                <th style="background-color: #edd183;color: black">FICHIERS</th>
+                                <th style="background-color: #edd183;color: black">ACTIONS</th>
+                            </tr>
+    </thead>
+    <tbody id="myTable">
+     {% if doc %}
+                            {% for doc in doc %}
+                            <tr>
+
+                                <!--td class="serial">{{ doc.id_boite }}</td>-->
+                                <td>{{ doc.numero_dossier }}</td>
+                                <td>{{ doc.date_creation}}</td>
+                                <td>{{ doc.chemin_acces }}</td>
+                                <td>
+
+
+                                    <a href="/doc/visualiser-pdf/{{ doc.numero_dossier }}">
+                                        <button type="button" class="btn btn-secondary" style="background-color: #edd183;color: black">
+                                            Voir</button>
+                                    </a>
+
+                                     <a href="/doc/voirdetail/{{ doc.numero_dossier }}">
+                                        <button type="button" class="btn btn-danger" style="background-color: black;color: #edd183">
+                                            Details</button></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                                <tr><td>AUN DOOSIER</td></tr>
+                            {% endif %}
+    </tbody>
+                    </table>
+                <!--<button type="button" class="btn btn-warning"><a href="/doc/ajouterdossier/{{ boite.id_boite }}" class=" float-end">
+                    Ajouter</a></button>-->
+
+
+
+                </div> <!-- /.table-stats -->
+            </div>
+        </div> <!-- /.card -->
+    </div>  <!-- /.col-lg-8 -->
+
+
+</div>
+
+    <!--<div class="container">
+  <h2>Filterable Table</h2>
+  <p>Tapez un mot a rechercher</p>
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <br>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr style="background-color: #edd183;color: black">
+                                <th class="serial" style="background-color: #edd183;color: black">Numero Boite</th>
+                                <th style="background-color: #edd183;color: black">Numero DOSSIER</th>
+                                <th style="background-color: #edd183;color: black">DATE</th>
+                                <th style="background-color: #edd183;color: black">DOSSIER</th>
+                                <th style="background-color: #edd183;color: black">ACTIONS</th>
+                            </tr>
+    </thead>
+    <tbody id="myTable">
+     {% if doc %}
+                            {% for doc in doc %}
+                            <tr>
+
+                                <td class="serial">{{ doc.id_boite }}</td>
+                                <td>{{ doc.numero_dossier }}</td>
+                                <td>{{ doc.date_creation}}</td>
+                                <td>{{ doc.chemin_acces }}</td>
+                                <td>
+
+
+                                    <a href="/doc/visualiser-pdf/{{ doc.numero_dossier }}">
+                                        <button type="button" class="btn btn-secondary" style="background-color: #edd183;color: black">
+                                            Voir</button>
+                                    </a>
+
+                                     <a href="/doc/voirdetail/{{ doc.numero_dossier }}">
+                                        <button type="button" class="btn btn-danger" style="background-color: black;color: #edd183">
+                                            Details</button></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                                <tr><td>AUNE ARCHIVE</td></tr>
+                            {% endif %}
+    </tbody>
+  </table>
+    <button type="button" class="btn btn-warning"><a href="/doc/ajouterdossier/{{ boite.id_boite }}" class=" float-end">
+                    Ajouter</a></button>
+
+  <p>AUCUNE DONNEE</p>
+</div>-->
+
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+
+
+{% endblock content %}

@@ -1,0 +1,74 @@
+<aside id="left-panel" class="left-panel" style="background-color: #2a2827;">
+    <nav class="navbar navbar-expand-sm navbar-default" style="background-color: #2a2827">
+        <div id="main-menu" class="main-menu collapse navbar-collapse" style="background-color: #2a2827;">
+            <ul class="nav navbar-nav" style="color: #edd183">
+                <li class="active" style="background-color: #2a2827;color:#edd183">
+                    <a  href="{% url 'dashboard' %}" style="background-color: #2a2827;color:#edd183"><i class="menu-icon fa fa-laptop" style="background-color: #2a2827;color:#edd183"></i>BIENVENUE </a>
+                </li>
+                <li class="menu-title" style="color: #edd183">MON GED</li><!-- /.menu-title -->
+                <li class="menu-item-has-children dropdownn" style="background-color: #2a2827;color:#edd183">
+                    <a href="#" class="dropdown-togglee" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2a2827;color:#edd183""> <i class="menu-icon fa fa-paper-plane" style="background-color: #2a2827;color:#edd183"></i>FACTURATIONS</a>
+                    <ul class="sub-menu children dropdown-menu" style="background-color: #2a2827;color:#edd183">
+                        <!--<li><i class="fa fa-id-card-o" style="color: #edd183;"></i><a href="/doc/listearchive/{{ util.id_utilisateur}}" style="color: black;">ARCHIVE</a></li>-->
+                        <li><i style="background-color: #2a2827;color:#edd183" class="fa fa-th"></i><a href="/doc/listeboite/{{ util.id_utilisateur}}" style="background-color: #2a2827;color:#edd183">BOITE</a></li>
+                        <li><i style="background-color: #2a2827;color:#edd183" class="fa fa-th"></i><a href="/doc/toutedossier/{{ util.id_utilisateur}}" style="background-color: #2a2827;color:#edd183">Toutes Dossier</a></li>
+                    </ul>
+                </li>
+                <!--
+
+
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black;"> <i class="menu-icon fa fa-users" style="color: #edd183;"></i>Comptabilites</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="#" style="background-color: #edd183;color: #edd183;">Archives</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'buyer-list' %}"></a></li>-
+                    </ul>
+                </li>
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black;"> <i class="menu-icon fa fa-archive" style="color: #edd183;"></i>Documentation</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o" style="background-color: #edd183;color: #edd183;"></i><a href="#">Archives</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'season-list' %}">View</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-chevron-circle-down"></i>ARCHIVES</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'create-drop' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'drop-list' %}">View</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-product-hunt"></i>Product</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'create-product' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'product-list' %}">View</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cart-plus"></i>Order</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'create-order' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'order-list' %}">View</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-truck"></i>Delivery</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'create-delivery' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'delivery-list' %}">View</a></li>
+                    </ul>
+                </li>
+                -->
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </nav>
+</aside>

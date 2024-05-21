@@ -1,0 +1,83 @@
+{% extends 'base/baseacc.html' %}
+
+{% block title %}Liste Archives{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">List</a></li>
+                            <li class="active">Archive</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="box-title">Liste des Archives </h4>
+
+            </div>
+            <div class="card-body--">
+                <div class="table-stats order-table ov-h">
+                <div class="card-body--">
+                    <div class="container">
+                    <div class="row">
+                        {% if doc %}
+                            {% for doc in doc %}
+                                <div class="col-md-3">
+                           <div class="card" style="width: 18rem;">
+                            <img src="/static/images/logoarch.jpeg" class="card-img-top" alt="...">
+                               <div class="card-body">
+                                 <h5 class="card-title">Numero Boite : {{ doc.numero_boite }}</h5>
+                                   <p class="card-text">Crer le {{ doc.date_creation }}</p>
+                                   {% if doc.etat %}
+                                    <a href="/doc/listearchiveboite/{{ doc.id_boite}}" class="btn btn-primary">En cours</a>
+                                   {% else %}
+                                    <a href="/doc/listearchiveboite/{{ doc.id_boite}}" class="btn btn-primary">TERMINE {{ doc.etat }}</a>
+
+                                    {% endif %}
+
+                               </div>
+                           </div>
+                            {% endfor %}
+                            {% else %}
+
+
+                            <p style="margin: auto;text-align: center">AUCUNE  BOITE</p></br>
+                            {% endif %}
+                    <div>
+
+                <button type="button" class="btn btn-warning"><a href="/doc/ajouterboite/{{ user.id_utilisateur }}" class=" float-end">
+                    Ajouter</a></button>
+                    </div>
+
+
+
+                </div> <!-- /.table-stats -->
+            </div>
+        </div> <!-- /.card -->
+    </div>  <!-- /.col-lg-8 -->
+
+
+</div>
+{% endblock content %}

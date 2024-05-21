@@ -1,0 +1,153 @@
+{% extends 'base/baseacc.html' %}
+
+{% block title %}Liste Archives{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1 style="color: white">Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#" style="color: white">Dashboard</a></li>
+                            <li><a href="#" style="color: white">List</a></li>
+                            <li class="active" style="color: white">Archive</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="box-title">Liste des Boites </h4>
+                <!--<button  style="float: right;" type="button" class="btn btn-warning"><a href="/doc/ajouterboite/{{ user.id_utilisateur }}" class=" float-end" >
+                    Ajouter</a></button>-->
+
+            </div>
+            <div class="card-body--">
+                <div class="table-stats order-table ov-h">
+                <table class="table ">
+                        <thead style="background-color: #edd183;color: black">
+                            <tr style="background-color: #edd183;color: black">
+                                <th class="serial" style="background-color: #edd183;color: black">Mention</th>
+                                <th style="background-color: #edd183;color: black">Date</th>
+                                <th style="background-color: #edd183;color: black">Etat</th>
+                                <!--<th style="background-color: #edd183;color: black">DOSSIER</th>-->
+                                <th style="background-color: #edd183;color: black">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% if doc %}
+                            {% for doc in doc %}
+                            <tr>
+
+                                <td class="serial">{{ doc.numero_boite}}</td>
+                                <td>{{ doc.date_creation }}</td>
+
+                                    {% if doc.etat %}
+                                        <td>Cloturée et non Classée</td>
+                                   {% else %}
+                                        <td>En cours</td>
+                                    {% endif %}
+
+                                <td>
+
+
+                                    <a href="/doc/ajouterdossierarchiviste/{{ doc.id_boite}}/{{ util.id_utilisateur }}">
+                                        <button type="button" class="btn btn-secondary" style="background-color: #edd183;color: black">
+                                            Classer</button>
+                                    </a>
+
+                                     <!--<a href="/doc/voirdetail/{{ doc.numero_dossier }}">
+                                        <button type="button" class="btn btn-danger" style="background-color: black;color: #edd183">
+                                            Details</button></a>
+                                </td>-->
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                                <tr><td>AUCUNE BOITe à CLASSER</td></tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!--<div class="card-body--">
+                    <div class="container">
+                    <div class="row">
+                        {% if doc %}
+                            {% for doc in doc %}
+                                <div class="col-md-3">
+                           <div class="card" style="width: 18rem;">
+                            <img src="https://th.bing.com/th/id/OIP.WLlF4_ZCrd5v4B-BaB29bgHaE8?rs=1&pid=ImgDetMain"
+                                 class="card-img-top" alt="...">
+                               <div class="card-body">
+                                 <h5 class="card-title">Numero Boite : {{ doc.numero_boite }}</h5>
+                                   <p class="card-text">Crer le {{ doc.date_creation }}</p>
+                                   {% if doc.etat %}
+                                    <a href="/doc/listearchiveboite/{{ doc.id_boite}}" class="btn btn-outline-successz">En cours</a>
+                                   {% else %}
+                                    <a href="/doc/listearchiveboite/{{ doc.id_boite}}" class="btn btn-primary">TERMINE {{ doc.etat }}</a>
+
+                                    {% endif %}
+
+                               </div>
+                           </div>
+                            {% endfor %}
+                            {% else %}
+
+
+                            <p style="margin: auto;text-align: center">AUCUNE  BOITE</p></br>
+                            {% endif %}
+                    <div>-->
+
+                <!--<button type="button" class="btn btn-warning"><a href="/doc/ajouterboite/{{ user.id_utilisateur }}" class=" float-end">
+                    Ajouter</a></button>-->
+                    </div>
+
+
+
+                </div> <!-- /.table-stats -->
+            </div>
+        </div> <!-- /.card -->
+    </div>  <!-- /.col-lg-8 -->
+
+
+</div>
+{% endblock content %}

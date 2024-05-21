@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+   <h2 style="text-align:center"> Create New Blog </h2>
+    <form method="POST" action="/doc/crerutilisateur/" >
+        {% csrf_token %}
+        {{ forms.as_p }}
+        <input type="submit" class="btn btn-success">
+    </form>
+
+</body>
+</html>
