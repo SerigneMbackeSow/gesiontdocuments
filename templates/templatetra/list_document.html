@@ -5,19 +5,32 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="/static/assets/styletra/css/style.css">
-    <link rel="stylesheet" href="/static/assets/styletra/css/style1.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+
+    <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> <!-- For icons -->
+    <!-- Style -->
+    <!--<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">-->
+      <link href="/static/assets/styletra/css/style.css" rel="stylesheet">
+    <link href="/static/assets/styletra/css/style1.css" rel="stylesheet">
     <title>TOM-MEDLOG GED</title>
   </head>
   <body>
-    
+
+
     <aside class="sidebar" style="background-color: rgb(49, 47, 47);">
         <div class="toggle">
             <a href="#" class="burger js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
@@ -26,20 +39,20 @@
         </div>
         <div class="side-inner">
             <div class="profile">
-                <img src="images/logo.png" alt="Image" class="img-fluid">
+                <img src="/static/images/imgtra/images/logo.png" alt="Image" class="img-fluid">
             </div>
-            
+
             <!-- Menu principal -->
             <div class="nav-menu">
                 <ul>
                     <li class="accordion main-menu">
-                     
+
                             <span class="icon-home mr-3"></span>MENU PRINCIPAL
-                        
+
                     </li>
                 </ul>
             </div>
-    
+
             <div class="nav-menu">
                 <ul>
                     <li class="accordion">
@@ -49,10 +62,10 @@
                         <div id="collapseFacturation" class="collapse" aria-labelledby="headingFacturation">
                             <div>
                                 <ul>
-                                    <li><a href="./list_boite_facturation.html">LISTE DES BOITES</a></li>
-                                    <li><a href="./ajouter-boite.html">AJOUTER UNE BOITE</a></li>
-                                    <li><a href="./list_document_facturation.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./ajouter-document.html">AJOUTER UN DOCUMENT</a></li>
+                                    <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">LES BOITES</a></li>
+                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
+                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
+                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -64,8 +77,11 @@
                         <div id="collapseArchive" class="collapse" aria-labelledby="headingArchive">
                             <div>
                                 <ul>
-                                    <li><a href="./list_boite_cloture_archive.html">LISTE DES BOITES CLOTURÉES</a></li>
-                                    <li><a href="./list_document_classe_archive.html">LISTE DES DOCUMENTS CLASSÉS</a></li>
+                                    <li><a href="./list_boite_archiviste.html">LES BOITES CLOTURÉES</a></li>
+                                    <li><a href="./list_document.html">LES DOCUMENTS CLASSÉS</a></li>
+                                    <li><a href="./list_cartable_archiviste.html">LES CARTABLES CLOTURÉES</a></li>
+                                    <li><a href="./list_classeur_archiviste.html">LES CLASSEURS CLOTURÉES</a></li>
+                                    <li><a href="./list_demande.html">LES DEMANDES</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -77,8 +93,10 @@
                         <div id="collapseDocumentation" class="collapse" aria-labelledby="headingDocumentation">
                             <div>
                                 <ul>
-                                    <li><a href="./list_document_documentation.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./chart-morris.html">AJOUTER UN DOCUMENT</a></li>
+                                    <li><a href="./list_boite_agent.html">LES BOITES</a></li>
+                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
+                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
+                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -90,8 +108,10 @@
                         <div id="collapseTransfert" class="collapse" aria-labelledby="headingTransfert">
                             <div>
                                 <ul>
-                                    <li><a href="./list_document_transfert.html">LISTER DES DOCUMENTS</a></li>
-                                    <li><a href="./chart-morris.html">AJOUTER UN DOCUMENT</a></li>
+                                    <li><a href="./list_boite_agent.html">LES BOITES</a></li>
+                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
+                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
+                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -103,8 +123,10 @@
                         <div id="collapseParcLogistique" class="collapse" aria-labelledby="headingParcLogistique">
                             <div>
                                 <ul>
-                                    <li><a href="./list_document_parc.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./parc-logistique-ajout.html">AJOUTER UN VÉHICULE</a></li>
+                                    <li><a href="./list_boite_agent.html">LES BOITES</a></li>
+                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
+                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
+                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -116,8 +138,10 @@
                         <div id="collapseSacherie" class="collapse" aria-labelledby="headingSacherie">
                             <div>
                                 <ul>
-                                    <li><a href="./list_document_sacherie.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./sacherie-ajout.html">AJOUTER UN ARTICLE</a></li>
+                                    <li><a href="./list_boite_agent.html">LES BOITES</a></li>
+                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
+                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
+                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -129,8 +153,10 @@
                         <div id="collapseComptabilite" class="collapse" aria-labelledby="headingComptabilite">
                             <div>
                                 <ul>
-                                    <li><a href="./list_document_comptabilite.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./comptabilite-ajout.html">AJOUTER UN COMPTE</a></li>
+                                    <li><a href="./list_boite_agent.html">LES BOITES</a></li>
+                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
+                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
+                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -142,8 +168,10 @@
                         <div id="collapseManagementIT" class="collapse" aria-labelledby="headingManagementIT">
                             <div>
                                 <ul>
-                                    <li><a href="./list_document_it.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./management-it-ajout.html">AJOUTER UN PROJET</a></li>
+                                    <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">LES BOITES</a></li>
+                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
+                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
+                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -155,8 +183,10 @@
                         <div id="collapseExport" class="collapse" aria-labelledby="headingExport">
                             <div>
                                 <ul>
-                                    <li><a href="./export-liste.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./export-ajout.html">AJOUTER UN DOCUMENT</a></li>
+                                    <li><a href="./list_boite_agent.html">LES BOITES</a></li>
+                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
+                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
+                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -168,8 +198,10 @@
                         <div id="collapseLivraison" class="collapse" aria-labelledby="headingLivraison">
                             <div>
                                 <ul>
-                                    <li><a href="./livraison-liste.html">LISTE DES LIVRAISONS</a></li>
-                                    <li><a href="./livraison-ajout.html">AJOUTER UNE LIVRAISON</a></li>
+                          <li><a href="./list_boite_agent.html">LES BOITES</a></li>
+                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
+                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
+                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -178,6 +210,7 @@
             </div>
         </div>
     </aside>
+
     
     <main>
         <div class="header">
@@ -197,8 +230,9 @@
                 <main style="width: 100%;">
                     <div class="site-section">
                         <div class="container">
-                            <button class="btn btn-info btn-icon btn-sm"><i class="bi bi-plus-lg">Ajouter</i></button>
-                        <a href="/doc/ajouterdocument/{{ boite.id_boite }}">Ajouter</a>
+                            <button class="btn btn-info btn-icon btn-sm" onclick="window.location.href='ajout-document.html'">
+                                <i class="bi bi-plus-lg"></i> Ajouter
+                            </button>
                             <div class="row align-items-center">
                                 <form class="form-inline my-4" style="width: 100%; justify-content: center;">
                                     <input class="form-control mr-sm-2 search-bar w-75" type="search" placeholder="Search" aria-label="Search">
@@ -231,7 +265,7 @@
                                             <td>{{ item.niveau }}</td>
                                             <td>
                                                 <div class="action-buttons">
-                                                    <button class="btn btn-info btn-icon btn-sm" title="Voir Détails"><i class="bi bi-eye">Details</i></button>
+                                                    <button class="btn btn-info btn-icon btn-sm" title="Voir Détails"><i class="bi bi-eye">Visualiser</i></button>
                                                    
                                                 </div>
                                             </td>
@@ -246,9 +280,10 @@
             </div>
         </div>
     </main>
-    <script src="/static/assets/js/jstra/jquery-3.3.1.min.js"></script>
-    <script src="/static/assets/js/jstra/js/popper.min.js"></script>
-    <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
-    <script src="/static/assets/js/jstra/js/main.js"></script>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>

@@ -1,3 +1,4 @@
+from datetime import datetime
 
 from users.models import User
 from django.db import models
@@ -8,6 +9,7 @@ class Utilisateurs(models.Model):
     prenom = models.CharField(max_length=255,null=True)
     email = models.EmailField(unique=True,null=False)
     password = models.CharField(max_length=255,null=False)
+    etat = models.IntegerField(default=1)
     telephone = models.CharField(max_length=15,null=True)
     direction = models.CharField(max_length=255,null=False)
     role = models.CharField(max_length=255, null=False)
@@ -45,9 +47,11 @@ class Document(models.Model):
     numero_docuemnt = models.CharField( max_length=150)
     date_creation = models.DateField(auto_now_add=True)
     date_destruction = models.DateField(null=True)
+    bl = models.CharField(max_length=255,null=True,default='BL')
     chemin_acces = models.CharField(max_length=255)
     disponibilite = models.IntegerField(default=0)
-    eta = models.CharField(null=True,max_length=10)
+    #eta = models.CharField(null=True,max_length=10)
+    eta=models.DateField(default=datetime.now())
     client = models.CharField(null=True,max_length=40)
     nom_navire = models.CharField(null=True,max_length=100)
     numero_voyage = models.CharField(null=True,max_length=100)
@@ -74,6 +78,17 @@ class Demande(models.Model):
 
     class Meta:
         db_table = 'Demande'
+class RestrictionDocument(models.Model):
+        id_restric = models.AutoField(primary_key=True, db_column='id_dmd')
+        id_user=models.IntegerField()
+        id_doc=models.IntegerField()
+        numero_docuent=models.CharField(max_length=255,default='numero_doc')
+        service=models.CharField(max_length=255,default='service')
+        date_dmd=models.DateField(null=True)
+        etat = models.IntegerField(default=1)
+        acces=models.CharField(max_length=150)
+        class Meta:
+            db_table = 'Restriction'
 
 
 class DemandePermission(models.Model):

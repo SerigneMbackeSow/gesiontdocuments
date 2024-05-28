@@ -53,49 +53,28 @@
                         </div>
                         <div class=" col-lg-6 col-xl-4 offset-xl-1">
                           <form method="POST" action="/users/seconnecter/">
-                            <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                                <p style="color: #fff; font-size: 25px;">SE CONNECTER</p>
-
-                             
+                            <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start mb-4">
+                                <h1 class="lead fw-normal mb-0 me-3" style="color: #fff; font-size: 30px">SE CONNECTER</h1>
                             </div>
-                               {% csrf_token %}
-                  
-                           
-                  
+                    
                             <!-- Email input -->
                             <div data-mdb-input-init class="form-outline mb-4">
-                              <label class="form-label" for="form3Example3">Adresse Email</label>
-                              <input type="email" id="form3Example3" class="form-control form-control-lg"
-                                placeholder="Entrer Un Email Valid"  name="email"/>
-                              
+                                <label class="form-label" for="form3Example3">Adresse Email</label>
+                                <input type="email" id="form3Example3" name="email" class="form-control form-control-lg" placeholder="Entrer Un Email Valid" required />
                             </div>
-                  
+                     {% csrf_token %}
                             <!-- Password input -->
                             <div data-mdb-input-init class="form-outline mb-3">
-                              <label class="form-label" for="form3Example4">Mot De Passe</label>
-                              <input type="password" id="form3Example4" class="form-control form-control-lg"
-                                placeholder="Entrez Le Mot De Passe"  name="password"/>
-                              
+                                <label class="form-label" for="form3Example4">Mot De Passe</label>
+                                <input type="password" id="form3Example4" name="password" class="form-control form-control-lg" placeholder="Entrez Le Mot De Passe" required />
                             </div>
-                  
-                            <div class="d-flex justify-content-between align-items-center">
-                              <!-- Checkbox -->
-                              <div class="form-check mb-0">
-                                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                                <label class="form-check-label" for="form2Example3">
-                                  Se Rappeler
-                                </label>
-                              </div>
-                             
-                            </div>
-                  
+                    
+                            <br>
+                    
                             <div class="text-center text-lg-start mt-4 pt-2">
-                              <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
-                                style="padding-left: 2.5rem; padding-right: 2.5rem;">Valider</button>
-                            
+                                <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Valider</button>
                             </div>
-                  
-                          </form>
+                        </form>
                         </div>
                       </div>
                     </div>         

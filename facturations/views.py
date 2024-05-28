@@ -8,23 +8,17 @@ from django.shortcuts import render, redirect
 
 from facturations.forms import UtilisateurForm, UtilisateuwrForm, LoginForm, BoiteForm, ArchiveForm, DocumentForm
 from facturations.models import Utilisateurs, DetailsDossier, Boite, Localisation, Document, Permissions, Demande, \
-    DemandePermission, Permission
+    DemandePermission, Permission, RestrictionDocument
 
 
 # Create your views here.
 def Crer_Utilisateur_page(request):
-    if request.method == 'POST':
-
         forms = UtilisateurForm(request.POST)
-        if forms.is_valid() or 1:
-            forms.save()
-            render(request, 'docs/crerutilisateur.html', {'forms': forms})
-        else:
-            forms = UtilisateurForm()
-        return render(request, 'docs/crerutilisateur.html', {'forms': forms})
+        return render(request, 'templatetra/ajout-utilisateur.html', {'forms': forms})
 
 
-def Crer_Utilisateuwr_page(request):
+
+def enregistrer_Utilisateur(request):
     if request.method == 'POST':
         form = UtilisateuwrForm(request.POST)
         if form.is_valid() or 1:
@@ -37,7 +31,8 @@ def Crer_Utilisateuwr_page(request):
                 telephone=form.cleaned_data['telephone'],
                 # direction=form.cleaned_data['direction'],
                 direction=request.POST['direction'],
-                role=request.POST['rolee']
+                #role=request.POST['rolee']
+                role='agent'
                 # form.cleaned_data['direction']
             )
             instance.save()
@@ -94,18 +89,14 @@ def enregistrerboite(request):
     if request.method == 'POST':
         form = BoiteForm(request.POST)
         id_user = request.session.get('user_id')
-        if form.is_valid() or 1:
-            cleaned_data = form.cleaned_data
-            #id_user = cleaned_data['id_user']
-            #numero_boite = cleaned_data['numero_boite']
+        if Boite.objects.filter(mention=request.POST['mention']).exists():
+            return ajouterboite_page(request, request.POST['id_user'])
+            #cleaned_data = form.cleaned_data
+        else :
             instance = Boite(
             mention = request.POST['mention'],
-            #numero_rang = request.POST['rang'],
             date_creation =datetime.now(),
             id_user =request.POST['id_user']
-            #harmoire = request.POST['armoire'],
-            #numero_comp = request.POST['compartiment'],
-            #niveau = request.POST['niveau'],
             )
             instance.save()
             return  listeboitedirection(request, request.POST['id_user'])
@@ -113,17 +104,49 @@ def enregistrerboite(request):
     else:
         return ajouterboite_page(request, request.POST['id_user'])
 
-def listedocumentboite(request, id):
+def listedocumentboite(request, id,id_user):
     listedoc = []
     boite=False
+    listres=RestrictionDocument.objects.filter(id_user=id_user)
+    #listres_dmd= RestrictionDocument.objects.filter(id_user=id_user,etat=0)
+    listresdmd = RestrictionDocument.objects.filter(id_user=id_user,etat=0)
     user=False
     try:
         listedoc = Document.objects.filter(id_boite=id)
+
         boite = Boite.objects.get(id_boite=id)
-        user = Utilisateurs.objects.get(id_user=boite.id_user)
+
     except:
         pass
-    return render(request, 'templatetra/list_document.html', {'doc': listedoc, 'user': user, 'util': user, 'boite': boite})
+    restricted_doc_ids = set(listres.values_list('id_doc', flat=True))
+    restricted_doc_ids_dmd = set(listresdmd.values_list('id_doc', flat=True))
+
+
+    # Ajouter dynamiquement l'attribut 'acces=0' aux documents restreints dans listedoc
+    for doc in listedoc:
+        if doc.id_document in restricted_doc_ids:
+            doc.acces = 0
+            doc.etat=1
+            doc.dmd=0
+            if doc.id_document in restricted_doc_ids_dmd:
+                doc.acces = 0
+                doc.etat = 0
+                doc.dmd=1
+
+
+
+        else:
+            doc.acces = 1  # Ou une autre valeur par défaut si nécessaire
+            doc.etat = 3
+
+            doc.dmd = 0
+
+    # Utiliser 'listedoc' dans le contexte ou faire ce que vous devez faire
+    context = {
+        'listedoc': listedoc,
+    }
+    user = Utilisateurs.objects.get(id_utilisateur=id_user)
+    return render(request, 'templatetra/list_document_agent.html', {'doc': listedoc, 'user': user, 'util': user, 'boite': boite})
 
 def clotureBoite(request, id):
     boite=False
@@ -131,16 +154,57 @@ def clotureBoite(request, id):
     try:
       boite = Boite.objects.get(id_boite=id)
       boite.etat = 0
-      user = Utilisateurs.objects.get(id_user=boite.id_user)
-      if boite:
-          boite.save()
-          return listeboitedirection(request, user.id_utilisateur)
+      boite.save()
+
     except:
         pass
+    user = Utilisateurs.objects.get(id_utilisateur=boite.id_user)
+    if boite:
+
+        return listeboitedirection(request, user.id_utilisateur)
 
     return listedocumentboite(request, id)
+def voir_detail_boite(request, id,id_user):
+    boite=False
+    user=False
+    try:
+      boite = Boite.objects.get(id_boite=id)
 
-####################################################################GESTION DOCUMENT############################################
+    except:
+        pass
+    user = Utilisateurs.objects.get(id_utilisateur=id_user)
+    if boite:
+        return render(request, 'templatetra/detail_boite.html',
+                      {'boite': boite, 'user': user, 'util': user})
+    else:
+        return listeboitedirection(request, user.id_utilisateur)
+
+def updateboite(request):
+    boite = False
+    user = False
+    try:
+        boite = Boite.objects.get(id_boite=request.POST['id_boite'])
+
+    except:
+        pass
+    user = Utilisateurs.objects.get(id_utilisateur=request.POST['id_user'])
+    if boite:
+        boite.mention=request.POST['mention']
+        boite.save()
+        return listeboitedirection(request, user.id_utilisateur)
+    else:
+        return voir_detail_boite(request, boite.id_boite)
+
+
+def voire_document(request, id,id_user):
+    doc=Document.objects.get(id_document=id)
+    user=Utilisateurs.objects.get(id_utilisateur=id_user)
+    return render(request, 'templatetra/voir_document.html',
+                  { 'doc': doc,'util':user})
+
+
+
+    ####################################################################GESTION DOCUMENT############################################
 def ajouterdossier_page(request, id):
     forms = DocumentForm()
     boite = Boite.objects.get(id_boite=id)
@@ -159,7 +223,7 @@ def ajouterdocumentboite(request):
             boite=Boite.objects.get(id_boite=request.POST['id_boite'])
         except :
            pass
-        fichier = form.cleaned_data['document']
+        fichier = request.FILES['file']
         handle_uploaded_file(fichier)
         current_timestamp = int(datetime.timestamp(datetime.now()))
         if form.is_valid() or 1:
@@ -170,22 +234,25 @@ def ajouterdocumentboite(request):
                 id_user=request.POST['id_user'],
                 # id_documment=derniere_document.id_document
             )
-            instanceper.save()
-            derniere_per = Permission.objects.latest(' id_permission')
+            #instanceper.save()
+            #derniere_per = Permission.objects.latest(' id_permission')
             ####Ajoter Document
-            instance=Document( numero_docuemnt =request.POST['numero_docuemnt'],
+            if Document.objects.filter(numero_docuemnt=request.POST['numero']).exists():
+                return ajouterdossier_page(request, request.POST['id_boite'])
+            instance=Document( numero_docuemnt =request.POST['numero'],
                                 date_creation =datetime.now(),
                                 chemin_acces = str(current_timestamp) + fichier.name,
                                 eta = request.POST['eta'],
+                               bl= request.POST['bl'],
                                 client =request.POST['client'] ,
-                                nom_navire = request.POST['nom_navire'],
-                                numero_voyage =request.POST['numero_voyage'],
+                                nom_navire = request.POST['navire'],
+                                numero_voyage =request.POST['voyage'],
                                id_boite =request.POST['id_boite'],
-                               id_oer=derniere_per. id_permission,
+                               id_per=2
                                )
             instance.save()
 
-            return  listedocumentboite(request, boite.id_boite)
+            return  listedocumentboite(request,request.POST['id_boite'],request.POST['id_user'])
     else:
         forms = DocumentForm()
         boite = Boite.objects.get(id_boite=request.POST['boite'])
@@ -222,12 +289,13 @@ def voir_document(request, id_document):
 def listedemesddemande(request, id):
     listdmd = []
     a = request.session.get('user_id')
-    user = Utilisateurs.objects.get(id_user=id)
+    user = Utilisateurs.objects.get(id_utilisateur=id)
     try:
         listdmd = Demande.objects.filter(id_demandeur=id)
     except:
         pass
-    return render(request, 'docs/listeboite.html', {'dmd': listdmd, 'user': user, 'util': user})
+    #return render(request, 'docs/listeboite.html', {'dmd': listdmd, 'user': user, 'util': user})
+    return render(request, 'templatetra/list_demande.html', {'dmd': listdmd, 'user': user, 'util': user})
 
 def ajouterdemande_page(request, id,idobj):
     #forms = DemandeForm()
@@ -318,13 +386,14 @@ def refusedemande(request,id,id_user):
 ###############################################Archiviste######################################################################
 def listeboiteAclasser(request, id):
     boite = Boite.objects.filter(etat=0,numero_rang__startswith='Aucune')
-    user = Utilisateurs.objects.get(id_user=id)
-    return render(request, 'docs/listeboiteclasser.html', {'doc': boite, 'user': user, 'util': user})
+    user = Utilisateurs.objects.get(id_utilisateur=id)
+    #return render(request, 'docs/listeboiteclasser.html', {'doc': boite, 'user': user, 'util': user})
 
+    return render(request, 'templatetra/liste_boite_cloture.html', {'boite': boite, 'user': user, 'util': user})
 def classerBoite_page(request, id, id_user):
     boite = Boite.objects.get(id_boite=id)
-    user = Utilisateurs.objects.get(id_user=id_user)
-    return render(request, 'docs/ajouterdossierarchiviste.html',
+    user = Utilisateurs.objects.get(id_utilisateur=id_user)
+    return render(request, 'templatetra/classer_boite.html',
                   { 'user': user, 'util': user, 'boite': boite})
 def classerboite(request):
     if request.method == 'POST':
@@ -335,10 +404,10 @@ def classerboite(request):
         if form.is_valid() or 1:
             boit = Boite.objects.get(id_boite=id_boite)
             boit.numero_rang = request.POST['numerorang']
-            boit.armoire = request.POST['armoire']
+            boit.harmoire = request.POST['armoire']
             boit.numero_comp = request.POST['com']
             boit.niveau = request.POST['niveau']
-            boit.etat=1
+            #boit.etat=1
             boit.save()
 
             return listeboiteclasser(request, request.POST['id_user'])
@@ -351,17 +420,42 @@ def listeboiteclasser(request, id):
     lisboite = []
     user = Utilisateurs.objects.get(id_utilisateur=id)
     try:
-        lisboite = Boite.objects.exclude(etat=0, numero_rang__startswith='Auc')
+        lisboite = Boite.objects.exclude(numero_rang__startswith='Auc')
     except:
         pass
     loc = Localisation.objects.all()
-    return render(request, 'docs/listeboitearchive.html', {'doc': lisboite, 'user': user, 'util': user, 'loc': loc})
+    return render(request, 'templatetra/liste_boite_classer.html', {'boite': lisboite, 'user': user, 'util': user, 'loc': loc})
 
 def voir_detail_archive(request, id, id_user):
     boite = Boite.objects.get(id_boite=id)
     user = Utilisateurs.objects.get(id_utilisateur=id_user)
-    return render(request, 'docs/detailrang.html', {'detboit': boite, 'user': user, 'util': user})
+    return render(request, 'templatetra/detail_archiviste.html', {'boite': boite, 'user': user, 'util': user})
 
+def updateboite_archiviste(request):
+    boit = False
+    user = False
+    try:
+        boit = Boite.objects.get(id_boite=request.POST['id_boite'])
+
+    except:
+        pass
+    user = Utilisateurs.objects.get(id_utilisateur=request.POST['id_user'])
+    if boit:
+        if request.POST['numero_rang']:
+            boit.numero_rang = request.POST['numero_rang']
+        boit.harmoire = request.POST['armoire']
+        if request.POST['armoire']:
+            boit.harmoire = request.POST['armoire']
+
+        if request.POST['com']:
+            boit.numero_comp = request.POST['com']
+        if request.POST['niveau']:
+            boit.niveau = request.POST['niveau']
+        boit.save()
+        return listeboiteclasser(request, user.id_utilisateur)
+
+    else:
+        return voir_detail_archive(request, boit.id_boite,user.id_utilisateur)
 
 
 ###########################################################Gestion demnade Permission
@@ -422,6 +516,427 @@ def repondredemandepermission(request):
                 dmd.eta=2
             dmd.save()
             return  listedemandepermissionencours(request,id_user)
+
+
+
+###########################GESTION EQUIPE
+def list_agent(request,id):
+    listagent = []
+    #a = request.session.get('user_id')
+    user = Utilisateurs.objects.get(id_utilisateur=id)
+    try:
+        listagent = Utilisateurs.objects.filter(role='agent',direction=user.direction)
+    except:
+        pass
+    return render(request, 'templatetra/list_agent.html', {'agt': listagent, 'user': user, 'util': user})
+
+def Crer_agent_page(request,id):
+        forms = UtilisateurForm(request.POST)
+        user=Utilisateurs.objects.get(id_utilisateur=id)
+        return render(request, 'templatetra/crer_agent.html', {'forms': forms,'util':user})
+
+def enregistrer_agent(request):
+    if request.method == 'POST':
+        form = UtilisateuwrForm(request.POST)
+        user=Utilisateurs.objects.get(id_utilisateur=request.POST["id_user"])
+        if form.is_valid() or 1:
+            cleaned_data = form.cleaned_data
+            instance = Utilisateurs(
+                nom=request.POST['nom'],
+                prenom=request.POST['prenom'],
+                email=request.POST['email'],
+                password='passer',
+                telephone=request.POST['telephone'],
+                # direction=request.POST['direction'],
+                direction=user.direction,
+                #role=request.POST['rolee']
+                role='agent'
+                # form.cleaned_data['direction']
+            )
+            instance.save()
+            #return redirect('/users/login/')
+            return list_agent(request,user.id_utilisateur)
+        else:
+            forms = UtilisateurForm()
+            return Crer_agent_page(request, request.POST["id_user"])
+            #return render(request, 'templatetra/crer_agent.html', {'forms': forms})
+
+def update_agent_page(request,id_user,id_agt):
+    user=Utilisateurs.objects.get(id_utilisateur=id_user)
+    agt=Utilisateurs.objects.get(id_utilisateur=id_agt)
+    return render(request, 'templatetra/update_agent.html', {'agt':agt,'util':user,'user':agt})
+
+def upadte_agent(request):
+    agt=Utilisateurs.objects.get(id_utilisateur=request.POST['id_agt'])
+    user=Utilisateurs.objects.get(id_utilisateur=request.POST['id_user'])
+    if request.POST['prenom']:
+     agt.prenom = request.POST['prenom']
+    if request.POST['nom']:
+     agt.email = request.POST['nom']
+    if request.POST['telephone']:
+     agt.telephone = request.POST['telephone'],
+
+    agt.save()
+    return list_agent(request,user.id_utilisateur)
+def desactiver_agent(request,id_user,id_agt):
+    user=Utilisateurs.objects.get(id_utilisateur=id_user)
+    agt=Utilisateurs.objects.get(id_utilisateur=id_agt)
+    agt.etat=0
+    agt.save()
+    return list_agent(request,user.id_utilisateur)
+def activer_agent(request,id_user,id_agt):
+    user=Utilisateurs.objects.get(id_utilisateur=id_user)
+    agt=Utilisateurs.objects.get(id_utilisateur=id_agt)
+    agt.etat=1
+    agt.save()
+    return list_agent(request,user.id_utilisateur)
+def reinitiliaser_mdp(request,id_user,id_agt):
+    user = Utilisateurs.objects.get(id_utilisateur=id_user)
+    agt = Utilisateurs.objects.get(id_utilisateur=id_agt)
+    agt.password='reinit'
+    agt.save()
+    return list_agent(request,user.id_utilisateur)
+
+
+
+########Gestion Demande
+def demande_acces_boite(request,id,id_boite):
+    user=Utilisateurs.objects.get(id_utilisateur=id)
+    boite=Boite.objects.get(id_boite=id_boite)
+    return render(request, 'templatetra/ajout_demande_boite.html', {'util':user,'boite':boite})
+def enregistrer_demande_boite(request):
+    dmd=Demande(
+        type = 'boite',
+        commentaire = request.POST['commentaire'],
+         date_dmd = datetime.now(),
+        id_demandeur = request.POST['id_user'],
+        id_boite = request.POST['id_boite']
+
+    )
+    dmd.save()
+    return listeboitedirection(request,request.POST['id_user'])
+
+def demande_acces_document(request, id, id_doc):
+        user = Utilisateurs.objects.get(id_utilisateur=id)
+        doc = Document.objects.get(id_document=id_doc)
+        return render(request, 'templatetra/ajout_deamnde_document.html', {'util': user, 'doc': doc})
+def enregistrer_demande_doc(request):
+    dmd=Demande(
+        type = 'document',
+        commentaire = request.POST['commentaire'],
+         date_dmd = datetime.now(),
+        id_demandeur = request.POST['id_user'],
+        id_docuement = request.POST['id_doc']
+
+    )
+    dmd.save()
+    doc=Document.objects.get(id_document=request.POST['id_doc'])
+    boite=Boite.objects.get(id_boite=doc.id_boite)
+    return listedocumentboite(request,boite.id_boite,request.POST['id_user'])
+
+def refusd_demande_page(request, id, id_dmd):
+        user = Utilisateurs.objects.get(id_utilisateur=id)
+        dmd = Demande.objects.get(id_dmd=id_dmd)
+        return render(request, 'templatetra/refut_dmd.html', {'util': user, 'dmd': dmd})
+
+def enregistrer_demande_refut(request):
+    dmd=Demande.objects.get(id_dmd=request.POST['dmd'])
+    dmd.commentaire_reponse =request.POST['commentaire']
+    dmd.id_accepteur = request.POST['id_user']
+    dmd.etat = 2
+    dmd.save()
+    return liste_demande(request, request.POST['id_user'])
+
+def enregistrer_demande_acept(request, id, id_dmd):
+    dmd=Demande.objects.get(id_dmd=id_dmd)
+    user=Utilisateurs.objects.get(id_utilisateur=id)
+    dmd.id_accepteur = id
+    dmd.commentaire_reponse='accepté'
+    dmd.etat = 1
+    dmd.save()
+    return liste_demande(request,id)
+
+def liste_demande(request,id):
+    user=Utilisateurs.objects.get(id_utilisateur=id)
+    dmd=Demande.objects.filter(etat=0)
+    lsdmandeur=Utilisateurs.objects.filter(id_utilisateur__in=dmd)
+    lsdoc = Document.objects.filter(id_document__in=dmd)
+    lsboite = Boite.objects.filter(id_boite__in=dmd)
+    restricted_doc_ids = set(lsdoc.values_list('id_document', flat=True))
+    restricted_userr_ids = set(lsdmandeur.values_list('id_utilisateur', flat=True))
+    restricted_boite_ids = set(lsboite.values_list('id_boite', flat=True))
+    for doc in dmd:
+        if doc.type== "document" :
+           if doc.id_docuement in restricted_doc_ids:
+
+                if doc.id_docuement in restricted_doc_ids:
+                    if doc.id_demandeur in restricted_userr_ids:
+                        user=Utilisateurs.objects.get(id_utilisateur=doc.id_demandeur)
+                        doc.numero = Document.objects.get(id_document=doc).numero_docuemnt
+                        doc.user=user.nom + user.prenom
+        else :
+            if doc.id_boite in restricted_boite_ids:
+                if doc.id_demandeur in restricted_userr_ids:
+                    user = Utilisateurs.objects.get(id_utilisateur=doc.id_demandeur)
+                    doc.numero = Boite.objects.get(id_document=doc).mention
+                    doc.user = user.nom + user.prenom
+
+
+    return render(request, 'templatetra/list_demande.html', {'util':user,'dmd':dmd})
+
+def retriction_page(request, id , id_doc):
+    user=Utilisateurs.objects.get(id_utilisateur=id)
+    agt=Utilisateurs.objects.filter(direction=user.direction,role='agent')
+    doc=Document.objects.get(id_document=id_doc)
+    return render(request, 'templatetra/restriction.html', {'util':user,'doc':doc,'agt':agt})
+
+def enregistrer_restriction(request):
+    selected_agents = request.POST.getlist('agents')  # Récupère toutes les valeurs sélectionnées
+    selected_agents = request.POST.getlist('agt')  # Récupère toutes les valeurs sélectionnées
+    for agent_id in selected_agents:
+        docu=Document.objects.get(id_document=request.POST['id_doc'])
+        boite=Boite.objects.get(id_boite=docu.id_boite)
+        user=Utilisateurs.objects.get(id_utilisateur=boite.id_user)
+        res = RestrictionDocument(
+            id_user=agent_id,  # Utilise agent_id directement
+            id_doc=request.POST['id_doc'],
+            numero_docuent=docu.numero_docuemnt,
+            service=user.direction,
+            date_dmd=datetime.now(),
+            acces=0,
+            etat=1
+        )
+        res.save()
+    doc=Document.objects.get(id_document=request.POST['id_doc'])
+    return listedocumentboite(request,doc.id_boite,request.POST['id_user'])
+
+def tout_doc(request,id):
+    listedoc=Document.objects.all()
+    user=Utilisateurs.objects.get(id_utilisateur=id)
+    listeuser=Utilisateurs.objects.filter(direction=user.direction)
+    boite=Boite.objects.filter(id_user__in=listeuser)
+    docuser=Document.objects.filter(id_boite__in=boite)
+    listres = RestrictionDocument.objects.filter(id_user=id)
+    listresdmd = RestrictionDocument.objects.filter(id_user=id, etat=0)
+
+    restricted_doc_ids = set(listres.values_list('id_doc', flat=True))
+    list_doc_direction = set(docuser.values_list('id_document', flat=True))
+    list_doc_dmd = set(listresdmd .values_list('id_doc', flat=True))
+
+
+    # Ajouter dynamiquement l'attribut 'acces=0' aux documents restreints dans listedoc
+
+
+    for doc in listedoc:
+        if doc.id_document in list_doc_direction:
+
+            if doc.id_document in restricted_doc_ids:
+                doc.acces = 0
+                doc.etat = 0
+                doc.dmd=0
+                if doc.id_document in list_doc_dmd:
+                    doc.acces = 0
+                    doc.etat = 0
+                    doc.dmd = 1
+
+
+
+            else:
+                doc.acces = 1 # Ou une autre valeur par défaut si nécessaire
+                doc.etat = 1
+                doc.dmd = 0
+        else :
+            doc.acces = 1  # Ou une autre valeur par défaut si nécessaire
+            doc.etat = 1
+            doc.dmd = 0
+
+
+    return render(request, 'templatetra/tout_document.html', {'util': user, 'doc': listedoc})
+
+def voir_tout_document(request, id,id_user):
+    doc = Document.objects.get(id_document=id)
+    user = Utilisateurs.objects.get(id_utilisateur=id_user)
+    return render(request, 'templatetra/voir_tout_document.html',
+                  {'doc': doc, 'util': user})
+
+##########################################################GESTION  DES CHEF DE SERVICES
+def list_chef(request,id):
+    listagent = []
+    #a = request.session.get('user_id')
+    user = Utilisateurs.objects.get(id_utilisateur=id)
+    try:
+        listagent = Utilisateurs.objects.filter(role='chef')
+    except:
+        pass
+    return render(request, 'templatetra/liste_chef.html', {'chf': listagent, 'user': user, 'util': user})
+
+def Crer_chef_page(request,id):
+        forms = UtilisateurForm(request.POST)
+        user=Utilisateurs.objects.get(id_utilisateur=id)
+        return render(request, 'templatetra/crer_chef.html', {'forms': forms,'util':user})
+
+def enregistrer_chef(request):
+    if request.method == 'POST':
+        form = UtilisateuwrForm(request.POST)
+        user=Utilisateurs.objects.get(id_utilisateur=request.POST["id_user"])
+        if form.is_valid() or 1:
+            cleaned_data = form.cleaned_data
+            instance = Utilisateurs(
+                nom=request.POST['nom'],
+                prenom=request.POST['prenom'],
+                email=request.POST['email'],
+                password='chef',
+                telephone=request.POST['telephone'],
+                direction=request.POST['direction'],
+                #direction=user.direction,
+                role='chef',
+
+                # form.cleaned_data['direction']
+            )
+            instance.save()
+            #return redirect('/users/login/')
+            return list_chef(request,user.id_utilisateur)
+        else:
+            forms = UtilisateurForm()
+            return Crer_chef_page(request, request.POST["id_user"])
+            #return render(request, 'templatetra/crer_agent.html', {'forms': forms})
+
+def update_chef_page(request,id_user,id_chf):
+    user=Utilisateurs.objects.get(id_utilisateur=id_user)
+    agt=Utilisateurs.objects.get(id_utilisateur=id_chf)
+    return render(request, 'templatetra/update_agent.html', {'chf':agt,'util':user,'user':agt})
+
+def upadte_chef(request):
+    agt=Utilisateurs.objects.get(id_utilisateur=request.POST['id_chf'])
+    user=Utilisateurs.objects.get(id_utilisateur=request.POST['id_user'])
+    if request.POST['prenom']:
+     agt.prenom = request.POST['prenom']
+    if request.POST['nom']:
+     agt.email = request.POST['nom']
+    if request.POST['telephone']:
+     agt.telephone = request.POST['telephone'],
+
+    agt.save()
+    return list_agent(request,user.id_utilisateur)
+def desactiver_chef(request,id_user,id_chf):
+    user=Utilisateurs.objects.get(id_utilisateur=id_user)
+    agt=Utilisateurs.objects.get(id_utilisateur=id_chf)
+    agt.etat=0
+    agt.save()
+    return list_agent(request,user.id_utilisateur)
+def activer_chef(request,id_user,id_chf):
+    user=Utilisateurs.objects.get(id_utilisateur=id_user)
+    agt=Utilisateurs.objects.get(id_utilisateur=id_chf)
+    agt.etat=1
+    agt.save()
+    return list_agent(request,user.id_utilisateur)
+def reinitiliaser_mdp_chef(request,id_user,id_chf):
+    user = Utilisateurs.objects.get(id_utilisateur=id_user)
+    agt = Utilisateurs.objects.get(id_utilisateur=id_chf)
+    agt.password='reinit'
+    agt.save()
+    return list_agent(request,user.id_utilisateur)
+
+
+#########Gestion Demande de suppression
+def demandepermission(request,id,id_doc,id_boite):
+    user=Utilisateurs.objects.get(id_utilisateur=id)
+    try:
+        doc = RestrictionDocument.objects.get(id_user=id, id_doc=id_doc)
+        doc.etat = 0
+        doc.save()
+        document = Document.objects.get(id_document=doc.id_doc)
+        boite = Boite.objects.get(id_boite=document.id_boite)
+    except:
+        pass
+
+    return listedocumentboite(request,id_boite,user.id_utilisateur)
+def acceptr_permission(request,id,id_user):
+    res=RestrictionDocument.objects.get(id_restric=id)
+    res.delete()
+    return listpermission(request,id_user)
+
+
+def listpermission(request,id):
+    user=Utilisateurs.objects.get(id_utilisateur=id)
+    lstuser=Utilisateurs.objects.filter(direction=user.direction)
+    listboit=Boite.objects.filter(id_user__in=lstuser)
+    listdoc=Document.objects.filter(id_boite__in=listboit)
+    Liste_user=Utilisateurs.objects.all()
+
+    lisrect=RestrictionDocument.objects.filter(id_doc__in=listdoc,etat=0)
+    restricted_ids_doc = set(listdoc.values_list('id_document', flat=True))
+    restricted_ids_user = set(Liste_user.values_list('id_utilisateur', flat=True))
+
+    # Ajouter dynamiquement l'attribut 'acces=0' aux documents restreints dans listedoc
+    for doc in lisrect:
+        if doc.id_doc in restricted_ids_doc:
+            docu=Document.objects.get(id_document=doc.id_doc)
+            #doc.document=docu.chemin_acces
+
+            if doc.id_user in restricted_ids_user:
+               useru=Utilisateurs.objects.get(id_utilisateur=doc.id_user)
+               doc.document = docu.chemin_acces
+               doc.numero=docu.numero_docuemnt
+               doc.user = useru.prenom+' '+ useru.prenom
+    return render(request, 'templatetra/liste_permission.html', {'lstres': lisrect,'util':user})
+################Demande Tout
+
+def demande_acces_document_tout(request, id, id_doc):
+        user = Utilisateurs.objects.get(id_utilisateur=id)
+        doc = Document.objects.get(id_document=id_doc)
+        return render(request, 'templatetra/ajouter_demande_tout.html', {'util': user, 'doc': doc})
+def enregistrer_demande_doc_tout(request):
+    dmd=Demande(
+        type = 'document',
+        commentaire = request.POST['commentaire'],
+         date_dmd = datetime.now(),
+        id_demandeur = request.POST['id_user'],
+        id_docuement = request.POST['id_doc']
+
+    )
+    dmd.save()
+
+    return tout_doc(request,request.POST['id_user'])
+
+
+def demandepermission_tout(request,id,id_doc):
+    user=Utilisateurs.objects.get(id_utilisateur=id)
+    try:
+        doc = RestrictionDocument.objects.get(id_user=id, id_doc=id_doc)
+        doc.etat = 0
+        doc.save()
+        document = Document.objects.get(id_document=doc.id_doc)
+        boite = Boite.objects.get(id_boite=document.id_boite)
+    except:
+        pass
+
+    return  tout_doc(request,id)
+        #listedocumentboite(request,id_boite,user.id_utilisateur)
+
+def voire_document_demande(request, id_user,id_doc):
+    doc=Document.objects.get(id_document=id_doc)
+    user=Utilisateurs.objects.get(id_utilisateur=id_user)
+    return render(request, 'templatetra/voir_demande_document.html',
+                  { 'doc': doc,'util':user})
+
+
+
+def mes_demandes(request,id):
+    user=Utilisateurs.objects.get(id_utilisateur=id)
+    res=RestrictionDocument.objects.filter(id_user=id)
+
+
+    return render(request, 'templatetra/mes_demandes.html', {'lstres': res,'util':user})
+
+
+
+
+
+
+
+#def repondre_demande(request,id_user,id_obt):
+
 
 
 
