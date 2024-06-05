@@ -297,26 +297,33 @@
                                                 <div class="action-buttons">
                                                     {% if util.role == 'chef'%}
                                                      <a  href="/doc/voirdoc/{{ item.id_document }}/{{ util.id_utilisateur }}" class="btn btn-info btn-icon btn-sm"><i class="bi bi-eye">Voir</i></a>
+                                                        {% if item.cons == 1 %}
                                                         <a  href="/doc/demandedoc/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-primary btn-icon btn-sm">
                                                         <i class="bi bi-send"></i>Consulter
                                                     </a>
+                                                            {% endif %}
+
                                                      <a  href="/doc/refuse_page/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-primary btn-icon btn-sm">
                                                         <i class="bi bi-send"></i> Restreindre
                                                     </a>
                                                 {% else  %}
-                                                        {% if item.acces == 0 and item.etat == 1  and item.dmd == 0 %}
+
+                                                        {% if item.ref == 1 %}
+                                                        Refusé
+                                                        {% endif %}
+                                                        {% if item.acces == 0 and item.etat == 1  and item.dmd == 0 and item.ref == 0  %}
                                                          <!--<a  href="/doc/voirdoc/{{ item.id_document }}" class="btn btn-info btn-icon btn-sm"><i class="bi bi-eye">Voir</i></a>-->
                                                         <!--<a  href="/doc/demandedoc/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-primary btn-icon btn-sm">
                                                         <i class="bi bi-send"></i> Demander Acces
                                                     </a>-->
                                                             <a  href="/doc/dmd_permission/{{ util.id_utilisateur }}/{{ item.id_document }}/{{ boite.id_boite }}" class="btn btn-primary btn-icon btn-sm">
-                                                        <i class="bi bi-send"></i> Demander Permission
+                                                        <i class="bi bi-send"></i> Permission
                                                     </a>
                                                             Pas Acces
                                                             {% endif %}
 
 
-                                                      {% if  item.acces == 0 and item.etat == 0 and item.dmd == 1 %}
+                                                      {% if  item.acces == 0 and item.etat == 0 and item.dmd == 1  and item.ref == 0%}
 
                                                         <!--<a  href="/doc/dmd_permission/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-primary btn-icon btn-sm">
                                                         <i class="bi bi-send"></i> Demander Permission
@@ -325,9 +332,11 @@
                                                               {% endif %}
                                                         {% if item.acces == 1 and item.etat == 3  and item.dmd == 0 %}
                                                              <a  href="/doc/voirdoc/{{ item.id_document }}/{{ util.id_utilisateur }}" class="btn btn-info btn-icon btn-sm"><i class="bi bi-eye">Voir</i></a>
-                                                        <a  href="/doc/demandedoc/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-primary btn-icon btn-sm">
+                                                        {% if item.cons == 1 %}
+                                                            <a  href="/doc/demandedoc/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-primary btn-icon btn-sm">
                                                         <i class="bi bi-send"></i> Consulter
                                                     </a>
+                                                             {% endif %}
                                                             {% endif %}
     {% endif %}
 

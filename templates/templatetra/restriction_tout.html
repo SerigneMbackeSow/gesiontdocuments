@@ -4,17 +4,12 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
-      {% comment %} Pour les icones{% endcomment %}
 
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
     <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
@@ -82,7 +77,7 @@
                         <div id="collapseArchive" class="collapse" aria-labelledby="headingArchive">
                             <div>
                                 <ul>
-                                    <li><a href="/doc/listeboiteaclasser/{{ util.id_utilisateur }}">LES BOITES CLOTURÉES</a></li>
+                                    <li><a href="./list_boite_archiviste.html">LES BOITES CLOTURÉES</a></li>
                                     <li><a href="./list_document.html">LES DOCUMENTS CLASSÉS</a></li>
                                     <li><a href="./list_cartable_archiviste.html">LES CARTABLES CLOTURÉES</a></li>
                                     <li><a href="./list_classeur_archiviste.html">LES CLASSEURS CLOTURÉES</a></li>
@@ -216,182 +211,75 @@
         </div>
     </aside>
 
+
     <main>
-     <div class="header">
-    <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
-        <!-- Barre de recherche à gauche -->
-        <div class="d-flex align-items-center" style="width: 75%;">
-            <form class="form-inline my-2" style="width: 100%;">
-                <input class="form-control mr-2 search-bar w-100" type="search" placeholder="Search" aria-label="Search">
-            </form>
-            <a href="list_demande.html" class="position-relative ml-2">
-                <i class="fas fa-bell fa-lg" style="color: black;"></i>
-            </a>
-        </div>
-        <div class="d-flex align-items-center">
-            <div class="text-right text-white mr-3">
-                <p class="mb-0">{{ util.nom }} {{ util.prenom }}</p>
-                <p class="mb-0">{{ util.direction }}</p>
-            </div>
-            <img src="/static/images/imgtra/images/logo1.png" alt="Profile Image" class="rounded-circle profile-img" style="width: 40px; height: 40px;">
-        </div>
-    </div>
-</div>
-      <div class="site-section">
-
-
-        <div style="display: flex; justify-content: center; width: 100%;">
-
-          <main style="width: 100%;">
-
-
-              <div class="site-section">
-
-                  <div class="container">
-                    <!--<button class="btn btn-info btn-icon btn-sm" onclick="window.location.href='/doc/ajouterboite_page/{{ util.id_utilisateur }}'">
-                    <i class="bi bi-plus-lg"></i> Ajouter
-                </button>-->
-                    <!--<div class="row align-items-center">
-                        <form class="form-inline my-4" style="width: 100%; justify-content: center;">
-                            <input class="form-control mr-sm-2 search-bar w-75" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-dark my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
-                        </form>
+        <div class="header">
+            <div class="header-content d-flex justify-content-between align-items-center py-3 px-4" >
+                <h2></h2>
+                <div class="d-flex align-items-center">
+                    <div class="text-right text-white mr-3">
+                        <p class="mb-0">Nom de l'utilisateur</p>
+                        <p class="mb-0">Service: Nom du service</p>
                     </div>
-                      <div class="row align-items-center">
+                    <img src="images/logo1.png" alt="Profile Image" class="rounded-circle profile-img">
+                </div>
+            </div>
+        </div>
+        <div class="site-section">
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-12">
+                        <div class="card shadow custom-card mx-auto">
+                            <div class="card-body p-4">
+                                <form method="POST" action="/doc/retriction_tout/" enctype="multipart/form-data">
+                           <div class="text-center mb-4">
+                               <p style="color: #000; font-size: 25px;">Document {{ doc.numero_docuemnt }}</p>
+                                        <p style="color: #000; font-size: 25px;">Ajouter des Restrictions</p>
+                                    </div>
+                                {% csrf_token %}
+                                    <!
+                                    <div class="form-group mb-4">
 
-                        <table class="table table-striped table-hover">-->
-                        <!--<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">-->
-                               <p>Tapez un mot à rechercher</p>
-  <input class="form-control" id="myInput" type="text" placeholder="Search..">
-  <br>
+                                        <input  name="id_user" type="hidden" value="{{ util.id_utilisateur }}">
 
-<table id="myTerable"  class="table table-striped table-hover">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th scope="col">Numéro</th>
-                                            <th scope="col">BL</th>
-                                            <th scope="col">Date De Création</th>
-                                            <th scope="col">ETA</th>
-                                            <th scope="col">Client</th>
-                                            <th scope="col">NAVIRE</th>
-                                            <th scope="col">Voyage</th>
-                                            <!--<th scope="col">Chémin D'accès </th>-->
-                                            <th scope="col" class="col-2">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="myTable">
-                                        {% for item in doc %}
-                                        <tr>
-                                            <td>{{ item.numero_docuemnt }}</td>
-                                            <td>{{ item.bl }}</td>
-                                            <td>{{ item.date_creation }}</td>
-                                             <td>{{ item.eta }}</td>
-                                            <td>{{ item.client }}</td>
-                                            <td>{{ item.nom_navire }}</td>
-                                            <td>{{ item.numero_voyage }}</td>
-                                            <!--<td>{{ item.chemin_acces }}</td>-->
-                                            <td>
-                                                <div class="action-buttons">
-
-                                                {% if item.dir == 0  %}
-                                                      {% if item.acces == 1  %}
-                                                           <a  href="/doc/voir_tout_document/{{ item.id_document }}/{{ util.id_utilisateur }}" class="btn btn-info btn-icon btn-sm"><i class="bi bi-eye">Voir</i></a>
-                                                        {% if item.cons == 1 %}
-                                                    <a  href="/doc/demandedoc_tout/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-info btn-icon btn-sm">
-                                                        <i class="bi bi-send"></i>  Consulter
-                                                    </a>
-                                                            {% endif %}
-                                                              {% endif %}
-                                                    {% if item.acces == 0  %}
-
-                                                             <p>Pas  acces</p>
-                                                    <a  href="/doc/demandepermission_direction/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-primary btn-icon btn-sm">
-                                                        <i class="bi bi-send"></i>Permission
-                                                    </a>
-                                                            {% endif %}
-                                                     {% if item.dmd == 1  %}
-
-                                                             <p>Demande en cours</p>
-
-                                                            {% endif %}
-
-
-
-
-
-                                                {% endif %}
-                                                {% if item.dir == 1 %}
-                                                    {% if item.acces == 1%}
-
-                                                    <a  href="/doc/voir_tout_document/{{ item.id_document }}/{{ util.id_utilisateur }}" class="btn btn-info btn-icon btn-sm"><i class="bi bi-eye">Voir</i></a>
-                                                        {% if item.cons == 1 %}
-                                                    <a  href="/doc/demandedoc_tout/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-info btn-icon btn-sm">
-                                                        <i class="bi bi-send"></i>  Consulter
-                                                    </a>
-                                                            {% endif %}
-                                                        {% endif %}
-                                                {% if util.role == 'chef'%}
-
-                                                                <a  href="/doc/retrindre_page_tout/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-primary btn-icon btn-sm">
-                                                        <i class="bi bi-send"></i> Restreindre
-                                                    </a>
-                                                {% endif %}
-                                                {% if util.role == 'agent'%}
-                                                    {% if item.acces == 0 %}
-                                                    <a  href="/doc/demandepermission_direction/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-primary btn-icon btn-sm">
-                                                        <i class="bi bi-send"></i>Permission
-                                                    </a>
-                                                        {% endif %}
-                                                {% endif %}
-                                                    {% if item.dmd == 0 %}
-                                                        <p> Pas Acces </p>
-                                                        {% endif %}
-
-
-                                                {% endif %}
+                                        <input  name="id_doc" type="hidden" value="{{ doc.id_document }}">
+                                    </div>
+                                    <div class="form-group mb-4">
+                                      {% for agt in agt %}
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="agt" id="agt-{{ agt.id_utilisateur }}" value="{{ agt.id_utilisateur }}">
+            <label class="form-check-label" for="agt-{{ agt.id_utilisateur }}">
+              {{ agt.nom }} {{ agt.prenom }}
+            </label>
+          </div>
+        {% endfor %}
+                                </div>
 
 
 
 
 
 
+                                    <!-- Niveau input -->
 
+                                    <div class="text-center">
+                                        <button type="submit" name="valider" class="btn btn-primary btn-lg">Valider</button>
+                                         <a  type="button" class="btn btn-danger btn-lg ms-3"  href="/doc/tot_document/{{ util.id_utilisateur }}">Annuler</a>
+                                        <!--<button type="reset" name="reset" class="btn btn-danger btn-lg ms-3">Annuler</button>-->
+                                        <!--<a  type="button" class="btn btn-danger btn-lg ms-3"href="/doc/liste_boite_cloture/{{ util.id_utilisateur }}"> A nnuler</a>-->
+                                    </div>
+                                </form>
 
-
-
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                          </table>
-
-                      </div>
-                  </div>
-              </div>
-          </main>
-      </div>
-
-      </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
-
-
-<script>
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-</script>
-
-
-
     <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
     <script src="/static/assets/js/jstra/js/popper.min.js"></script>
     <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
     <script src="/static/assets/js/jstra/js/main.js"></script>
-  </body>
+</body>
 </html>

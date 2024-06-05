@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
-
+<link rel="stylesheet" href="
+https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
@@ -254,11 +255,21 @@
                                          <td>{{ dmd.numero }}</td>
                                          <td>{{ dmd.user }}</td>
                                          <td>{{ dmd.type }} </td>
-                                         <td>{{ dmd.date }} </td>
+                                         <td>{{ dmd.date_dmd}} </td>
                                          <td>{{ dmd.commentaire }} </td>
                                           <td>
                                                 <div class="action-buttons">
-                                                    <a href="/doc/accepter_dmd/{{ util.id_utilisateur }}/{{ dmd.id_dmd }}" class="btn btn-success btn-icon btn-sm mr-2" title="Accepter">
+                                                    {% if dmd.bt == 0 %}
+                                                    <a href="/doc/detail_docu_con/{{ dmd.id_dmd }}/{{ util.id_utilisateur }}" class="btn btn-info btn-icon btn-icon btn-sm"
+                                                    >
+                                                        <i class="bi bi-eye"></i> Detail
+                                                    </a>
+                                                    {% else %}
+                                                        <a href="/doc/detail_boite_con/{{ dmd.id_dmd }}/{{ util.id_utilisateur }}" class="btn btn-info btn-icon btn-icon btn-sm">
+                                                        <i class="bi bi-eye"></i> Detail
+                                                    </a>
+                                                    {% endif %}
+                                                    <a href="/doc/accepter_dmd/{{ util.id_utilisateur }}/{{ dmd.id_dmd }}" class="btn btn-info btn-icon btn-icon btn-sm">
                                                         <i class="fas fa-check"></i> Accepter
                                                     </a>
                                                     <a href="/doc/refuse_dmd_page/{{ util.id_utilisateur }}/{{ dmd.id_dmd }}" class="btn btn-danger btn-icon btn-sm" title="Refuser">

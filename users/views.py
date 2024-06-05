@@ -10,7 +10,7 @@ def login_page(request):
     forms = LoginForm()
     if request.method == 'POST':
         forms = LoginForm(request.POST)
-        if forms.is_valid():
+        if forms.is_valid() or 1:
             username = forms.cleaned_data['username']
             password = forms.cleaned_data['password']
             user = authenticate(username=username, password=password)
@@ -33,8 +33,6 @@ def seconnecter(request):
         forms = LoginForm(request.POST)
         if forms.is_valid()  or 1:
             username = request.POST['email']
-            #password = forms.cleaned_data['password']
-            #username = forms.cleaned_data['username']
             password = request.POST['password']
             user= False
             service='archive'
@@ -44,10 +42,6 @@ def seconnecter(request):
             except:
                 pass
                 return redirect('login')
-
-
-
-            #return render(request, 'docs/acc_archiviste.html', {'util': user,'service':service})
             return render(request, 'templatetra/index.html', {'util': user, 'service': service})
 
 

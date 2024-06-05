@@ -31,6 +31,7 @@ urlpatterns = [
     path('demandedoc_tout/<int:id>/<int:id_doc>', demande_acces_document_tout, name='listearchive'),
     path('enregistrer_demande_doc_tout/',enregistrer_demande_doc_tout, name='listearchive'),
     path('demandepermission_tout/<int:id>/<int:id_doc>',demandepermission_tout, name='listearchive'),
+    path('demandepermission_direction/<int:id>/<int:id_doc>',demandepermission_tout_direction, name='listearchive'),
 
     #########Gestion deamnde Archoive
     path('listedmd/<int:id>', liste_demande, name='listearchive'),
@@ -40,6 +41,14 @@ urlpatterns = [
     #####################Gestion Permission
     path('refuse_page/<int:id>/<int:id_doc>', retriction_page, name='listearchive'),
      path('retriction/',enregistrer_restriction,name='listearchive'),
+    ####################Gestion Permisio Tout
+    #####################Gestion Permission
+    path('refuse_page/<int:id>/<int:id_doc>', retriction_page, name='listearchive'),
+    path('retriction/', enregistrer_restriction, name='listearchive'),
+
+    #######################Gestion Permission tout
+    path('retrindre_page_tout/<int:id>/<int:id_doc>',  retriction_page_tout, name='listearchive'),
+    path('retriction_tout/', enregistrer_restriction_tout, name='listearchive'),
 
 
 
@@ -83,14 +92,26 @@ urlpatterns = [
     path('liste_permission/<int:id>', listpermission, name='listearchive'),
     path('dmd_permission/<int:id>/<int:id_doc>/<int:id_boite>', demandepermission, name='listearchive'),
     path('accepter_per/<int:id>/<int:id_user>', acceptr_permission, name='listearchive'),
+    path('refuser_per/<int:id>/<int:id_user>', refuser_permission, name='listearchive'),
+
+    path('dmd_permission_tout/<int:id>/<int:id_doc>', demandepermission_tout, name='listearchive'),
 
 
     #######################ARCHIVE##########################
     path('listeboiteaclasser/<int:id>',listeboiteAclasser,name='listearchive'),
-    path('listedemesddemande/<int:id>',listedemesddemande,name='listearchive'),
+    path('listedemesddemande/<int:id>',listedemesddemandeConsultation,name='listearchive'),
 
     ###################GESTION DES DEMENADES AGENTs
-    path('liste_mes_demnades/<int:id>',mes_demandes,name='listearchive')
+    path('liste_mes_demnades/<int:id>',mes_demandes,name='listearchive'),
 
+
+
+
+
+    ######################GESTION CONSULTATION
+     path('liste_consultation/<int:id>',mes_consultations,name='listearchive'),
+    ##############################Gestion voir detail Consultation
+    path('detail_docu_con/<int:id>/<int:id_user>',voir_detail_document_consultation,name='listearchive'),
+    path('detail_boite_con/<int:id>/<int:id_user>',voir_detail_boite_consultation,name='listearchive'),
 
 ]

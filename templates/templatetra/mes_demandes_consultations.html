@@ -4,17 +4,12 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
-      {% comment %} Pour les icones{% endcomment %}
 
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
     <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
@@ -26,7 +21,10 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> <!-- For icons -->
-    <!-- Style -->
+{# Pour les icones#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+
+      <!-- Style -->
     <!--<link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/style1.css">-->
       <link href="/static/assets/styletra/css/style.css" rel="stylesheet">
@@ -217,26 +215,13 @@
     </aside>
 
     <main>
-     <div class="header">
-    <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
-        <!-- Barre de recherche à gauche -->
-        <div class="d-flex align-items-center" style="width: 75%;">
-            <form class="form-inline my-2" style="width: 100%;">
-                <input class="form-control mr-2 search-bar w-100" type="search" placeholder="Search" aria-label="Search">
-            </form>
-            <a href="list_demande.html" class="position-relative ml-2">
-                <i class="fas fa-bell fa-lg" style="color: black;"></i>
-            </a>
-        </div>
-        <div class="d-flex align-items-center">
-            <div class="text-right text-white mr-3">
-                <p class="mb-0">{{ util.nom }} {{ util.prenom }}</p>
-                <p class="mb-0">{{ util.direction }}</p>
+        <div class="header">
+            <div class="header-content">
+                <div class=" text-white py-3">
+                    <h2 class="text-center m-0"></h2>
+                </div>
             </div>
-            <img src="/static/images/imgtra/images/logo1.png" alt="Profile Image" class="rounded-circle profile-img" style="width: 40px; height: 40px;">
         </div>
-    </div>
-</div>
       <div class="site-section">
 
 
@@ -248,10 +233,10 @@
               <div class="site-section">
 
                   <div class="container">
-                    <!--<button class="btn btn-info btn-icon btn-sm" onclick="window.location.href='/doc/ajouterboite_page/{{ util.id_utilisateur }}'">
+                   <!-- <button class="btn btn-info btn-icon btn-sm" onclick="window.location.href='/doc/ajouterboite_page/{{ util.id_utilisateur }}'">
                     <i class="bi bi-plus-lg"></i> Ajouter
                 </button>-->
-                    <!--<div class="row align-items-center">
+                    <div class="row align-items-center">
                         <form class="form-inline my-4" style="width: 100%; justify-content: center;">
                             <input class="form-control mr-sm-2 search-bar w-75" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-dark my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
@@ -259,111 +244,58 @@
                     </div>
                       <div class="row align-items-center">
 
-                        <table class="table table-striped table-hover">-->
-                        <!--<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">-->
-                               <p>Tapez un mot à rechercher</p>
-  <input class="form-control" id="myInput" type="text" placeholder="Search..">
-  <br>
+                        <table class="table table-striped table-hover">
+                            <thead class="thead-light">
+                              <tr>
+                                <th scope="col" class="col-3">Type d'objet</th>
+                                <th scope="col" class="col-3">MON COmmentaire</th>
+                                  <th scope="col" class="col-3">Date</th>
+                                  <th scope="col" class="col-3">Etat</th>
+                                <th scope="col" class="col-3">Reponse</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for boite in cons %}
+                              <tr>
+                                <td>{{ boite.type}}</td>
+                                   <td>{{ boite.commentaire}}</td>
+                                   <td>{{ boite.date_dmd}}</td>
+                                   <td>
+                                    {% if boite.etat == 0%}
+                                        En cours
 
-<table id="myTerable"  class="table table-striped table-hover">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th scope="col">Numéro</th>
-                                            <th scope="col">BL</th>
-                                            <th scope="col">Date De Création</th>
-                                            <th scope="col">ETA</th>
-                                            <th scope="col">Client</th>
-                                            <th scope="col">NAVIRE</th>
-                                            <th scope="col">Voyage</th>
-                                            <!--<th scope="col">Chémin D'accès </th>-->
-                                            <th scope="col" class="col-2">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="myTable">
-                                        {% for item in doc %}
-                                        <tr>
-                                            <td>{{ item.numero_docuemnt }}</td>
-                                            <td>{{ item.bl }}</td>
-                                            <td>{{ item.date_creation }}</td>
-                                             <td>{{ item.eta }}</td>
-                                            <td>{{ item.client }}</td>
-                                            <td>{{ item.nom_navire }}</td>
-                                            <td>{{ item.numero_voyage }}</td>
-                                            <!--<td>{{ item.chemin_acces }}</td>-->
-                                            <td>
-                                                <div class="action-buttons">
-
-                                                {% if item.dir == 0  %}
-                                                      {% if item.acces == 1  %}
-                                                           <a  href="/doc/voir_tout_document/{{ item.id_document }}/{{ util.id_utilisateur }}" class="btn btn-info btn-icon btn-sm"><i class="bi bi-eye">Voir</i></a>
-                                                        {% if item.cons == 1 %}
-                                                    <a  href="/doc/demandedoc_tout/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-info btn-icon btn-sm">
-                                                        <i class="bi bi-send"></i>  Consulter
-                                                    </a>
-                                                            {% endif %}
-                                                              {% endif %}
-                                                    {% if item.acces == 0  %}
-
-                                                             <p>Pas  acces</p>
-                                                    <a  href="/doc/demandepermission_direction/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-primary btn-icon btn-sm">
-                                                        <i class="bi bi-send"></i>Permission
-                                                    </a>
-                                                            {% endif %}
-                                                     {% if item.dmd == 1  %}
-
-                                                             <p>Demande en cours</p>
-
-                                                            {% endif %}
+                {% else %}
+                                        Cloturée
 
 
+                                            {% endif %}
+
+                                <td>
+                                     {% if boite.etat == 0%}
+                                        En coure
+
+                {% else %}
+                                          {{  boite.commentaire_reponse}}
 
 
+                                            {% endif %}
 
-                                                {% endif %}
-                                                {% if item.dir == 1 %}
-                                                    {% if item.acces == 1%}
-
-                                                    <a  href="/doc/voir_tout_document/{{ item.id_document }}/{{ util.id_utilisateur }}" class="btn btn-info btn-icon btn-sm"><i class="bi bi-eye">Voir</i></a>
-                                                        {% if item.cons == 1 %}
-                                                    <a  href="/doc/demandedoc_tout/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-info btn-icon btn-sm">
-                                                        <i class="bi bi-send"></i>  Consulter
-                                                    </a>
-                                                            {% endif %}
-                                                        {% endif %}
-                                                {% if util.role == 'chef'%}
-
-                                                                <a  href="/doc/retrindre_page_tout/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-primary btn-icon btn-sm">
-                                                        <i class="bi bi-send"></i> Restreindre
-                                                    </a>
-                                                {% endif %}
-                                                {% if util.role == 'agent'%}
-                                                    {% if item.acces == 0 %}
-                                                    <a  href="/doc/demandepermission_direction/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-primary btn-icon btn-sm">
-                                                        <i class="bi bi-send"></i>Permission
-                                                    </a>
-                                                        {% endif %}
-                                                {% endif %}
-                                                    {% if item.dmd == 0 %}
-                                                        <p> Pas Acces </p>
-                                                        {% endif %}
+                              </td>
 
 
-                                                {% endif %}
+                                <td>
+                                  <div class="action-buttons">
+                                      <!--<button class="btn btn-info btn-icon btn-sm" title="Visualiser"><i class="bi bi-eye"><a href="/doc/voir_document_demande/{{ util.id_utilisateur }}/{{ boite.id_doc }}">Voir</a></i></button>
+
+                                    <button class="btn btn-info btn-icon btn-sm" title="Accepter"><i class="fas fa-check"><a href="/doc/accepter_per/{{ boite.id_restric }}/{{ util.id_utilisateur }}"> Accepter</a></i></button>
+                                      <button class="btn btn-danger btn-icon btn-sm" title="Refuser"><i class="fas fa-times"><a href="/doc/accepter_per/{{ boite.id_restric }}/{{ util.id_utilisateur }}"> Refuser</a></i></button>-->
 
 
-
-
-
-
-
-
-
-
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
+                                  </div>
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
                           </table>
 
                       </div>
@@ -374,18 +306,6 @@
 
       </div>
     </main>
-
-
-<script>
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-</script>
 
 
 

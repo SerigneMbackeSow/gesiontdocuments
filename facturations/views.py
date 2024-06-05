@@ -71,8 +71,15 @@ def listeboitedirection(request, id):
     user = Utilisateurs.objects.get(id_utilisateur=id)
     direction = user.direction
     listuser = Utilisateurs.objects.filter(direction=direction)
+    lst_dt_dmd=Demande.objects.filter(id_demandeur=id)
+    restricted_doc_ids = set(lst_dt_dmd.values_list('id_boite', flat=True))
     try:
         lisboite = Boite.objects.filter(id_user__in=listuser)
+        for bt in lisboite:
+            if bt.id_boite in restricted_doc_ids:
+                bt.cons=1
+            else :
+                 bt.cons=0
     except:
         pass
     return render(request, 'templatetra/list_boite.html', {'boite': lisboite, 'user': user, 'util': user})
@@ -110,7 +117,9 @@ def listedocumentboite(request, id,id_user):
     listres=RestrictionDocument.objects.filter(id_user=id_user)
     #listres_dmd= RestrictionDocument.objects.filter(id_user=id_user,etat=0)
     listresdmd = RestrictionDocument.objects.filter(id_user=id_user,etat=0)
+    listresdmd_refut = RestrictionDocument.objects.filter(id_user=id_user, etat=3)
     user=False
+
     try:
         listedoc = Document.objects.filter(id_boite=id)
 
@@ -120,10 +129,21 @@ def listedocumentboite(request, id,id_user):
         pass
     restricted_doc_ids = set(listres.values_list('id_doc', flat=True))
     restricted_doc_ids_dmd = set(listresdmd.values_list('id_doc', flat=True))
-
+    restricted_doc_ids_dmd_refut = set(listresdmd_refut.values_list('id_doc', flat=True))
+    lst_doc_dmd = Demande.objects.filter(id_demandeur=id_user)
+    restricted_doc_dmd_ids = set(lst_doc_dmd.values_list('id_docuement', flat=True))
 
     # Ajouter dynamiquement l'attribut 'acces=0' aux documents restreints dans listedoc
     for doc in listedoc:
+        if doc.id_document in restricted_doc_dmd_ids:
+             doc.cons = 0
+        else :
+            doc.cons = 1
+        if doc.id_document in restricted_doc_ids_dmd_refut:
+            doc.ref=1
+        else :
+            doc.ref=0
+
         if doc.id_document in restricted_doc_ids:
             doc.acces = 0
             doc.etat=1
@@ -286,15 +306,40 @@ def voir_document(request, id_document):
                   {'doc': fichier_pdf, 'user': fichier_pdf.id_user, 'util': user, 'boite': boite})
 ##################ajouter detail##################################################################
 ####Gestion demande#######################################
-def listedemesddemande(request, id):
+def listedemesddemandeConsultation(request, id):
     listdmd = []
     a = request.session.get('user_id')
     user = Utilisateurs.objects.get(id_utilisateur=id)
     try:
-        listdmd = Demande.objects.filter(id_demandeur=id)
+        #listdmd = Demande.objects.filter(id_demandeur=id)
+        listdmd = Demande.objects.filter(etat=0)
     except:
         pass
-    #return render(request, 'docs/listeboite.html', {'dmd': listdmd, 'user': user, 'util': user})
+    lst_doc=Document.objects.all()
+    #lst_user=Utilisateurs.objects.all()
+    lst_boite = Boite.objects.all()
+    restricted_boite_ids = set(lst_boite.values_list('id_boite', flat=True))
+    restricted_doc_ids = set(lst_doc.values_list('id_document', flat=True))
+    #restricted_user_ids = set(lst_boite.values_list('id_utilisateur', flat=True))
+    for doc in listdmd:
+        if doc.type == "document":
+            doc.bt = 0
+            if doc.id_docuement in restricted_doc_ids:
+                docu=Document.objects.get(id_document=doc.id_docuement)
+                doc.numero=docu.numero_docuemnt
+
+                user=Utilisateurs.objects.get(id_utilisateur=doc.id_demandeur)
+                doc.user= user.nom + ' '+user.prenom
+        else :
+            doc.bt = 1
+            if doc.id_boite in restricted_boite_ids:
+                boite = Boite.objects.get(id_boite=doc.id_boite)
+                doc.numero = boite.mention
+                doc.id_docuement = ''
+                doc.id_boite = boite.id_boite
+                user = Utilisateurs.objects.get(id_utilisateur=doc.id_demandeur)
+                doc.user = user.nom  + ' '+ user.prenom
+
     return render(request, 'templatetra/list_demande.html', {'dmd': listdmd, 'user': user, 'util': user})
 
 def ajouterdemande_page(request, id,idobj):
@@ -645,7 +690,8 @@ def enregistrer_demande_refut(request):
     dmd.id_accepteur = request.POST['id_user']
     dmd.etat = 2
     dmd.save()
-    return liste_demande(request, request.POST['id_user'])
+    return listedemesddemandeConsultation(request, request.POST['id_user'])
+    #return liste_demande(request, request.POST['id_user'])
 
 def enregistrer_demande_acept(request, id, id_dmd):
     dmd=Demande.objects.get(id_dmd=id_dmd)
@@ -654,7 +700,8 @@ def enregistrer_demande_acept(request, id, id_dmd):
     dmd.commentaire_reponse='accepté'
     dmd.etat = 1
     dmd.save()
-    return liste_demande(request,id)
+    return listedemesddemandeConsultation(request, id)
+    #return liste_demande(request,id)
 
 def liste_demande(request,id):
     user=Utilisateurs.objects.get(id_utilisateur=id)
@@ -697,16 +744,17 @@ def enregistrer_restriction(request):
         docu=Document.objects.get(id_document=request.POST['id_doc'])
         boite=Boite.objects.get(id_boite=docu.id_boite)
         user=Utilisateurs.objects.get(id_utilisateur=boite.id_user)
-        res = RestrictionDocument(
-            id_user=agent_id,  # Utilise agent_id directement
-            id_doc=request.POST['id_doc'],
-            numero_docuent=docu.numero_docuemnt,
-            service=user.direction,
-            date_dmd=datetime.now(),
-            acces=0,
-            etat=1
-        )
-        res.save()
+        if not RestrictionDocument.objects.filter(id_doc=request.POST['id_doc'], id_user=agent_id).exists():
+            res = RestrictionDocument(
+                id_user=agent_id,  # Utilise agent_id directement
+                id_doc=request.POST['id_doc'],
+                numero_docuent=docu.numero_docuemnt,
+                service=user.direction,
+                date_dmd=datetime.now(),
+                acces=0,
+                etat=1
+            )
+            res.save()
     doc=Document.objects.get(id_document=request.POST['id_doc'])
     return listedocumentboite(request,doc.id_boite,request.POST['id_user'])
 
@@ -716,39 +764,34 @@ def tout_doc(request,id):
     listeuser=Utilisateurs.objects.filter(direction=user.direction)
     boite=Boite.objects.filter(id_user__in=listeuser)
     docuser=Document.objects.filter(id_boite__in=boite)
-    listres = RestrictionDocument.objects.filter(id_user=id)
+    listres = RestrictionDocument.objects.filter(id_user=id,etat=1)
     listresdmd = RestrictionDocument.objects.filter(id_user=id, etat=0)
 
     restricted_doc_ids = set(listres.values_list('id_doc', flat=True))
     list_doc_direction = set(docuser.values_list('id_document', flat=True))
     list_doc_dmd = set(listresdmd .values_list('id_doc', flat=True))
-
-
-    # Ajouter dynamiquement l'attribut 'acces=0' aux documents restreints dans listedoc
-
-
+    lst_doc_dmd = Demande.objects.filter(id_demandeur=id)
+    restricted_doc_dmd_ids = set(lst_doc_dmd.values_list('id_docuement', flat=True))
     for doc in listedoc:
-        if doc.id_document in list_doc_direction:
-
-            if doc.id_document in restricted_doc_ids:
-                doc.acces = 0
-                doc.etat = 0
-                doc.dmd=0
-                if doc.id_document in list_doc_dmd:
-                    doc.acces = 0
-                    doc.etat = 0
-                    doc.dmd = 1
-
-
-
-            else:
-                doc.acces = 1 # Ou une autre valeur par défaut si nécessaire
-                doc.etat = 1
-                doc.dmd = 0
+        ##Consiulataion
+        if doc.id_document in restricted_doc_dmd_ids:
+            doc.con=0
         else :
-            doc.acces = 1  # Ou une autre valeur par défaut si nécessaire
-            doc.etat = 1
+            doc.cons=1
+            ####direction
+        if doc.id_document in list_doc_direction:
+            doc.dir=1
+        else :
+            doc.dir=0
+        ######acces
+        if doc.id_document in restricted_doc_ids:
+                doc.acces = 0
+        else :
+            doc.acces = 1
+        if doc.id_document in list_doc_dmd:
             doc.dmd = 0
+        else:
+            doc.dmd = 1
 
 
     return render(request, 'templatetra/tout_document.html', {'util': user, 'doc': listedoc})
@@ -773,7 +816,16 @@ def list_chef(request,id):
 def Crer_chef_page(request,id):
         forms = UtilisateurForm(request.POST)
         user=Utilisateurs.objects.get(id_utilisateur=id)
-        return render(request, 'templatetra/crer_chef.html', {'forms': forms,'util':user})
+        liste = ["facturation", "comptabilité", "documentation", "sacherie", "transfert"
+                 , "Document", "Archive"]
+        lchef=[]
+        all_user=Utilisateurs.objects.filter(role='chef')
+
+        for user in all_user:
+                if user.direction in liste:
+                    liste.remove(user.direction)
+
+        return render(request, 'templatetra/crer_chef.html', {'forms': forms,'util':user,'all':all_user,'lstdirection':liste})
 
 def enregistrer_chef(request):
     if request.method == 'POST':
@@ -843,6 +895,7 @@ def demandepermission(request,id,id_doc,id_boite):
     user=Utilisateurs.objects.get(id_utilisateur=id)
     try:
         doc = RestrictionDocument.objects.get(id_user=id, id_doc=id_doc)
+
         doc.etat = 0
         doc.save()
         document = Document.objects.get(id_document=doc.id_doc)
@@ -854,6 +907,11 @@ def demandepermission(request,id,id_doc,id_boite):
 def acceptr_permission(request,id,id_user):
     res=RestrictionDocument.objects.get(id_restric=id)
     res.delete()
+    return listpermission(request,id_user)
+def refuser_permission(request,id,id_user):
+    res=RestrictionDocument.objects.get(id_restric=id)
+    res.etat=3
+    res.save()
     return listpermission(request,id_user)
 
 
@@ -932,10 +990,111 @@ def mes_demandes(request,id):
 
 
 
+########GESTION DES DEMNADES DE CONSULTATIONS
+def mes_consultations(request,id):
+    dmd=Demande.objects.filter(id_demandeur=id)
+    user=Utilisateurs.objects.get(id_utilisateur=id)
+    return render(request, 'templatetra/mes_demandes_consultations.html', {'cons': dmd, 'util': user})
+
+######################GESTION DES DEMANDES DE PERMISSION TOUT
+def retriction_page_tout(request, id , id_doc):
+    user=Utilisateurs.objects.get(id_utilisateur=id)
+    agt=Utilisateurs.objects.exclude(id_utilisateur=user.id_utilisateur)
+    doc=Document.objects.get(id_document=id_doc)
+    return render(request, 'templatetra/restriction_tout.html', {'util':user,'doc':doc,'agt':agt})
+
+def enregistrer_restriction_tout(request):
+    selected_agents = request.POST.getlist('agents')  # Récupère toutes les valeurs sélectionnées
+    selected_agents = request.POST.getlist('agt')  # Récupère toutes les valeurs sélectionnées
+    for agent_id in selected_agents:
+        docu=Document.objects.get(id_document=request.POST['id_doc'])
+        boite=Boite.objects.get(id_boite=docu.id_boite)
+        user=Utilisateurs.objects.get(id_utilisateur=boite.id_user)
+        if RestrictionDocument.objects.filter(id_doc=request.POST['id_doc'],id_user=agent_id).exists():
+            res = RestrictionDocument(
+                id_user=agent_id,  # Utilise agent_id directement
+                id_doc=request.POST['id_doc'],
+                numero_docuent=docu.numero_docuemnt,
+                service=user.direction,
+                date_dmd=datetime.now(),
+                acces=0,
+                etat=1
+            )
+            res.save()
+    doc=Document.objects.get(id_document=request.POST['id_doc'])
+    return tout_doc(request,user.id_utilisateur)
+
+
+
+def demandepermission_tout(request,id,id_doc):
+    user=Utilisateurs.objects.get(id_utilisateur=id)
+    try:
+        doc = RestrictionDocument.objects.get(id_user=id, id_doc=id_doc)
+        doc.etat = 0
+        doc.save()
+    except:
+        pass
+
+    return tout_doc(request,id)
+
+#########################Voir details Consultation
+def voir_detail_boite_consultation(request, id,id_user):
+    boite=False
+    user=False
+    try:
+      dmd = Demande.objects.get(id_dmd=id)
+      boite = Boite.objects.get(id_boite=dmd.id_boite)
+
+    except:
+        pass
+    user = Utilisateurs.objects.get(id_utilisateur=id_user)
+    if boite:
+        return render(request, 'templatetra/detail_boite_consultation.html',
+                      {'boite': boite, 'user': user, 'util': user})
+    else:
+        return mes_consultations(request,id_user)
+
+def voir_detail_document_consultation(request, id,id_user):
+    boite=False
+    doc = False
+    user=False
+    try:
+      dmd=Demande.objects.get(id_dmd=id)
+      doc=Document.objects.get(id_document=dmd.id_docuement)
+      boite = Boite.objects.get(id_boite=doc.id_boite)
+
+    except:
+        pass
+    user = Utilisateurs.objects.get(id_utilisateur=id_user)
+    if doc:
+        return render(request, 'templatetra/detail_document_consultation.html',
+                      {'boite': boite,'doc': doc, 'user': user, 'util': user})
+    else:
+        return mes_consultations(request,id_user)
+
 
 
 
 #def repondre_demande(request,id_user,id_obt):
+
+#######################################Peermisoon non direction
+def demandepermission_tout_direction(request,id,id_doc):
+    docu=Document.objects.get(id_document=id_doc)
+    user=Utilisateurs.objects.get(id_utilisateur=id)
+    if RestrictionDocument.objects.filter(id_user=user.id_utilisateur,id_doc=id_doc).exists():
+         return tout_doc(request,user.id_utilisateur)
+    res = RestrictionDocument(
+            id_user=id,  # Utilise agent_id directement
+            id_doc=id_doc,
+            numero_docuent=docu.numero_docuemnt,
+            service=user.direction,
+            date_dmd=datetime.now(),
+            acces=0,
+            etat=0
+        )
+    res.save()
+    #doc=Document.objects.get(id_document=request.POST['id_doc'])
+    return tout_doc(request,user.id_utilisateur)
 
 
 
