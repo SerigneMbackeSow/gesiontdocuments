@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
 
 import facturations
 from facturations.models import Utilisateurs
 from .forms import LoginForm
 
 
+@csrf_exempt
 def login_page(request):
     forms = LoginForm()
     if request.method == 'POST':
@@ -17,6 +19,7 @@ def login_page(request):
             if user:
                 login(request, user)
                 return redirect('dashboard')
+
     context = {'form': forms}
     return render(request, 'templatetra/login1.html', context)
 
@@ -27,6 +30,7 @@ def signup_page(request):
 
 
 
+@csrf_exempt
 def seconnecter(request):
     forms = LoginForm()
     if request.method == 'POST':
@@ -41,11 +45,15 @@ def seconnecter(request):
              user= Utilisateurs.objects.get(email=username,password=password)
             except:
                 pass
-                return redirect('login')
+                forms = LoginForm()
+                context = {'form': forms, 'message': "Login ou Mot de Passe Incorrect!"}
+                return render(request, 'templatetra/login1.html', context)
             return render(request, 'templatetra/index.html', {'util': user, 'service': service})
 
+        forms = LoginForm()
+        context = {'form': forms,'message' : "Formulaire Non Valide"}
+        return render(request, 'templatetra/login1.html', context)
 
-        return redirect('login')
         #return render(request, 'templatetra/index.html', {'util': user})
 def deconnecter(request,id):
  return redirect('login')

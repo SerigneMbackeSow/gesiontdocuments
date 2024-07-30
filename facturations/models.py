@@ -37,9 +37,12 @@ class Boite(models.Model):
     harmoire = models.CharField(max_length=150,default="Aucune")
     numero_comp = models.CharField(max_length=50,default="Aucune")
     niveau = models.CharField(max_length=50,default="Aucune")
+    commentaire = models.CharField(max_length=255,default="Aucun")
 
     class Meta:
         db_table = 'Boite'
+
+
 
 
 class Document(models.Model):
@@ -82,89 +85,16 @@ class RestrictionDocument(models.Model):
         id_restric = models.AutoField(primary_key=True, db_column='id_dmd')
         id_user=models.IntegerField()
         id_doc=models.IntegerField()
+        #####A remplacer
         numero_docuent=models.CharField(max_length=255,default='numero_doc')
         service=models.CharField(max_length=255,default='service')
         date_dmd=models.DateField(null=True)
         etat = models.IntegerField(default=1)
+        dmd = models.IntegerField(default=0)
+        ref = models.IntegerField(default=0)
+        acces_dir = models.IntegerField(default=0)
         acces=models.CharField(max_length=150)
+        id_chef = models.IntegerField(default=0)
         class Meta:
             db_table = 'Restriction'
-
-
-class DemandePermission(models.Model):
-    id_dmd_per= models.AutoField(primary_key=True, db_column='id_dmd')
-    motif_dmd = models.CharField(max_length=255)
-    commentaire_vld= models.CharField(null=True,max_length=255)
-    date_dmd = models.DateField(auto_now_add=True)
-    id_demandeur = models.IntegerField(db_column='id_demandeur')
-    id_valideur = models.IntegerField(null=True,db_column='id_acepteur')
-    etat = models.IntegerField(default=0)
-    id_per = models.IntegerField(db_column='id_per')
-    id_document = models.IntegerField(db_column='id_docuemnt')
-
-    class Meta:
-        db_table = 'DemandePermission'
-
-
-class Permissions(models.Model):
-    id_permission = models.AutoField(primary_key=True, db_column='id_per')
-    type=models.IntegerField(default=0)
-    description = models.CharField(max_length=255)
-    id_user= models.IntegerField(default=0,db_column='id_us')
-    class Meta:
-        db_table = 'Permission'
-
-
-class DetailsDossier(models.Model):
-
-    id_dossier= models.CharField(primary_key=True,max_length=15)
-    numero_bl=models.CharField(max_length=15)
-    eta=models.CharField(max_length=15)
-    nom_navire=models.CharField(max_length=50)
-    numero_voyage=models.CharField(max_length=50)
-    localisation=models.CharField(max_length=50)
-    numer_boite=models.CharField(max_length=50)
-    carton=models.CharField(max_length=50)
-    classeur=models.CharField(max_length=50)
-    class Meta:
-        db_table = 'Details_dossier'
-
-
-class Permission(models.Model):
-
-    id_permission = models.AutoField(primary_key=True)
-    class ModuleChoices(models.TextChoices):
-        FACTURATION = 'Facturation'
-        COMPTABILITE =  'Comptabilité'
-        EXPLOITATAIN='Exploitation'
-        DOCUMENTATION = 'Documentation'
-    class PrivilegeChoices(models.TextChoices):
-        AJOUTER ='Ajouter'
-        MODIFIER ='Modifier'
-        SUPPRIMER ='Supprimer'
-        CONSULTER ='Consulter'
-    module = models.CharField(max_length=50,choices=ModuleChoices.choices)
-    privelege = models.CharField(max_length=50,choices=PrivilegeChoices.choices)
-    nom_acces = models.CharField(max_length=255)
-    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    class Meta:
-        db_table = 'Permissionn'
-    def __str__(self):
-        return f"{self.module} - {self.privelege} - {self.nom_acces}"
-
-class Archive(models.Model):
-    numero_dossier = models.CharField(primary_key=True, max_length=150)
-    localisation = models.CharField(max_length=50)
-    numer_boite = models.CharField(max_length=50)
-    class Meta:
-        db_table = 'Archive'
-
-class Localisation(models.Model):
-    id_harmoire = models.CharField( max_length=150)
-    numero_comp = models.CharField(max_length=50)
-    niveau= models.CharField(max_length=50)
-    numero_dossier = models.CharField(primary_key=True,max_length=50)
-    id_user = models.IntegerField(db_column='id_user')
-    class Meta:
-        db_table = 'Localisation'
 

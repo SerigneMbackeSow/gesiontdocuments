@@ -5,18 +5,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
     <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/style1.css">
+    <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" href=" /static/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/static/assets/styletra/css/owl.carousel.min.css">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/assets/styletra/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> <!-- For icons -->
+    <!-- Style -->
+    <!--<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">-->
+      <link href="/static/assets/styletra/css/style.css" rel="stylesheet">
+    <link href="/static/assets/styletra/css/style1.css" rel="stylesheet">
     <title>TOM-MEDLOG GED</title>
   </head>
   <body>
-    
     <aside class="sidebar" style="background-color: rgb(49, 47, 47);">
         <div class="toggle">
             <a href="#" class="burger js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
@@ -25,63 +37,128 @@
         </div>
         <div class="side-inner">
             <div class="profile">
-                <img src="images/logo.png" alt="Image" class="img-fluid">
+                <img src="/static/images/imgtra/images/logo.png" alt="Image" class="img-fluid">
             </div>
-            
+
             <!-- Menu principal -->
-            <div class="nav-menu">
+            <div class="nav-menu folo">
                 <ul>
                     <li class="accordion main-menu">
-                     
+
                             <span class="icon-home mr-3"></span>MENU PRINCIPAL
-                        
+
                     </li>
                 </ul>
             </div>
-    
+
             <div class="nav-menu">
                 <ul>
+                {% if util.direction == 'documentation' %}
+                     <p></p>
+
+                    <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseTransfert" aria-expanded="false" aria-controls="collapseTransfert" class="collapsible">
+                            <span class="icon-sync mr-3"></span>DOCUMENTATION
+                        </a>
+                        <div id="collapseTransfert" class="collapse" aria-labelledby="headingTransfert">
+                            <div>
+                                <ul>
+                                   <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçues</a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}">MES DEMENDES </a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATION</a></li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                         {% endif %}
+                 {% if util.direction == 'facturation' %}
+
                     <li class="accordion">
                         <a href="#" data-toggle="collapse" data-target="#collapseFacturation" aria-expanded="false" aria-controls="collapseFacturation" class="collapsible">
                             <span class="icon-file-text mr-3"></span>FACTURATION
                         </a>
                         <div id="collapseFacturation" class="collapse" aria-labelledby="headingFacturation">
                             <div>
-                                <ul>
-                                    <li><a href="./list_boite_facturation.html">LISTE DES BOITES</a></li>
-                                    <li><a href="./ajouter-boite.html">AJOUTER UNE BOITE</a></li>
-                                    <li><a href="./list_document_facturation.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./ajouter-document.html">AJOUTER UN DOCUMENT</a></li>
-                                </ul>
+                            <ul>
+{#                                 CREER UTILISATEUR#}
+{#                                <li>{{  util.direction }}</li>#}
+
+
+                                            <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçues</a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}"> MES DEMENDES </a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATIONS</a></li>
+                       </ul>
                             </div>
                         </div>
                     </li>
-                    <li class="accordion">
+
+                 {% endif %}
+
+
+                    {% if util.direction == 'archive' %}
+
+                        <li class="accordion">
                         <a href="#" data-toggle="collapse" data-target="#collapseArchive" aria-expanded="false" aria-controls="collapseArchive" class="collapsible">
                             <span class="icon-archive mr-3"></span>ARCHIVE
                         </a>
                         <div id="collapseArchive" class="collapse" aria-labelledby="headingArchive">
                             <div>
                                 <ul>
-                                    <li><a href="./list_boite_cloture_archive.html">LISTE DES BOITES CLOTURÉES</a></li>
-                                    <li><a href="./list_document_classe_archive.html">LISTE DES DOCUMENTS CLASSÉS</a></li>
-                                </ul>
+
+                                        <li><a href="/doc/liste_boite_cloture/{{ util.id_utilisateur }}">BOITES CLOTURÉES</a></li>
+                                    <li><a href="/doc/liste_boite_classes/{{ util.id_utilisateur }}">BOITTES CLASSEES</a></li>
+
+                                    <!--<li><a href="/doc/listedmd/{{ util.id_utilisateur }}">DEMANDES</a></li>-->
+                                    <li><a href="/doc/listedemesddemande/{{ util.id_utilisateur }}">CONSULTATIONS</a></li>
+                                    <li><a href="/doc/listedmd/{{ util.id_utilisateur }}">CONSULTATIONS</a></li>
+                                         <!--<li><a href="./list_cartable_archiviste.html">LES CARTABLES CLOTURÉES</a></li>
+                                          <li><a href="./list_cartable_archiviste.html">LES CARTABLES CLOTURÉES</a></li>
+                                    <li><a href="/doc/listedmd/{{ util.id_utilisateur }}">DEMANDES</a></li>-->
+                          </ul>
+
                             </div>
                         </div>
+
+                    {% endif %}
+
+
                     </li>
+                {% if util.direction == 'ADMIN' %}
+
                     <li class="accordion">
                         <a href="#" data-toggle="collapse" data-target="#collapseDocumentation" aria-expanded="false" aria-controls="collapseDocumentation" class="collapsible">
-                            <span class="icon-book mr-3"></span>DOCUMENTATION
+                            <span class="icon-book mr-3"></span>ADMINISTRATEUR
                         </a>
                         <div id="collapseDocumentation" class="collapse" aria-labelledby="headingDocumentation">
                             <div>
                                 <ul>
-                                    <li><a href="./list_document_documentation.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./chart-morris.html">AJOUTER UN DOCUMENT</a></li>
+                                    <li><a href="/doc/listechef/{{ util.id_utilisateur }}">CHEFS SERVICES</a></li>
+                                    <!--<li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
+                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
+                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>-->
                                 </ul>
                             </div>
                         </div>
                     </li>
+                {% endif %}
+                 {% if util.direction == 'transfert'%}
+
                     <li class="accordion">
                         <a href="#" data-toggle="collapse" data-target="#collapseTransfert" aria-expanded="false" aria-controls="collapseTransfert" class="collapsible">
                             <span class="icon-sync mr-3"></span>TRANSFERT
@@ -89,38 +166,70 @@
                         <div id="collapseTransfert" class="collapse" aria-labelledby="headingTransfert">
                             <div>
                                 <ul>
-                                    <li><a href="./list_document_transfert.html">LISTER DES DOCUMENTS</a></li>
-                                    <li><a href="./chart-morris.html">AJOUTER UN DOCUMENT</a></li>
+                                   <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçcues</a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}">MES DEMENDES</a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATIONS</a></li>
+
+
                                 </ul>
                             </div>
                         </div>
                     </li>
-                    <li class="accordion">
-                        <a href="#" data-toggle="collapse" data-target="#collapseParcLogistique" aria-expanded="false" aria-controls="collapseParcLogistique" class="collapsible">
-                            <span class="icon-truck mr-3"></span>PARC LOGISTIQUE
-                        </a>
-                        <div id="collapseParcLogistique" class="collapse" aria-labelledby="headingParcLogistique">
-                            <div>
-                                <ul>
-                                    <li><a href="./list_document_parc.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./parc-logistique-ajout.html">AJOUTER UN VÉHICULE</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="accordion">
+                     {% endif %}
+
+
+                {% if util.direction == 'management'  %}
+                     <li class="accordion">
                         <a href="#" data-toggle="collapse" data-target="#collapseSacherie" aria-expanded="false" aria-controls="collapseSacherie" class="collapsible">
-                            <span class="icon-box mr-3"></span>SACHERIE
+                            <span  class="icon-file-text mr-3"></span>Management
                         </a>
                         <div id="collapseSacherie" class="collapse" aria-labelledby="headingSacherie">
                             <div>
                                 <ul>
-                                    <li><a href="./list_document_sacherie.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./sacherie-ajout.html">AJOUTER UN ARTICLE</a></li>
+                                    <li><a href="/doc/listecartable/{{ util.id_utilisateur }}">CARTABLE</a></li>
+                                <li><a href="/doc/liste_permission_manage/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçues</a></li>
+
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}"> MES DEMENDES </a></li>
+
+
+                                                 </ul>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+                {% if util.direction == 'sacherie' %}
+                    <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseSacherie" aria-expanded="false" aria-controls="collapseSacherie" class="collapsible">
+                            <span  class="icon-file-text mr-3"></span>SACHERIE
+                        </a>
+                        <div id="collapseSacherie" class="collapse" aria-labelledby="headingSacherie">
+                            <div>
+                                <ul>
+                                    <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">MES REQUETES  Reçues </a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}">MES DEMENDES</a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATIONS</a></li>
+
+
                                 </ul>
                             </div>
                         </div>
                     </li>
+                 {% endif %}
+                {% if util.direction == 'comptabilite' %}
                     <li class="accordion">
                         <a href="#" data-toggle="collapse" data-target="#collapseComptabilite" aria-expanded="false" aria-controls="collapseComptabilite" class="collapsible">
                             <span class="icon-calculator mr-3"></span>COMPTABILITÉ
@@ -128,69 +237,55 @@
                         <div id="collapseComptabilite" class="collapse" aria-labelledby="headingComptabilite">
                             <div>
                                 <ul>
-                                    <li><a href="./list_document_comptabilite.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./comptabilite-ajout.html">AJOUTER UN COMPTE</a></li>
+                                    <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçcues</a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}">MES DEMANDE</a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATIONS</a></li>
+
+
                                 </ul>
                             </div>
                         </div>
                     </li>
-                    <li class="accordion">
-                        <a href="#" data-toggle="collapse" data-target="#collapseManagementIT" aria-expanded="false" aria-controls="collapseManagementIT" class="collapsible">
-                            <span class="icon-laptop mr-3"></span>SERVICE IT
-                        </a>
-                        <div id="collapseManagementIT" class="collapse" aria-labelledby="headingManagementIT">
-                            <div>
-                                <ul>
-                                    <li><a href="./list_document_it.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./management-it-ajout.html">AJOUTER UN PROJET</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="accordion">
-                        <a href="#" data-toggle="collapse" data-target="#collapseExport" aria-expanded="false" aria-controls="collapseExport" class="collapsible">
-                            <span class="icon-globe mr-3"></span>EXPORT
-                        </a>
-                        <div id="collapseExport" class="collapse" aria-labelledby="headingExport">
-                            <div>
-                                <ul>
-                                    <li><a href="./export-liste.html">LISTE DES DOCUMENTS</a></li>
-                                    <li><a href="./export-ajout.html">AJOUTER UN DOCUMENT</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="accordion">
-                        <a href="#" data-toggle="collapse" data-target="#collapseLivraison" aria-expanded="false" aria-controls="collapseLivraison" class="collapsible">
-                            <span class="icon-truck mr-3"></span>LIVRAISON
-                        </a>
-                        <div id="collapseLivraison" class="collapse" aria-labelledby="headingLivraison">
-                            <div>
-                                <ul>
-                                    <li><a href="./livraison-liste.html">LISTE DES LIVRAISONS</a></li>
-                                    <li><a href="./livraison-ajout.html">AJOUTER UNE LIVRAISON</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
+                {% endif %}
+
+
+
                 </ul>
             </div>
         </div>
     </aside>
-    
+
+
     <main>
-        <div class="header">
-            <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
-                <h2></h2>
-                <div class="d-flex align-items-center">
-                    <div class="text-right text-white mr-3">
-                        <p class="mb-0">Nom de l'utilisateur</p>
-                        <p class="mb-0">Service: Nom du service</p>
-                    </div>
-                    <img src="images/logo1.png" alt="Profile Image" class="rounded-circle profile-img">
-                </div>
-            </div>
+       <div class="header">
+    <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
+        <!-- Barre de recherche à gauche -->
+        <div class="d-flex align-items-center" style="width: 75%;">
+            <form class="form-inline my-2" style="width: 100%;">
+                <input class="form-control mr-2 search-bar w-100" type="search" placeholder="Search" aria-label="Search">
+            </form>
+            <a href="list_demande.html" class="position-relative ml-2">
+                <i class="fas fa-bell fa-lg" style="color: black;"></i>
+            </a>
         </div>
+       <div class="d-flex align-items-center">
+
+            <div class="text-right text-white mr-3">
+                <p style="color: black" class="mb-0">{{ util.nom }} {{ util.prenom }}</p>
+                <p style="color: black" class="mb-0">{{ util.direction }}</p>
+                <a style="color: red" href="/doc/deconnexion/">Se Déconnecter</a>
+            </div>
+            <img src="/static/images/imgtra/images/logo1.png" alt="Profile Image" class="rounded-circle profile-img" style="width: 80px; height: 80px;">
+        </div>
+    </div>
+</div>
         <div class="site-section">
             <div style="display: flex; justify-content: center; width: 100%;">
                 <main style="width: 100%;">
@@ -247,9 +342,9 @@
         </div>
     </main>
 
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+     <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/assets/js/jstra/js/popper.min.js"></script>
+    <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
+    <script src="/static/assets/js/jstra/js/main.js"></script>
   </body>
 </html>

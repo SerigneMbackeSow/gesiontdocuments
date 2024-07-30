@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Utilisateurs, Localisation, Document, Demande
+from .models import Utilisateurs,  Document, Demande
 from .models import Boite
 
 class UtilisateurForm(forms.ModelForm):
@@ -214,25 +214,3 @@ class DeamndeForm(forms.Form):
 
 
 
-class ArchiveForm(forms.ModelForm):
-    id_harmoire = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control',
-        'placeholder': 'Numero Harmoire',
-    }))
-    niveau= forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control',
-        'placeholder': 'Niveau',
-    }))
-    numero_comp = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control',
-        'placeholder': 'Numero Compartimenet',
-    }))
-
-    numero_dossier = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control',
-        'placeholder': 'Numero Rangement',
-    }))
-
-    class Meta:
-        model = Localisation
-        fields = '__all__'

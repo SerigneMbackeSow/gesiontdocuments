@@ -9,16 +9,16 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
-
     <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href=" /static/fonts/icomoon/style.css">
 
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/static/assets/styletra/css/owl.carousel.min.css">
+
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/assets/styletra/css/bootstrap.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> <!-- For icons -->
     <!-- Style -->
@@ -26,11 +26,236 @@
     <link rel="stylesheet" href="css/style1.css">-->
       <link href="/static/assets/styletra/css/style.css" rel="stylesheet">
     <link href="/static/assets/styletra/css/style1.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
     <title>TOM-MEDLOG GED</title>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    let fetchInterval;
+    function fetchData(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+
+        const rgElement = document.getElementById('rg');
+        const rgContent = rgElement.textContent;
+        ////
+        const roleElement = document.getElementById('role');
+        const roleContent = roleElement.textContent;
+        ////
+        const boiteElement = document.getElementById('monboite');
+        const boiteContent = boiteElement.textContent;
+        $.ajax({
+            url: '/doc/fetch_document_boite/18',
+            method: 'GET',
+            data: { id_user: paragraphContent, bte : boiteContent },
+            success: function(response){
+                if (response.data) {
+                    updateTable(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+    function updateTable(data) {
+        let tableBody = $("#your-table-id tbody");
+        let paragraphElement = document.getElementById('monutil');
+        let paragraphContent = paragraphElement.textContent;
+        let boiteElement = document.getElementById('monboite');
+        let boiteContent = boiteElement.textContent;
+        let rgElement = document.getElementById('rg');
+        let rgContent = rgElement.textContent;
+        ////
+        let roleElement = document.getElementById('role');
+        let roleContent = roleElement.textContent;
+        tableBody.empty();  // Vide la table actuelle
+
+        data.forEach(function(item) {
+        let row = '<tr>';
+    row += '<td>' + item.numero_document + '</td>';
+    row += '<td>' + item.bl + '</td>';
+    row += '<td>' + item.date_creation + '</td>';
+    row += '<td>' + item.eta + '</td>';
+    row += '<td>' + item.client + '</td>';
+    row += '<td>' + item.nom_navire + '</td>';
+    row += '<td>' + item.numero_voyage + '</td>';
+     row += `<td>`
+            row += '<div class="action-buttons">';
+            if ( roleContent === 'chef') {
+
+                row += `<a href="/doc/voirdoc/${item.id}/${paragraphContent}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"><i class="bi bi-eye"></i>Voir</a>`;
+                if (rgContent !== 'Aucune' && item.bt === 0 && item.cons === 0) {
+                    row += `<a href="/doc/demandedoc/${paragraphContent}/${item.id}" class="btn btn-info btn-icon btn-sm"><i class="bi bi-send"></i>Consulter</a>`;
+                }
+
+                row += `<a href="/doc/refuse_page/${paragraphContent}/${item.id}" class="btn btn-danger btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"><i class="bi bi-x"></i> Restreindre</a>`;
+
+            } else
+            {
+                if (item.dmd === 1 && item.ref === 1) {
+      row += 'Demande refusée';
+    }
+                if (item.dmd === 0) {
+                    row += 'Pas d\'accès';
+                     row += `<a href="/doc/dmd_permission/${paragraphContent}/${item.id}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"><i class="bi bi-send"></i> Permission</a></td>`;
+                }
+                 if (item.dmd === 1 && item.ref === 0 ) {
+      row += 'Demande en Cours';
+    }
+
+
+
+    // Access link (if accessible)
+    if (item.acces === 1) {
+      ////voire
+        row += `<a href="/doc/voirdoc/${item.id}/${paragraphContent}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"><i class="bi bi-eye">Voir</i></a>`;
+
+      // Additional access options (if boite has a number and item is not requested)
+      if ( rgContent !== 'Aucune' && item.bt === 0 && item.cons === 0) {
+        ///Cons
+
+                    row += `<a href="/doc/demandedoc/${paragraphContent}/${item.id}" class="btn btn-info btn-icon btn-sm"><i class="bi bi-send"></i>Consulter</a>`;
+
+
+      }
+    }
+
+            }
+            row += '</div>';
+            row += '</td>';
+
+
+
+
+row += '</tr>';
+
+
+
+
+
+
+
+row += '</tr>';
+
+    // Ajout de la ligne au tableau
+    tableBody.append(row);
+    });
+    }
+    //let fetchInterval;
+    function filterTable(searchTerm) {
+    const tableBody = $("#your-table-id tbody");
+    const rows = tableBody.find('tr');
+
+    rows.each(function() {
+      const textContent = $(this).text().toLowerCase();
+      const visible = textContent.indexOf(searchTerm.toLowerCase()) !== -1;
+      $(this).toggle(visible);
+    });
+  }
+
+  // Event listener for search input
+  $("#searchInput").on('keyup', function() {
+    const searchTerm = $(this).val();
+    filterTable(searchTerm);
+  });
+
+
+    function startFetchingData() {
+        fetchData(); // Charger les données initiales
+        fetchInterval = setInterval(fetchData, 5000); // 5000ms = 5s
+    }
+
+    function stopFetchingData() {
+        clearInterval(fetchInterval);
+
+
+    }
+    $("#searchInput").on('keyup', function() {
+        if ($("#searchInput").val().trim() !== "") {
+            //
+            stopFetchingData();
+        }else
+        {
+            //
+
+        }
+        if ($("#searchInput").val().trim() === "") {
+            startFetchingData();
+        }
+
+
+
+            });
+
+
+
+
+
+
+    // Appeler fetchData() pour charger les données initiales
+    //fetchData();
+
+    // Optionnel: Actualiser les données toutes les X secondes
+    //setInterval(fetchData, 5000); // 30000ms = 30s
+    startFetchingData();
+
+
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    let fetchInterval
+
+    let notificationCount = 0;
+    function fetchDataNot(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+
+
+        $.ajax({
+            url: '/doc/fetch_permission/18',
+            method: 'GET',
+            data: { id_user: paragraphContent },
+            success: function(response){
+                if (response.data) {
+                    updateTableNot(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+    function updateTableNot(data) {
+    notificationCount=data.length;
+        //notificationCount=5;
+
+
+    }
+
+      function startFetchingDataNot() {
+        fetchDataNot(); // Charger les données initiales
+       fetchInterval = setInterval(fetchDataNot, 5000); // 5000ms = 5s
+    }
+
+function updateNotificationCount() {
+    // Update the paragraph content with the notification count
+  const notificationBarElement = document.getElementById('notification-bar');
+  notificationBarElement.textContent = `${notificationCount}`;
+}
+
+// Update notification count every 100 milliseconds (replace with a suitable interval)
+setInterval(updateNotificationCount, 100);
+    startFetchingDataNot();
+
+});
+</script>
   </head>
   <body>
-
-
     <aside class="sidebar" style="background-color: rgb(49, 47, 47);">
         <div class="toggle">
             <a href="#" class="burger js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
@@ -43,7 +268,7 @@
             </div>
 
             <!-- Menu principal -->
-            <div class="nav-menu">
+            <div class="nav-menu folo">
                 <ul>
                     <li class="accordion main-menu">
 
@@ -55,52 +280,112 @@
 
             <div class="nav-menu">
                 <ul>
+                {% if util.direction == 'documentation' %}
+                     <p></p>
+
+                    <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseTransfert" aria-expanded="false" aria-controls="collapseTransfert" class="collapsible">
+                            <span class="icon-sync mr-3"></span>DOCUMENTATION
+                        </a>
+                        <div id="collapseTransfert" class="collapse" aria-labelledby="headingTransfert">
+                            <div>
+                                <ul>
+                                   <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçues</a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}">MES DEMENDES </a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATION</a></li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                         {% endif %}
+                 {% if util.direction == 'facturation' %}
+
                     <li class="accordion">
                         <a href="#" data-toggle="collapse" data-target="#collapseFacturation" aria-expanded="false" aria-controls="collapseFacturation" class="collapsible">
                             <span class="icon-file-text mr-3"></span>FACTURATION
                         </a>
                         <div id="collapseFacturation" class="collapse" aria-labelledby="headingFacturation">
                             <div>
-                                <ul>
-                                    <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">LES BOITES</a></li>
-                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
-                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
-                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
-                                </ul>
+                            <ul>
+{#                                 CREER UTILISATEUR#}
+{#                                <li>{{  util.direction }}</li>#}
+
+
+                                            <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçues</a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}"> MES DEMENDES </a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATIONS</a></li>
+                       </ul>
                             </div>
                         </div>
                     </li>
-                    <li class="accordion">
+
+                 {% endif %}
+
+
+                    {% if util.direction == 'archive' %}
+
+                        <li class="accordion">
                         <a href="#" data-toggle="collapse" data-target="#collapseArchive" aria-expanded="false" aria-controls="collapseArchive" class="collapsible">
                             <span class="icon-archive mr-3"></span>ARCHIVE
                         </a>
                         <div id="collapseArchive" class="collapse" aria-labelledby="headingArchive">
                             <div>
                                 <ul>
-                                    <li><a href="./list_boite_archiviste.html">LES BOITES CLOTURÉES</a></li>
-                                    <li><a href="./list_document.html">LES DOCUMENTS CLASSÉS</a></li>
-                                    <li><a href="./list_cartable_archiviste.html">LES CARTABLES CLOTURÉES</a></li>
-                                    <li><a href="./list_classeur_archiviste.html">LES CLASSEURS CLOTURÉES</a></li>
-                                    <li><a href="./list_demande.html">LES DEMANDES</a></li>
-                                </ul>
+
+                                        <li><a href="/doc/liste_boite_cloture/{{ util.id_utilisateur }}">BOITES CLOTURÉES</a></li>
+                                    <li><a href="/doc/liste_boite_classes/{{ util.id_utilisateur }}">BOITTES CLASSEES</a></li>
+
+                                    <!--<li><a href="/doc/listedmd/{{ util.id_utilisateur }}">DEMANDES</a></li>-->
+                                    <li><a href="/doc/listedemesddemande/{{ util.id_utilisateur }}">CONSULTATIONS</a></li>
+                                    <li><a href="/doc/listedmd/{{ util.id_utilisateur }}">CONSULTATIONS</a></li>
+                                         <!--<li><a href="./list_cartable_archiviste.html">LES CARTABLES CLOTURÉES</a></li>
+                                          <li><a href="./list_cartable_archiviste.html">LES CARTABLES CLOTURÉES</a></li>
+                                    <li><a href="/doc/listedmd/{{ util.id_utilisateur }}">DEMANDES</a></li>-->
+                          </ul>
+
                             </div>
                         </div>
+
+                    {% endif %}
+
+
                     </li>
+                {% if util.direction == 'ADMIN' %}
+
                     <li class="accordion">
                         <a href="#" data-toggle="collapse" data-target="#collapseDocumentation" aria-expanded="false" aria-controls="collapseDocumentation" class="collapsible">
-                            <span class="icon-book mr-3"></span>DOCUMENTATION
+                            <span class="icon-book mr-3"></span>ADMINISTRATEUR
                         </a>
                         <div id="collapseDocumentation" class="collapse" aria-labelledby="headingDocumentation">
                             <div>
                                 <ul>
-                                    <li><a href="./list_boite_agent.html">LES BOITES</a></li>
-                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
+                                    <li><a href="/doc/listechef/{{ util.id_utilisateur }}">CHEFS SERVICES</a></li>
+                                    <!--<li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
                                     <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
-                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
+                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>-->
                                 </ul>
                             </div>
                         </div>
                     </li>
+                {% endif %}
+                 {% if util.direction == 'transfert'%}
+
                     <li class="accordion">
                         <a href="#" data-toggle="collapse" data-target="#collapseTransfert" aria-expanded="false" aria-controls="collapseTransfert" class="collapsible">
                             <span class="icon-sync mr-3"></span>TRANSFERT
@@ -108,44 +393,70 @@
                         <div id="collapseTransfert" class="collapse" aria-labelledby="headingTransfert">
                             <div>
                                 <ul>
-                                    <li><a href="./list_boite_agent.html">LES BOITES</a></li>
-                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
-                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
-                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
+                                   <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçcues</a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}">MES DEMENDES</a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATIONS</a></li>
+
+
                                 </ul>
                             </div>
                         </div>
                     </li>
-                    <li class="accordion">
-                        <a href="#" data-toggle="collapse" data-target="#collapseParcLogistique" aria-expanded="false" aria-controls="collapseParcLogistique" class="collapsible">
-                            <span class="icon-truck mr-3"></span>PARC LOGISTIQUE
-                        </a>
-                        <div id="collapseParcLogistique" class="collapse" aria-labelledby="headingParcLogistique">
-                            <div>
-                                <ul>
-                                    <li><a href="./list_boite_agent.html">LES BOITES</a></li>
-                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
-                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
-                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="accordion">
+                     {% endif %}
+
+
+                {% if util.direction == 'management'  %}
+                     <li class="accordion">
                         <a href="#" data-toggle="collapse" data-target="#collapseSacherie" aria-expanded="false" aria-controls="collapseSacherie" class="collapsible">
-                            <span class="icon-box mr-3"></span>SACHERIE
+                            <span  class="icon-file-text mr-3"></span>Management
                         </a>
                         <div id="collapseSacherie" class="collapse" aria-labelledby="headingSacherie">
                             <div>
                                 <ul>
-                                    <li><a href="./list_boite_agent.html">LES BOITES</a></li>
-                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
-                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
-                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
+                                    <li><a href="/doc/listecartable/{{ util.id_utilisateur }}">CARTABLE</a></li>
+                                <li><a href="/doc/liste_permission_manage/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçues</a></li>
+
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}"> MES DEMENDES </a></li>
+
+
+                                                 </ul>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+                {% if util.direction == 'sacherie' %}
+                    <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseSacherie" aria-expanded="false" aria-controls="collapseSacherie" class="collapsible">
+                            <span  class="icon-file-text mr-3"></span>SACHERIE
+                        </a>
+                        <div id="collapseSacherie" class="collapse" aria-labelledby="headingSacherie">
+                            <div>
+                                <ul>
+                                    <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">MES REQUETES  Reçues </a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}">MES DEMENDES</a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATIONS</a></li>
+
+
                                 </ul>
                             </div>
                         </div>
                     </li>
+                 {% endif %}
+                {% if util.direction == 'comptabilite' %}
                     <li class="accordion">
                         <a href="#" data-toggle="collapse" data-target="#collapseComptabilite" aria-expanded="false" aria-controls="collapseComptabilite" class="collapsible">
                             <span class="icon-calculator mr-3"></span>COMPTABILITÉ
@@ -153,59 +464,26 @@
                         <div id="collapseComptabilite" class="collapse" aria-labelledby="headingComptabilite">
                             <div>
                                 <ul>
-                                    <li><a href="./list_boite_agent.html">LES BOITES</a></li>
-                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
-                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
-                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
+                                    <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçcues</a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}">MES DEMANDE</a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATIONS</a></li>
+
+
                                 </ul>
                             </div>
                         </div>
                     </li>
-                    <li class="accordion">
-                        <a href="#" data-toggle="collapse" data-target="#collapseManagementIT" aria-expanded="false" aria-controls="collapseManagementIT" class="collapsible">
-                            <span class="icon-laptop mr-3"></span>SERVICE IT
-                        </a>
-                        <div id="collapseManagementIT" class="collapse" aria-labelledby="headingManagementIT">
-                            <div>
-                                <ul>
-                                    <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">LES BOITES</a></li>
-                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
-                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
-                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="accordion">
-                        <a href="#" data-toggle="collapse" data-target="#collapseExport" aria-expanded="false" aria-controls="collapseExport" class="collapsible">
-                            <span class="icon-globe mr-3"></span>EXPORT
-                        </a>
-                        <div id="collapseExport" class="collapse" aria-labelledby="headingExport">
-                            <div>
-                                <ul>
-                                    <li><a href="./list_boite_agent.html">LES BOITES</a></li>
-                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
-                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
-                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="accordion">
-                        <a href="#" data-toggle="collapse" data-target="#collapseLivraison" aria-expanded="false" aria-controls="collapseLivraison" class="collapsible">
-                            <span class="icon-truck mr-3"></span>LIVRAISON
-                        </a>
-                        <div id="collapseLivraison" class="collapse" aria-labelledby="headingLivraison">
-                            <div>
-                                <ul>
-                          <li><a href="./list_boite_agent.html">LES BOITES</a></li>
-                                    <li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
-                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
-                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
+                {% endif %}
+
+
+
                 </ul>
             </div>
         </div>
@@ -213,20 +491,48 @@
 
 
     <main>
-        <div class="header">
-            <div class="header-content d-flex justify-content-between align-items-center py-3 px-4" >
-                <h2></h2>
-                <div class="d-flex align-items-center">
-                    <div class="text-right text-white mr-3">
-                        <p class="mb-0">Nom de l'utilisateur</p>
-                        <p class="mb-0">Service: Nom du service</p>
-                    </div>
-                    <img src="images/logo1.png" alt="Profile Image" class="rounded-circle profile-img">
-                </div>
-            </div>
+       <div class="header">
+    <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
+        <!-- Barre de recherche à gauche -->
+        <div class="d-flex align-items-center" style="width: 65%;">
+            <!--<form class="form-inline my-2" style="width: 100%;">
+                <input class="form-control mr-2 search-bar w-100" type="search" placeholder="Search" aria-label="Search">
+            </form>
+            <a href="list_demande.html" class="position-relative ml-2">
+                <i class="fas fa-bell fa-lg" style="color: black;"></i>
+            </a>-->
         </div>
+        {% if util.role == 'chef'  %}
+        <div class="d-flex align-items-center">
+
+               <a
+
+
+          href="/doc/liste_permission/{{ util.id_utilisateur }}"
+          id="navbarDropdownMenuLink"
+          role="button"
+          aria-expanded="false"
+        >
+          <i class="fas fa-bell" style="color: black"></i>
+          <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar"></span>
+        </a>
+
+        </div>
+        {% endif  %}
+       <div class="d-flex align-items-center">
+
+            <div class="text-right text-white mr-3">
+                <p style="color: black" class="mb-0">{{ util.nom }} {{ util.prenom }}</p>
+                <p style="color: black" class="mb-0">{{ util.direction }}</p>
+                <a style="color: red" href="/doc/deconnexion/">Se Déconnecter</a>
+            </div>
+            <img src="/static/images/imgtra/images/logo1.png" alt="Profile Image" class="rounded-circle profile-img" style="width: 80px; height: 80px;">
+        </div>
+    </div>
+</div>
         <div class="site-section">
             <div class="container">
+            <a  type="button" class="btn btn-danger btn-lg ms-3"  href="/doc/tot_document/{{ util.id_utilisateur }}"><i class="bi bi-arrow-left"></i> retour</a>
                 <div class="row justify-content-center align-items-center">
                     <div class="col-12">
                         <div class="card shadow custom-card mx-auto">
@@ -234,7 +540,7 @@
                                 <form method="POST" action="/doc/retriction_tout/" enctype="multipart/form-data">
                            <div class="text-center mb-4">
                                <p style="color: #000; font-size: 25px;">Document {{ doc.numero_docuemnt }}</p>
-                                        <p style="color: #000; font-size: 25px;">Ajouter des Restrictions</p>
+                                        <!--<p style="color: #000; font-size: 25px;">Ajouter des Restrictions</p>-->
                                     </div>
                                 {% csrf_token %}
                                     <!
@@ -245,41 +551,110 @@
                                         <input  name="id_doc" type="hidden" value="{{ doc.id_document }}">
                                     </div>
                                     <div class="form-group mb-4">
-                                      {% for agt in agt %}
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="agt" id="agt-{{ agt.id_utilisateur }}" value="{{ agt.id_utilisateur }}">
-            <label class="form-check-label" for="agt-{{ agt.id_utilisateur }}">
-              {{ agt.nom }} {{ agt.prenom }}
-            </label>
-          </div>
-        {% endfor %}
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Prénom</th>
+                                                <th scope="col">Nom</th>
+                                                <th scope="col">Direction</th>
+                                                <th scope="col">Selection</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for agt in agt %}
+                                                <tr>
+                                                    <td>{{ agt.prenom }}</td>
+                                                    <td>{{ agt.nom }}</td>
+                                                    <td>{{ agt.direction }}</td>
+                                                    <td class="col-2">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" name="agt" id="agt-{{ agt.id_utilisateur }}" value="{{ agt.id_utilisateur }}">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            {% for agt in agt_dir %}
+                                                <tr>
+                                                    <td>{{ agt.prenom }}</td>
+                                                    <td>{{ agt.nom }}</td>
+                                                    <td>{{ agt.direction }}</td>
+                                                    <td class="col-2">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" name="agt" id="agt-{{ agt.id_utilisateur }}" value="{{ agt.id_utilisateur }}">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    <div class="text-center">
+                                        <button type="submit" name="valider" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;">Valider</button>
+                                    </div>
                                 </div>
-
-
-
-
-
-
                                     <!-- Niveau input -->
 
-                                    <div class="text-center">
-                                        <button type="submit" name="valider" class="btn btn-primary btn-lg">Valider</button>
-                                         <a  type="button" class="btn btn-danger btn-lg ms-3"  href="/doc/tot_document/{{ util.id_utilisateur }}">Annuler</a>
-                                        <!--<button type="reset" name="reset" class="btn btn-danger btn-lg ms-3">Annuler</button>-->
-                                        <!--<a  type="button" class="btn btn-danger btn-lg ms-3"href="/doc/liste_boite_cloture/{{ util.id_utilisateur }}"> A nnuler</a>-->
-                                    </div>
+
                                 </form>
 
                             </div>
                         </div>
                     </div>
+                <p style="color: whitesmoke" id="monutil">{{ util.id_utilisateur }}</p>
                 </div>
             </div>
         </div>
     </main>
-    <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
+     <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
     <script src="/static/assets/js/jstra/js/popper.min.js"></script>
     <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
     <script src="/static/assets/js/jstra/js/main.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    let fetchInterval;
+     let notificationCountCons = 0;
+    function fetchDataconsulation(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+        $.ajax({
+            url: '/doc/fetch_permission/18'',
+            method: 'GET',
+            data: { id_user: paragraphContent },
+            success: function(response){
+                if (response.data) {
+                    updateTable(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+    function updateTable(data) {
+
+        data.forEach(function(item) {
+
+notificationCountCons=data.length;
+
+
+
+    });
+    }
+
+function updateNotificationCountCons() {
+    fetchDataconsulation(); // Charger les données initiales
+        fetchInterval = setInterval(fetchDataconsulation, 5000);
+    // Update the paragraph content with the notification count
+  const notificationBarElement = document.getElementById('notification-bar');
+  notificationBarElement.textContent = `${notificationCountCons}`;
+}
+
+// Update notification count every 100 milliseconds (replace with a suitable interval)
+setInterval(updateNotificationCountCons, 100);
+});
+</script>
 </body>
 </html>

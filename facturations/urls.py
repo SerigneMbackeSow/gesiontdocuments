@@ -8,6 +8,7 @@ class Listearchiveboite:
 
 urlpatterns = [
     path('seconnecter/', login_page, name='seclogin'),
+    path('deconnexion/', Deconnexion, name='deconexion'),
     #path('enregistreutilisateur/', Crer_Utilisateur_page, name='Crer_utilisateur'),
     path('enregistrerutilisateur/', enregistrer_Utilisateur, name='logout'),
     path('crerutilisateur', Crer_Utilisateur_page, name='logout'),
@@ -38,6 +39,7 @@ urlpatterns = [
     path('refuse_dmd_page/<int:id>/<int:id_dmd>', refusd_demande_page, name='listearchive'),
     path('enregistrer_refut/', enregistrer_demande_refut, name='listearchive'),
     path('accepter_dmd/<int:id>/<int:id_dmd>', enregistrer_demande_acept, name='listearchive'),
+    path('retour_dmd/<int:id>/<int:id_dmd>', enregistrer_retour, name='listearchive'),
     #####################Gestion Permission
     path('refuse_page/<int:id>/<int:id_doc>', retriction_page, name='listearchive'),
      path('retriction/',enregistrer_restriction,name='listearchive'),
@@ -45,6 +47,9 @@ urlpatterns = [
     #####################Gestion Permission
     path('refuse_page/<int:id>/<int:id_doc>', retriction_page, name='listearchive'),
     path('retriction/', enregistrer_restriction, name='listearchive'),
+    path('permission_non_dir/<int:id>/<int:id_doc>', demandepermission_tout_non_dir, name='listearchive'),
+    path('refuse_non_dir/<int:id>/<int:id_user>', refuser_permission_non_dir, name='listearchive'),
+     path('accepter_non_dir/<int:id>/<int:id_user>', accepter_permission_non_ditr, name='listearchive'),
 
     #######################Gestion Permission tout
     path('retrindre_page_tout/<int:id>/<int:id_doc>',  retriction_page_tout, name='listearchive'),
@@ -69,7 +74,7 @@ urlpatterns = [
     path('voiredetail/<int:id>/<int:id_user>',voir_detail_boite,name='listearchive'),
     path('updateboite/',updateboite,name='listearchive'),
     path('voirdoc/<int:id>/<int:id_user>',voire_document,name='listearchive'),
-    ##########Archiviste###########################
+    ############################################Archiviste###########################
     path('liste_boite_cloture/<int:id>', listeboiteAclasser, name='listearchive'),
     path('liste_boite_classer/<int:id>/<int:id_user>', classerBoite_page, name='listearchive'),
     path('classer_boite/', classerboite, name='listearchive'),
@@ -81,16 +86,17 @@ urlpatterns = [
 
     ##############################################Gestion des chefs de services
     path('listechef/<int:id>', list_chef, name='listearchive'),
-    path('crer_chef_page/<int:id>', Crer_chef_page, name='listearchive'),
+    path('crer_chef_page/<int:id>', Crer_chef_page, name='listearchivekmkm'),
     path('enregistrerchef/', enregistrer_chef, name='listearchive'),
     path('update_page_chef/<int:id_user>/<int:id_chf>', update_chef_page, name='listearchive'),
     path('enregistrer_upadte_chef/', upadte_chef, name='listearchive'),
-    path('desactiver/<int:id_user>/<int:id_chf>', desactiver_chef, name='listearchive'),
+    path('desactiver_chef/<int:id_user>/<int:id_chf>', desactiver_chef, name='listearchive'),
     path('activer_chef/<int:id_user>/<int:id_chf>', activer_chef, name='listearchive'),
     path('reinitipass_chef/<int:id_user>/<int:id_chf>/', reinitiliaser_mdp_chef, name='listearchive'),
     ######GESTION Restriction###########################
     path('liste_permission/<int:id>', listpermission, name='listearchive'),
-    path('dmd_permission/<int:id>/<int:id_doc>/<int:id_boite>', demandepermission, name='listearchive'),
+    path('dmd_permission/<int:id>/<int:id_doc>', demandepermission, name='listearchive'),
+    #path('dmd_permission/', demandepermission, name='listearchive'),
     path('accepter_per/<int:id>/<int:id_user>', acceptr_permission, name='listearchive'),
     path('refuser_per/<int:id>/<int:id_user>', refuser_permission, name='listearchive'),
 
@@ -113,5 +119,62 @@ urlpatterns = [
     ##############################Gestion voir detail Consultation
     path('detail_docu_con/<int:id>/<int:id_user>',voir_detail_document_consultation,name='listearchive'),
     path('detail_boite_con/<int:id>/<int:id_user>',voir_detail_boite_consultation,name='listearchive'),
+    path('voirdoccons/<int:id>/<int:id_user>',voire_document_consul,name='listearchive'),
+
+
+#################################Gestion cartable
+    path('listecartable/<int:id>', listecartable, name='listearchive'),
+    path('ajoutercartable_page/<int:id>', ajoutercartable_page, name='listearchive'),
+    path('enregistrercartable/',enregistrer_cartable,name='listearchive'),
+    path('liste_document_catble/<int:id>/<int:id_user>',listedocument_cartable,name='listearchive'),
+    #path('cloturecartable/<int:id>',clotureBoite,name='listearchive'),
+    path('ajouterdocument_cartable/<int:id>',ajouterdocumentcartable_page,name='listearchive'),
+    path('ajouterdocument_cartable/',ajouterdocumentcartbale,name='listearchive'),
+    path('voirdoccartable/<int:id>/<int:id_user>',voire_document_cartable,name='listearchive'),
+    path('classerCartable/<int:id>/<int:id_user>', classerCartable_page, name='listearchive'),
+    path('classer_cartable/', classercartable, name='listearchive'),
+    path('cloturecartable/<int:id>',clotureCartable,name='listearchive'),
+    ##############restriction########################
+     path('restraint_mana_page/<int:id>/<int:id_doc>', retriction_manage_page, name='listearchive'),
+     path('retriction_manage/',enregistrer_restriction_manage,name='listearchive'),
+    path('dmd_permission_manage/', demandepermission_manage, name='listearchive'),
+    ###################Gestion Permission Mangement
+    path('tout_doc_manage/<int:id>',tout_doc_management, name='listearchive'),
+    path('fetch/<int:id>',fetch_data, name='listearchive'),
+
+    path('voir_document_demande_manage/<int:id_user>/<int:id_doc>', voire_document_demande_manage, name='listearchive'),
+    path('voir_tout_document_manage/<int:id>/<int:id_user>',voir_tout_document_manage, name='listearchive'),
+
+    path('liste_permission_manage/<int:id>', listpermission_manage, name='listearchive'),
+    path('dmd_permission_manage/', demandepermission_manage, name='listearchive'),
+    path('accepter_per_manage/<int:id>/<int:id_user>', accepter_permission_management, name='listearchive'),
+    path('refuser_per_manage/<int:id>/<int:id_user>', refuser_permission_manage, name='listearchive'),
+    #################Gestion Restriction tt manage
+    path('restraint_mana_page_tout/<int:id>/<int:id_doc>', retriction_manage_page_tout, name='listearchive'),
+    path('retriction_manage_tout/', enregistrer_restriction_manage_tout, name='listearchive'),
+    path('dmd_permission_manage_tout/<int:id_user>/<int:id_doc>', demandepermission_manage_tout, name='listearchive'),
+    ##########################Gestion Docu,ment globlae
+    path('glo_document/<int:id>', global_doc, name='listearchive'),
+    path('voir_document_global/<int:id>/<int:id_user>',voir_document_globale, name='listearchive'),
+    path('demandedoc_globale/<int:id>/<int:id_doc>', demande_acces_document_globale, name='listearchive'),
+    path('enregistrer_demande_doc_globale/',enregistrer_demande_doc_globale, name='listearchive'),
+    #####################Fetch data
+    path('fetch_permission_manage/<int:id>',fetch_permision_data, name='listearchive'),
+    path('fetch_document_boite/<int:id>',fetch_document_boite, name='listearchive'),
+    path('fetch_boite/<int:id>',fetch_boite, name='listearchive'),
+    path('fetch_tout/<int:id>',fect_tout_doc, name='listearchive'),
+    path('fetch_permission/<int:id>',fetch_permission, name='listearchive'),
+    path('fecth_demande/<int:id>',fecth_demande, name='listearchive'),
+    path('fetchboiteAclasser/<int:id>',fetchboiteAclasser, name='listearchive'),
+    path('fetch_global_doc/<int:id>',fetch_global_doc, name='listearchive'),
+    path('fretch_mes_demandes/<int:id>',fretch_mes_demandes, name='listearchive'),
+    path('fetch_mes_consultations/<int:id>',fetch_mes_consultations, name='listearchive'),
+
+
+
+
+
+
+
 
 ]

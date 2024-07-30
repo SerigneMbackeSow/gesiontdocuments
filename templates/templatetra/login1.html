@@ -59,8 +59,8 @@
                     
                             <!-- Email input -->
                             <div data-mdb-input-init class="form-outline mb-4">
-                                <label class="form-label" for="form3Example3">Adresse Email</label>
-                                <input type="email" id="form3Example3" name="email" class="form-control form-control-lg" placeholder="Entrer Un Email Valid" required />
+                                <label class="form-label" for="form3Example3">Login</label>
+                                <input type="text" id="form3Example3" name="email" class="form-control form-control-lg" placeholder="Entrer Un Email Valid" required />
                             </div>
                      {% csrf_token %}
                             <!-- Password input -->
@@ -68,6 +68,9 @@
                                 <label class="form-label" for="form3Example4">Mot De Passe</label>
                                 <input type="password" id="form3Example4" name="password" class="form-control form-control-lg" placeholder="Entrez Le Mot De Passe" required />
                             </div>
+                              {% if message %}
+                                            <p style="color: red">{{ message }}</p>
+                                        {%  endif %}
                     
                             <br>
                     

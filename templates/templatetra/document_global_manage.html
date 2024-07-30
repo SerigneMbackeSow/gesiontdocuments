@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" href=" /static/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/static/assets/styletra/css/owl.carousel.min.css">
+  <style>
+          label{color: black}
+      </style>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/assets/styletra/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> <!-- For icons -->
+    <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+      <!-- Style -->
+
+      <!--<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">-->
+      <link href="/static/assets/styletra/css/style.css" rel="stylesheet">
+    <link href="/static/assets/styletra/css/style1.css" rel="stylesheet">
+    <title>TOM-MEDLOG GED</title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
+                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    let fetchInterval;
+    function fetchData(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+        const roleElement = document.getElementById('role');
+        const roleContent = roleElement.textContent;
+        $.ajax({
+            url: '/doc/fetch_global_doc/18',
+            method: 'GET',
+            data: { id_user: paragraphContent },
+            success: function(response){
+                if (response.data) {
+                    updateTable(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+    function updateTable(data) {
+        let tableBody = $("#your-table-id tbody");
+        let paragraphElement = document.getElementById('monutil');
+        let paragraphContent = paragraphElement.textContent;
+        let roleElement = document.getElementById('role');
+        let roleContent = roleElement.textContent;
+        tableBody.empty();  // Vide la table actuelle
+
+        data.forEach(function(item) {
+        let row = '<tr>';
+    row += '<td>' + item.numero_document + '</td>';
+    row += '<td>' + item.bl + '</td>';
+    row += '<td>' + item.date_creation + '</td>';
+    row += '<td>' + item.eta + '</td>';
+    row += '<td>' + item.client + '</td>';
+    row += '<td>' + item.nom_navire + '</td>';
+    row += '<td>' + item.numero_voyage + '</td>';
+    row += '<td>' + item.direction + '</td>';
+    row += `<td>`
+            row += '<div class="action-buttons">';
+
+                row += `<a href="/doc/voir_document_global/${item.id}/${paragraphContent}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"><i class="bi bi-eye"></i>Voir</a>`;
+
+                if ( item.rg === 1 ){
+                    if ( item.occ === 0 ){
+                    row += `<a href="/doc/demandedoc_globale/${paragraphContent}/${item.id}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"><i class="bi bi-send"></i>Consulter</a>`;
+
+
+
+                }
+            }
+
+            row += '</div>';
+
+
+
+
+     row += `</td>`;
+
+
+
+
+
+
+
+row += '</tr>';
+
+    // Ajout de la ligne au tableau
+    tableBody.append(row);
+    });
+    }
+        ///Recherche
+
+    function filterTable(searchTerm) {
+    const tableBody = $("#your-table-id tbody");
+    const rows = tableBody.find('tr');
+
+    rows.each(function() {
+      const textContent = $(this).text().toLowerCase();
+      const visible = textContent.indexOf(searchTerm.toLowerCase()) !== -1;
+      $(this).toggle(visible);
+    });
+  }
+
+  // Event listener for search input
+  $("#searchInput").on('keyup', function() {
+    const searchTerm = $(this).val();
+    filterTable(searchTerm);
+  });
+
+
+    function startFetchingData() {
+        fetchData(); // Charger les données initiales
+        fetchInterval = setInterval(fetchData, 500); // 5000ms = 5s
+    }
+
+    function stopFetchingData() {
+        clearInterval(fetchInterval);
+
+
+    }
+    $("#searchInput").on('keyup', function() {
+        if ($("#searchInput").val().trim() !== "") {
+            //
+            stopFetchingData();
+        }else
+        {
+            //
+
+        }
+        if ($("#searchInput").val().trim() === "") {
+            startFetchingData();
+        }
+
+
+
+            });
+
+
+
+
+
+
+    // Appeler fetchData() pour charger les données initiales
+    //fetchData();
+
+    // Optionnel: Actualiser les données toutes les X secondes
+    //setInterval(fetchData, 5000); // 30000ms = 30s
+    startFetchingData();
+});
+</script>
+  </head>
+  <body>
+    <aside class="sidebar" style="background-color: rgb(49, 47, 47);">
+        <div class="toggle">
+            <a href="#" class="burger js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
+                <span></span>
+            </a>
+        </div>
+        <div class="side-inner">
+            <div class="profile">
+                <img src="/static/images/imgtra/images/logo.png" alt="Image" class="img-fluid">
+            </div>
+
+            <!-- Menu principal -->
+            <div class="nav-menu folo">
+                <ul>
+                    <li class="accordion main-menu">
+
+                            <span class="icon-home mr-3"></span>MENU PRINCIPAL
+
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-menu">
+                <ul>
+                {% if util.direction == 'documentation' %}
+                     <p></p>
+
+                    <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseTransfert" aria-expanded="false" aria-controls="collapseTransfert" class="collapsible">
+                            <span class="icon-sync mr-3"></span>DOCUMENTATION
+                        </a>
+                        <div id="collapseTransfert" class="collapse" aria-labelledby="headingTransfert">
+                            <div>
+                                <ul>
+                                   <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçues</a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}">MES DEMENDES </a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATION</a></li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                         {% endif %}
+                 {% if util.direction == 'facturation' %}
+
+                    <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseFacturation" aria-expanded="false" aria-controls="collapseFacturation" class="collapsible">
+                            <span class="icon-file-text mr-3"></span>FACTURATION
+                        </a>
+                        <div id="collapseFacturation" class="collapse" aria-labelledby="headingFacturation">
+                            <div>
+                            <ul>
+{#                                 CREER UTILISATEUR#}
+{#                                <li>{{  util.direction }}</li>#}
+
+
+                                            <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçues</a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}"> MES DEMENDES </a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATIONS</a></li>
+                       </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                 {% endif %}
+
+
+                    {% if util.direction == 'archive' %}
+
+                        <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseArchive" aria-expanded="false" aria-controls="collapseArchive" class="collapsible">
+                            <span class="icon-archive mr-3"></span>ARCHIVE
+                        </a>
+                        <div id="collapseArchive" class="collapse" aria-labelledby="headingArchive">
+                            <div>
+                                <ul>
+
+                                        <li><a href="/doc/liste_boite_cloture/{{ util.id_utilisateur }}">BOITES CLOTURÉES</a></li>
+                                    <li><a href="/doc/liste_boite_classes/{{ util.id_utilisateur }}">BOITTES CLASSEES</a></li>
+
+                                    <!--<li><a href="/doc/listedmd/{{ util.id_utilisateur }}">DEMANDES</a></li>-->
+                                    <li><a href="/doc/listedemesddemande/{{ util.id_utilisateur }}">CONSULTATIONS</a></li>
+                                    <li><a href="/doc/listedmd/{{ util.id_utilisateur }}">CONSULTATIONS</a></li>
+                                         <!--<li><a href="./list_cartable_archiviste.html">LES CARTABLES CLOTURÉES</a></li>
+                                          <li><a href="./list_cartable_archiviste.html">LES CARTABLES CLOTURÉES</a></li>
+                                    <li><a href="/doc/listedmd/{{ util.id_utilisateur }}">DEMANDES</a></li>-->
+                          </ul>
+
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+
+                    </li>
+                {% if util.direction == 'ADMIN' %}
+
+                    <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseDocumentation" aria-expanded="false" aria-controls="collapseDocumentation" class="collapsible">
+                            <span class="icon-book mr-3"></span>ADMINISTRATEUR
+                        </a>
+                        <div id="collapseDocumentation" class="collapse" aria-labelledby="headingDocumentation">
+                            <div>
+                                <ul>
+                                    <li><a href="/doc/listechef/{{ util.id_utilisateur }}">CHEFS SERVICES</a></li>
+                                    <!--<li><a href="./list_document_agent_.html">LES DOCUMENTS</a></li>
+                                    <li><a href="./list_cartable_agent.html">LES CARTABLES</a></li>
+                                    <li><a href="./list_classeur_agent.html">LES CLASSEURS</a></li>-->
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+                 {% if util.direction == 'transfert'%}
+
+                    <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseTransfert" aria-expanded="false" aria-controls="collapseTransfert" class="collapsible">
+                            <span class="icon-sync mr-3"></span>TRANSFERT
+                        </a>
+                        <div id="collapseTransfert" class="collapse" aria-labelledby="headingTransfert">
+                            <div>
+                                <ul>
+                                   <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçcues</a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}">MES DEMENDES</a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATIONS</a></li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                     {% endif %}
+
+
+                 {% if util.direction == 'management'  %}
+                     <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseSacherie" aria-expanded="false" aria-controls="collapseSacherie" class="collapsible">
+                            <span  class="icon-file-text mr-3"></span>Management
+                        </a>
+                        <div id="collapseSacherie" class="collapse" aria-labelledby="headingSacherie">
+                            <div>
+                                <ul>
+                                    <li><a href="/doc/listecartable/{{ util.id_utilisateur }}">CARTABLE</a></li>
+                                    <li><a href="/doc/tout_doc_manage/{{ util.id_utilisateur  }}">DOSSIERS</a></li>
+                                <li><a href="/doc/liste_permission_manage/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçues</a></li>
+
+                                    <li><a href="/doc/glo_document/{{ util.id_utilisateur }}"> DOCUMENTS </a></li>
+
+
+                                                 </ul>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+                {% if util.direction == 'sacherie' %}
+                    <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseSacherie" aria-expanded="false" aria-controls="collapseSacherie" class="collapsible">
+                            <span  class="icon-file-text mr-3"></span>SACHERIE
+                        </a>
+                        <div id="collapseSacherie" class="collapse" aria-labelledby="headingSacherie">
+                            <div>
+                                <ul>
+                                    <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">MES REQUETES  Reçues </a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}">MES DEMENDES</a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATIONS</a></li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                 {% endif %}
+                {% if util.direction == 'comptabilite' %}
+                    <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseComptabilite" aria-expanded="false" aria-controls="collapseComptabilite" class="collapsible">
+                            <span class="icon-calculator mr-3"></span>COMPTABILITÉ
+                        </a>
+                        <div id="collapseComptabilite" class="collapse" aria-labelledby="headingComptabilite">
+                            <div>
+                                <ul>
+                                    <li><a href="/doc/listeboite/{{ util.id_utilisateur }}">BOITES</a></li>
+
+                                            <li><a href="/doc/tot_document/{{ util.id_utilisateur  }}">DOCUMENTS</a></li>
+                                          {% if util.role == 'chef'%}
+
+                                            <li><a href="/doc/listeagent/{{ util.id_utilisateur }}">AGENTS</a></li>
+                                            <li><a href="/doc/liste_permission/{{ util.id_utilisateur }}" style="text-transform: uppercase;">REQUETES Reçcues</a></li>
+                                              {% endif %}
+                                        <li><a href="/doc/liste_mes_demnades/{{ util.id_utilisateur }}">MES DEMANDE</a></li>
+                                        <li><a href="/doc/liste_consultation/{{ util.id_utilisateur }}">MES CONSULTATIONS</a></li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+
+
+
+                </ul>
+            </div>
+        </div>
+    </aside>
+
+
+    <main>
+   <div class="header">
+    <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
+        <!-- Barre de recherche à gauche -->
+        <div class="d-flex align-items-center" style="width: 65%;">
+            <!--<form class="form-inline my-2" style="width: 100%;">
+                <input class="form-control mr-2 search-bar w-100" type="search" placeholder="Search" aria-label="Search">
+            </form>-->
+            <!---<a href="list_demande.html" class="position-relative ml-2">
+                <i class="fas fa-bell fa-lg" style="color: black;"></i>
+                <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar">2</span>
+
+            </a>-->
+
+        </div>
+
+<div class="d-flex align-items-center">
+  <a
+    href="/doc/liste_permission_manage/{{ util.id_utilisateur }}"
+    id="navbarDropdownMenuLink"
+    role="button"
+    aria-expanded="false"
+    class="d-flex align-items-center"
+  >
+    <i class="fas fa-bell" style="color: black; margin-right: 5px;"></i>
+    <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar">0</span>
+  </a>
+    <p style="color: whitesmoke" id="monutil">{{ util.id_utilisateur }}</p>
+</div>
+       <div class="d-flex align-items-center">
+
+            <div class="text-right text-white mr-3">
+                <p style="color: black" class="mb-0">{{ util.nom }} {{ util.prenom }}</p>
+                <p style="color: black" class="mb-0">{{ util.direction }}</p>
+                <a style="color: red" href="/doc/deconnexion/">Se Déconnecter</a>
+            </div>
+            <img src="/static/images/imgtra/images/logo1.png" alt="Profile Image" class="rounded-circle profile-img" style="width: 80px; height: 80px;">
+        </div>
+    </div>
+</div>
+      <div class="site-section">
+
+
+        <div style="display: flex; justify-content: center; width: 100%;">
+
+          <main style="width: 100%;">
+
+
+              <div class="site-section">
+
+                  <div class="container">
+                    <!--<button class="btn btn-info btn-icon btn-sm" onclick="window.location.href='/doc/ajouterboite_page/{{ util.id_utilisateur }}'">
+                    <i class="bi bi-plus-lg"></i> Ajouter
+                </button>-->
+                    <!--<div class="row align-items-center">
+                        <form class="form-inline my-4" style="width: 100%; justify-content: center;">
+                            <input class="form-control mr-sm-2 search-bar w-75" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-dark my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+                        </form>
+                    </div>
+                      <div class="row align-items-center">
+
+                        <table class="table table-striped table-hover">-->
+                        <!--<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">-->
+                               <p>Tapez un mot à rechercher</p>
+  <input class="form-control"  id="searchInput" onkeyup="filterTable()" type="text" placeholder="Search..">
+  <br>
+
+<!--<table   class="table table-striped table-hover" id="dataTable" >
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">Numéro</th>
+                                            <th scope="col">BL</th>
+                                            <th scope="col">Date De Création</th>
+                                            <th scope="col">ETA</th>
+                                            <th scope="col">Client</th>
+                                            <th scope="col">NAVIRE</th>
+                                            <th scope="col">Voyage</th>
+
+                                            <th scope="col" class="col-2">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  id="myTable">
+                                        {% for item in doc %}
+                                        <tr>
+                                            <td>{{ item.numero_docuemnt }}</td>
+                                            <td>{{ item.bl }}</td>
+                                            <td>{{ item.date_creation }}</td>
+                                             <td>{{ item.eta }}</td>
+                                            <td>{{ item.client }}</td>
+                                            <td>{{ item.nom_navire }}</td>
+                                            <td>{{ item.numero_voyage }}</td>
+
+                                            <td>
+                                                <div class="action-buttons">
+
+                                                    <a  href="/doc/voir_document_global/{{ item.id_document }}/{{ util.id_utilisateur }}" class="btn btn-info btn-icon btn-sm"><i class="bi bi-eye">Voir</i></a>
+                                               {% if item.rg == 1  %}
+                                                                     {% if item.occ == 0 %}
+                                                    <a  href="/doc/demandedoc_globale/{{ util.id_utilisateur }}/{{ item.id_document }}" class="btn btn-info btn-icon btn-sm">
+                                                        <i class="bi bi-send"></i>  Consulter
+                                                    </a>
+                                                    {% endif %}
+                                                {% endif %}
+
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </>
+                          </table>-->
+                             <table class="table table-striped table-hover" id="your-table-id">
+ <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">Numéro</th>
+                                            <th scope="col">BL</th>
+                                            <th scope="col">Date De Création</th>
+                                            <th scope="col">ETA</th>
+                                            <th scope="col">Client</th>
+                                            <th scope="col">NAVIRE</th>
+                                            <th scope="col">Voyage</th>
+                                            <th scope="col">Direction </th>
+                                            <th scope="col" class="col-2">Action</th>
+                                        </tr>
+                                    </thead>
+    <tbody class="monbody">
+        <!-- Les données seront insérées ici par AJAX -->
+    </tbody>
+</table>
+                      <p style="color: blanchedalmond" id="monutil">{{ util.id_utilisateur }}</p>
+
+
+                            <p style="color: blanchedalmond" id="role">{{ util.role }}</p>
+
+                      </div>
+                  </div>
+              </div>
+          </main>
+      </div>
+
+      </div>
+    </main>
+  <script>
+        function filterTable() {
+            // Déclaration des variables
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Boucle sur toutes les lignes du tableau, sauf l'en-tête
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none"; // Cache la ligne par défaut
+                td = tr[i].getElementsByTagName("td");
+                // Boucle sur toutes les cellules de la ligne courante
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                            tr[i].style.display = ""; // Affiche la ligne si une cellule correspond
+                            break; // Sort de la boucle pour passer à la ligne suivante
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+ <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/assets/js/jstra/js/popper.min.js"></script>
+    <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
+    <script src="/static/assets/js/jstra/js/main.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    let fetchInterval;
+     let notificationCount = 0;
+    function fetchData(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+        $.ajax({
+            url: '/doc/fetch_permission_manage/18',
+            method: 'GET',
+            data: { id_user: paragraphContent },
+            success: function(response){
+                if (response.data) {
+                    updateTable(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+    function updateTable(data) {
+        let tableBody = $("#your-table-id tbody");
+        let paragraphElement = document.getElementById('monutil');
+        let paragraphContent = paragraphElement.textContent;
+        tableBody.empty();  // Vide la table actuelle
+
+        data.forEach(function(item) {
+
+notificationCount=data.length;
+        let row = '<tr>';
+    row += '<td>' + item.numero_document.slice(3) + '</td>';
+    row += '<td>' + item.user + '</td>';
+
+        row += `<td>`;
+        row += '<div class="action-buttons">';
+        row += `<a href="/doc/voir_document_demande_manage/${paragraphContent}/${item.id_doc}" class="btn btn-info btn-icon btn-sm"><i class="bi bi-x"></i>Voir</a>`;
+
+
+    row += `<a href="/doc/accepter_per_manage/${item.id}/${paragraphContent}" class="btn btn-info btn-icon btn-sm"><i class="bi bi-x"></i>Accepter</a>`;
+
+    row += `<a href="/doc/refuser_per_manage/${item.id}/${paragraphContent}" class="btn btn-danger btn-icon btn-sm"><i class="bi bi-x"></i>Refuser</a>`;
+  row += '</div>';
+  row += `</td>`;
+row += '</tr>';
+
+    // Ajout de la ligne au tableau
+    tableBody.append(row);
+    });
+    }
+    ///Recherche
+
+
+            ///Recherche
+//let fetchInterval;
+    function filterTable(searchTerm) {
+    const tableBody = $("#your-table-id tbodyyyyy");
+    const rows = tableBody.find('tr');
+
+    rows.each(function() {
+      const textContent = $(this).text().toLowerCase();
+      const visible = textContent.indexOf(searchTerm.toLowerCase()) !== -1;
+      $(this).toggle(visible);
+    });
+  }
+
+  // Event listener for search input
+  $("#searchInput").on('keyup', function() {
+    const searchTerm = $(this).val();
+    filterTable(searchTerm);
+  });
+
+
+    function startFetchingData() {
+        fetchData(); // Charger les données initiales
+        fetchInterval = setInterval(fetchData, 500); // 5000ms = 5s
+    }
+
+    function stopFetchingData() {
+        clearInterval(fetchInterval);
+
+
+    }
+    $("#searchInput").on('keyup', function() {
+        if ($("#searchInput").val().trim() !== "") {
+            //
+            stopFetchingData();
+        }else
+        {
+            //
+
+        }
+        if ($("#searchInput").val().trim() === "") {
+            startFetchingData();
+        }
+
+
+
+            });
+
+
+
+
+
+
+    // Appeler fetchData() pour charger les données initiales
+    //fetchData();
+
+    // Optionnel: Actualiser les données toutes les X secondes
+    //setInterval(fetchData, 5000); // 30000ms = 30s
+    startFetchingData();
+
+function updateNotificationCount() {
+    // Update the paragraph content with the notification count
+  const notificationBarElement = document.getElementById('notification-bar');
+  notificationBarElement.textContent = `${notificationCount}`;
+}
+
+// Update notification count every 100 milliseconds (replace with a suitable interval)
+setInterval(updateNotificationCount, 100);
+});
+</script>
+
+  </body>
+</html>
