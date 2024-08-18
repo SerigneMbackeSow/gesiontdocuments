@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" href=" /static/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/static/assets/styletra/css/owl.carousel.min.css">
+      <link rel="stylesheet" href="
+https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/assets/styletra/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> <!-- For icons -->
+    <!-- Style -->
+    <!--<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">-->
+      <link href="/static/assets/styletra/css/style.css" rel="stylesheet">
+    <link href="/static/assets/styletra/css/style1.css" rel="stylesheet">
+    <title>TOM-MEDLOG GED</title>
+  </head>
+  <body>
+
+    {% include 'templatetra/sidebar_ged.html' %}
+
+
+    <main>
+  <div class="header">
+    <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
+        <!-- Barre de recherche à gauche -->
+        <div class="d-flex align-items-center" style="width: 65%;">
+
+
+        </div>
+        {% if util.role == 'chef'  %}
+             <div class="d-flex align-items-center">
+
+               <a
+
+
+          href="/doc/liste_permission/{{ util.id_utilisateur }}"
+          id="navbarDropdownMenuLink"
+          role="button"
+          aria-expanded="false"
+        >
+          <i class="fas fa-bell" style="color: black"></i>
+          <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar"></span>
+        </a>
+
+        </div>
+        {% endif %}
+      <div class="d-flex align-items-center">
+
+            <div class="text-right text-white mr-3">
+                <p style="color: black" class="mb-0">{{ util.nom }} {{ util.prenom }}</p>
+                <p style="color: black" class="mb-0">{{ util.direction }}</p>
+                <a style="color: red" href="/doc/deconnexion/">Se Déconnecter</a>
+            </div>
+            <img src="/static/images/imgtra/images/logo1.png" alt="Profile Image" class="rounded-circle profile-img" style="width: 80px; height: 80px;">
+        </div>
+    </div>
+</div>
+        <div class="site-section">
+            <div class="container">
+                <a type="button" class="btn btn-danger btn-lg ms-3"   href="/doc/listeboite/{{ util.id_utilisateur }}"><i class="bi bi-arrow-left"></i> retour</a>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-12">
+                        <div class="card shadow custom-card mx-auto">
+                            <div class="card-body p-4">
+                                <form method="POST" action="/archive/ajouter_document/">
+                                    <div class="text-center mb-4">
+                                        <p style="color: #000; font-size: 25px;">Ajouter  Document</p>
+                                    </div>
+                                    <!-- Mentions input -->
+                                    <div class="form-group mb-4">
+                                        {% csrf_token %}
+                                        <label style="color: black" for="mentions">Nom</label>
+                                        <input type="text" name="mention" id="mentions" class="form-control" placeholder="Dossier" />
+                                        {% if message %}
+                                            <p style="color: red">{{ message }}</p>
+                                        {%  endif %}
+                                        <input type="hidden" name="id_user" id="mentions" value="{{ util.id_utilisateur }}" />
+                                    </div>
+                                <label for="direction">Direction:</label>
+        <select id="direction" name="direction" required>
+            <option value="">Sélectionnez une direction</option>
+            <option value="facturation">Facturation</option>
+            <option value="documentation">Documentation</option>
+            <!-- Ajoutez d'autres options ici si nécessaire -->
+        </select>
+
+
+
+
+                                    <!-- Niveau input -->
+
+                                    <div class="text-center">
+                                        <button type="submit" name="valider" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;">Valider</button>
+                                        <!--<a type="button" class="btn btn-danger btn-lg ms-3"   href="/doc/listeboite/{{ util.id_utilisateur }}">Annuler</a>-->
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <p id="monutil" style="color: white">{{ util.id_utilisateur }}</p>
+        </div>
+    </main>
+    <script>
+    document.getElementById('searchInput').addEventListener('input', function() {
+        let query = this.value;
+        let xhr = new XMLHttpRequest();
+
+        xhr.open('GET', `/search/?query=${encodeURIComponent(query)}`, true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                let response = JSON.parse(xhr.responseText);
+                let container = document.getElementById('cardContainer');
+                container.innerHTML = '';
+
+                // Ajoute les dossiers
+                response.dossiers.forEach(function(dossier) {
+                    let card = document.createElement('a');
+                    card.href = `/archive/liste_dossier/${dossier.id}`;
+                    card.className = 'card dossier-card';
+                    card.style.width = '18rem';
+
+                    let img = document.createElement('img');
+                    img.className = 'card-img-top';
+                    img.src = '/static/images/imgtra/image-dossier.jpg';
+                    img.alt = 'Card image cap';
+
+                    let cardBody = document.createElement('div');
+                    cardBody.className = 'card-body';
+
+                    let text = document.createElement('p');
+                    text.className = 'card-text';
+                    text.textContent = dossier.nom;
+
+                    cardBody.appendChild(text);
+                    card.appendChild(img);
+                    card.appendChild(cardBody);
+                    container.appendChild(card);
+                });
+
+                // Ajoute les documents
+                response.documents.forEach(function(document) {
+                    let card = document.createElement('a');
+                    card.href = `/archive/affiche_document/${document.id}`;
+                    card.className = 'card document-card';
+                    card.style.width = '18rem';
+
+                    let img = document.createElement('img');
+                    img.className = 'card-img-top';
+                    img.src = '/static/images/imgtra/image-fichier.jpg';
+                    img.alt = 'Card image cap';
+
+                    let cardBody = document.createElement('div');
+                    cardBody.className = 'card-body';
+
+                    let text = document.createElement('p');
+                    text.className = 'card-text';
+                    text.textContent = document.nom;
+
+                    cardBody.appendChild(text);
+                    card.appendChild(img);
+                    card.appendChild(cardBody);
+                    container.appendChild(card);
+                });
+            }
+        };
+        xhr.send();
+    });
+</script>
+
+   <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/assets/js/jstra/js/popper.min.js"></script>
+    <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
+    <script src="/static/assets/js/jstra/js/main.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    let fetchInterval;
+     let notificationCountCons = 0;
+    function fetchDataconsulation(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+        $.ajax({
+            url: '/doc/fetch_permission/18',
+            method: 'GET',
+            data: { id_user: paragraphContent },
+            success: function(response){
+                if (response.data) {
+                    updateTable(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+    function updateTable(data) {
+
+        data.forEach(function(item) {
+
+notificationCountCons=data.length;
+
+
+
+    });
+    }
+
+function updateNotificationCountCons() {
+    fetchDataconsulation(); // Charger les données initiales
+        fetchInterval = setInterval(fetchDataconsulation, 5000);
+    // Update the paragraph content with the notification count
+  const notificationBarElement = document.getElementById('notification-bar');
+  notificationBarElement.textContent = `${notificationCountCons}`;
+}
+
+// Update notification count every 100 milliseconds (replace with a suitable interval)
+setInterval(updateNotificationCountCons, 100);
+});
+</script>
+  <script>
+</body>
+</html>

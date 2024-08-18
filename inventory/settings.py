@@ -41,6 +41,7 @@ INSTALLED_APPS = [
    # 'store.apps.StoreConfig',
     'users.apps.UsersConfig',
     'facturations.apps.FacturationsConfig',
+    'archivedocuments.apps.ArchivedocumentsConfig',
 
 ]
 
@@ -91,7 +92,7 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'GED_DB',
+        'NAME': 'ARCHIVE_DOCUMENTS_DB',
         'USER': 'postgres',
         'PASSWORD': '20170843Zs',
         'HOST': '127.0.0.1',

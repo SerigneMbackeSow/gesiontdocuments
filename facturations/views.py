@@ -25,7 +25,7 @@ def Crer_Utilisateur_page(request):
 @csrf_exempt
 def Deconnexion(request):
     forms = UtilisateurForm(request.POST)
-    return render(request, 'templatetra/login1.html', {'forms': forms})
+    return render(request, 'templatetra/acceulli.html', {'forms': forms})
 
 
 @csrf_exempt
@@ -312,7 +312,8 @@ def ajouterdocumentboite(request):
             instance = Document(numero_docuemnt=request.POST['numero'],
                                 date_creation=datetime.now(),
                                 chemin_acces=str(current_timestamp) + fichier.name,
-                                eta=request.POST['eta'],
+                                eta=request.POST.get('eta') if request.POST.get('eta') else datetime.now().strftime(
+                                    '%Y-%m-%dT%H:%M:%S'),
                                 bl=request.POST['bl'],
                                 client=request.POST['client'],
                                 nom_navire=request.POST['navire'],
@@ -1395,6 +1396,7 @@ def enregistrer_restriction_tout(request):
         docu = Document.objects.get(id_document=request.POST['id_doc'])
         boite = Boite.objects.get(id_boite=docu.id_boite)
         user = Utilisateurs.objects.get(id_utilisateur=boite.id_user)
+        user_dir=Utilisateurs.objects.get(direction=user.direction,role='chef')
         user_crt = Utilisateurs.objects.get(id_utilisateur=agent_id)
         if  user_crt.direction == util.direction :
             if not RestrictionDocument.objects.filter(id_doc=request.POST['id_doc'], id_user=agent_id).exists():
@@ -1406,7 +1408,7 @@ def enregistrer_restriction_tout(request):
                     date_dmd=datetime.now(),
                     acces=0,
                     etat=1,
-                    id_chef=user.id_utilisateur
+                    id_chef=user_dir.id_utilisateur
                 )
                 res.save()
         else :
@@ -2475,79 +2477,75 @@ def fect_tout_doc(request, id):
         'dir': doc.dir,
             'direction' :  doc.direction,
 
+
         'numero_document': doc.numero_docuemnt,
         # ... other fields
     })
 
     return JsonResponse({'data': data})
 
-
-def fetch_permission(request, id):
-    id_user = request.GET.get('id_user')
-    if id_user:
-        id_user = int(id_user)
-    user = Utilisateurs.objects.get(id_utilisateur=id_user)
-    lstuser = Utilisateurs.objects.filter(direction=user.direction)
-    listboit = Boite.objects.filter(id_user__in=lstuser)
-    listdoc = Document.objects.filter(id_boite__in=listboit)
-    Liste_user = Utilisateurs.objects.all()
+ #def fetch_permission(request, id):
+    #id_user = request.GET.get('id_user')
+    #if id_user:
+      #  id_user = int(id_user)
+    #user = Utilisateurs.objects.get(id_utilisateur=id_user)
+    #lstuser = Utilisateurs.objects.filter(direction=user.direction)
+    #listboit = Boite.objects.filter(id_user__in=lstuser)
+    #listdoc = Document.objects.filter(id_boite__in=listboit)
+    #Liste_user = Utilisateurs.objects.all()
     #####document no direction
-    documents_no_dir = Document.objects.exclude(id_document__in=listdoc.values_list('id_document', flat=True))
+    #documents_no_dir = Document.objects.exclude(id_document__in=listdoc.values_list('id_document', flat=True))
 
     # lisrect=RestrictionDocument.objects.filter(id_doc__in=listdoc,ref=0)
-    lisrect = RestrictionDocument.objects.filter(id_chef=id_user, ref=0, acces_dir=1)
-    restricted_ids_doc = set(listdoc.values_list('id_document', flat=True))
-    restricted_ids_user = set(Liste_user.values_list('id_utilisateur', flat=True))
-    lstdoc_no_dir = set(documents_no_dir.values_list('id_document', flat=True))
+    #lisrect = RestrictionDocument.objects.filter(id_chef=id_user, ref=0, acces_dir=1)
+    #restricted_ids_doc = set(listdoc.values_list('id_document', flat=True))
+   # restricted_ids_user = set(Liste_user.values_list('id_utilisateur', flat=True))
+   # lstdoc_no_dir = set(documents_no_dir.values_list('id_document', flat=True))
     # Ajouter dynamiquement l'attribut 'acces=0' aux documents restreints dans listedoc
     ####doc direction
-    us = Utilisateurs.objects.get(id_utilisateur=id_user)
-    lsuserdir = Utilisateurs.objects.filter(direction=us.direction)
-    btdir = Boite.objects.filter(id_user__in=lsuserdir)
-    docdir = Document.objects.filter(id_boite__in=btdir)
-    lstdocdir = set(docdir.values_list('id_document', flat=True))
-    data=[]
-    for doc in lisrect:
+    #us = Utilisateurs.objects.get(id_utilisateur=id_user)
+    #lsuserdir = Utilisateurs.objects.filter(direction=us.direction)
+    #btdir = Boite.objects.filter(id_user__in=lsuserdir)
+    #docdir = Document.objects.filter(id_boite__in=btdir)
+    #lstdocdir = set(docdir.values_list('id_document', flat=True))
+    #data=[]
+    #for doc in lisrect:
 
-        user = Utilisateurs.objects.get(id_utilisateur=id_user)
-        if doc.service == user.direction:
-            doc.mdir = 1
-        else:
-            doc.mdir = 0
+        #user = Utilisateurs.objects.get(id_utilisateur=id_user)
+        #if doc.service == user.direction:
+         #   doc.mdir = 1
+        #else:
+         #   doc.mdir = 0
 
-        if doc.id_doc in restricted_ids_doc:
-            doc.dir = 1
-            docu = Document.objects.get(id_document=doc.id_doc)
+        #if doc.id_doc in restricted_ids_doc:
+            #doc.dir = 1
+            #docu = Document.objects.get(id_document=doc.id_doc)
             # doc.document=docu.chemin_acces
-            if doc.id_user in restricted_ids_user:
-                useru = Utilisateurs.objects.get(id_utilisateur=doc.id_user)
-                doc.document = docu.chemin_acces
-                doc.numero = docu.numero_docuemnt
-                doc.user = useru.prenom + ' ' + useru.nom
-                doc.direction = user.direction
-        if doc.id_doc in lstdoc_no_dir:
-            doc.dir = 0
-            docu = Document.objects.get(id_document=doc.id_doc)
+            #if doc.id_user in restricted_ids_user:
+             #   useru = Utilisateurs.objects.get(id_utilisateur=doc.id_user)
+            #    doc.document = docu.chemin_acces
+           #     doc.numero = docu.numero_docuemnt
+          #      doc.user = useru.prenom + ' ' + useru.nom
+         #       doc.direction = user.direction
+        #if doc.id_doc in lstdoc_no_dir:
+            #doc.dir = 0
+            #docu = Document.objects.get(id_document=doc.id_doc)
             # doc.document=docu.chemin_acces
 
-            if doc.id_user in restricted_ids_user:
-                useru = Utilisateurs.objects.get(id_utilisateur=doc.id_user)
-                doc.document = docu.chemin_acces
-                doc.numero = docu.numero_docuemnt
-                doc.user = useru.prenom + ' ' + useru.nom
-                doc.direction = user.direction
-        data.append({
-            'id': doc.id_doc,
-            'id_res': doc.id_restric,
-            'numero_document': doc.numero,
-            'useru':doc.user,
-            'mdir': doc.mdir,
-            'dir':doc.dir,
+            #if doc.id_user in restricted_ids_user:
+             #   useru = Utilisateurs.objects.get(id_utilisateur=doc.id_user)
+            #    doc.document = docu.chemin_acces
+           #     doc.numero = docu.numero_docuemnt
+          #      doc.user = useru.prenom + ' ' + useru.nom
+         #       doc.direction = user.direction
+        #data.append({
+           #  'id_res': doc.id_restric,
+         #      'dir':doc.dir,
 
             # ... other fields
-        })
+     #   })
 
-    return JsonResponse({'data': data})
+    #return JsonResponse({'data': data})
 
     #return render(request, 'templatetra/liste_permission.html', {'lstres': lisrect, 'util': user})
 
@@ -2720,6 +2718,7 @@ def fretch_mes_demandes(request, id):
 
             'numero_document': doc.numero_docuent,
                'service' : doc.service,
+
            'date_dmd' : format(doc.date_dmd , 'd F Y'),
              'etat' :   doc.etat,
             'dmd': doc.dmd,
@@ -2754,399 +2753,124 @@ def fetch_mes_consultations(request, id):
 
     #return render(request, 'templatetra/mes_demandes.html', {'lstres': res, 'util': user})
 
+def fetch_permission(request, id):
+    id_user = request.GET.get('id_user')
+    if id_user:
+        id_user = int(id_user)
+    user = Utilisateurs.objects.get(id_utilisateur=id_user)
+    lstuser = Utilisateurs.objects.filter(direction=user.direction)
+    listboit = Boite.objects.filter(id_user__in=lstuser)
+    listdoc = Document.objects.filter(id_boite__in=listboit)
+    Liste_user = Utilisateurs.objects.all()
+    #####document no direction
+    documents_no_dir = Document.objects.exclude(id_document__in=listdoc.values_list('id_document', flat=True))
 
+    # lisrect=RestrictionDocument.objects.filter(id_doc__in=listdoc,ref=0)
+    lisrect = RestrictionDocument.objects.filter(id_chef=id_user, ref=0, acces_dir=1)
+    restricted_ids_doc = set(listdoc.values_list('id_document', flat=True))
+    restricted_ids_user = set(Liste_user.values_list('id_utilisateur', flat=True))
+    lstdoc_no_dir = set(documents_no_dir.values_list('id_document', flat=True))
+    # Ajouter dynamiquement l'attribut 'acces=0' aux documents restreints dans listedoc
+    ####doc direction
+    us = Utilisateurs.objects.get(id_utilisateur=id_user)
+    lsuserdir = Utilisateurs.objects.filter(direction=us.direction)
+    btdir = Boite.objects.filter(id_user__in=lsuserdir)
+    docdir = Document.objects.filter(id_boite__in=btdir)
+    lstdocdir = set(docdir.values_list('id_document', flat=True))
+    data=[]
+    for doc in lisrect:
 
+        user = Utilisateurs.objects.get(id_utilisateur=id_user)
+        if doc.service == user.direction:
+            doc.mdir = 1
+        else:
+            doc.mdir = 0
 
+        if doc.id_doc in restricted_ids_doc:
+            doc.dir = 1
+            docu = Document.objects.get(id_document=doc.id_doc)
+            # doc.document=docu.chemin_acces
+            if doc.id_user in restricted_ids_user:
+                useru = Utilisateurs.objects.get(id_utilisateur=doc.id_user)
+                doc.document = docu.chemin_acces
+                doc.numero = docu.numero_docuemnt
+                doc.user = useru.prenom + ' ' + useru.nom
+                doc.direction = user.direction
+        if doc.id_doc in lstdoc_no_dir:
+            doc.dir = 0
+            docu = Document.objects.get(id_document=doc.id_doc)
+            # doc.document=docu.chemin_acces
 
-"""
+            if doc.id_user in restricted_ids_user:
+                useru = Utilisateurs.objects.get(id_utilisateur=doc.id_user)
+                doc.document = docu.chemin_acces
+                doc.numero = docu.numero_docuemnt
+                doc.user = useru.prenom + ' ' + useru.nom
+                doc.direction = user.direction
+        data.append({
+            'id': doc.id_doc,
+            'id_res': doc.id_restric,
+            'numero_document': doc.numero,
+            'useru':doc.user,
+            'mdir': doc.mdir,
+            'dir':doc.dir,
 
-
-#####ARCHIVE
-def Listearchive(request, id):
-    listedoc = []
-    a = request.session.get('user_id')
-    try:
-        listedoc = Dossier.objects.filter(id_boite=id)
-        # listedoc = Dossier.objects.filter(id_user=a)
-        # user=Utilisateurs.objects.get(id_user=id)
-    except:
-        pass
-    boite = Boite.objects.get(id_boite=id)
-    id_user = boite.id_user
-    user = Utilisateurs.objects.get(id_utilisateur=id)
-    # user = Utilisateurs.objects.get(id_utilisateur=a)
-    return render(request, 'docs/archivefact.html', {'doc': listedoc, 'user': user, 'util': user, 'boite': boite})
-
-
-def ajouterdossier_page(request, id):
-    forms = DossierForm()
-    boite = Boite.objects.get(id_boite=id)
-    user = Utilisateurs.objects.get(id_utilisateur=boite.id_user)
-    return render(request, 'docs/ajouerterdossier.html', {'form': forms, 'user': user, 'util': user, 'boite': boite})
-
-
-def telecharger_fichier(request):
-    listedoc = []
-    if request.method == 'POST':
-        form = DossierForm(request.POST, request.FILES)
-        if form.is_valid() or 1:
-            fichier = form.cleaned_data['document']
-            # id_user=form.cleaned_data['user']
-            user = Utilisateurs.objects.get(id_utilisateur=request.POST['user'])
-            # handle_uploaded_file(fichier.name)
-            handle_uploaded_file(fichier)
-            # Définir la locale française
-            locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
-
-            # Obtenez la date et l'heure actuelles
-            now = datetime.now()
-
-            # Formatez la date et l'heure avec les noms des mois en français
-            formatted_now = now.strftime("%d %B %Y %H:%M:%S")
-            current_timestamp = int(datetime.timestamp(datetime.now()))
-
-            instance = Dossier(chemin_acces=str(current_timestamp) + fichier.name,
-                               numero_dossier=form.cleaned_data['numero_dossier'],
-                               id_boite=request.POST['boite'],
-                               id_user=request.POST['user'],
-                               date_creation=datetime.now()
-                               # date_creation = formatted_now
-                               )  # Enregistrez le nom du fichier comme chemin d'accès, vous pouvez changer cette logique
-            instance.save()
-
-            listedoc = []
-            try:
-                listedoc = Dossier.objects.filter(id_boite=request.POST['boite'])
-                # user=Utilisateurs.objects.get(id_u=id)
-            except:
-                pass
-        boite = Boite.objects.get(id_boite=request.POST['boite'])
-        user = Utilisateurs.objects.get(id_utilisateur=boite.id_user)
-        return render(request, 'docs/archivefact.html', {'doc': listedoc, 'user': user, 'util': user, 'boite': boite})
-
-    else:
-        forms = DossierForm()
-        boite = Boite.objects.get(id_boite=request.POST['boite'])
-        user = Utilisateurs.objects.get(id_utilisateur=boite.id_user)
-        # user = Utilisateurs.objects.get(id_user=id)
-        return render(request, 'docs/ajouerterdossier.html',
-                      {'forms': forms, 'user': user, 'util': user, 'boiie': boite})
-
-
-
-
-
-def voir_pdf(request, pdf_id):
-    fichier_pdf = Dossier.objects.get(numero_dossier=pdf_id)
-    boite = Boite.objects.get(id_boite=fichier_pdf.id_boite)
-    fichier = 'certificat_inscription_master1_SIR.pdf'
-    user = Utilisateurs.objects.get(id_utilisateur=request.session.get('id_user'))
-    return render(request, 'docs/voirfichier.html',
-                  {'doc': fichier_pdf, 'user': fichier_pdf.id_user, 'util': user, 'boite': boite})
-
-
-###DeatilleDossier
-def voir_detail(request, id):
-    forms = DetailDossierForm()
-    loc = []
-    try:
-        dossier = Dossier.objects.get(numero_dossier=id)
-        det = DetailsDossier.objects.get(id_dossier=id)
-        loc = Localisation.objects.filter(numero_dossier=id)
-        forms = DetailDossierForm(initial={
-            'eta': det.eta,
-            'nom_navire': det.nom_navire,
-            'numero_voyage': det.numero_voyage,
-            'localisation': det.localisation,
-            'numer_boite': det.numer_boite,
-            'carton': det.carton,
-            'classeur': det.classeur,
-
+            # ... other fields
         })
-    except:
-        pass
-    user = Utilisateurs.objects.get(id_utilisateur=request.session.get('id_user'))
-    dossier = Dossier.objects.get(numero_dossier=id)
-    boite = Boite.objects.get(id_boite=dossier.id_boite)
-    # return listeaaarchboite(request,boite.id_boite)
 
-    return render(request, 'docs/detaildossier.html',
-                  {'forms': forms, 'dossier': dossier, 'util': user, 'boite': boite, 'loc': loc})
+    return JsonResponse({'data': data})
+################################ GESTION DU PROFILE D'UTILISATEUR ###########################
+    ################################ FONCTION QUI RETOURNE LA PAGE DE MODIFICATION DU MOT D EPASSE
+def profile_page (request, id_user):
+    util = Utilisateurs.objects.get(id_utilisateur=id_user)
+    return render(request, 'templatetra/page_profile_ged.html', {'util':util,})
 
 
-def ajouterdetail(request):
+def modifier_profile(request):
+    message = ''
+
     if request.method == 'POST':
-        form = DetailDossierForm(request.POST)
-        if form.is_valid() or 1:
-            id_doosier = request.POST['dossier']
-            # numerpbl=request.POST['numerobl']
-            cleaned_data = form.cleaned_data
-            instance = DetailsDossier(
-                id_dossier=id_doosier,
-                numero_bl='BK2345',
-                eta=form.cleaned_data['eta'],
-                nom_navire=form.cleaned_data['nom_navire'],
-                numero_voyage=form.cleaned_data['numero_voyage'],
-                localisation='local',
-                # numer_boite =form.cleaned_data['numer_boite'] ,
-                numer_boite=request.POST['numero_boite'],
-                carton='cart',
-                classeur=form.cleaned_data['classeur'],
-
-            )
-            instance.save()
-        id = request.POST['id_boite']
-        return listeaaarchboite(request, id)
-
-
-    else:
-
-        forms = DetailDossierForm()
-        dossier = Dossier.objects.get(numero_dossier=id)
-        user = Utilisateurs.objects.get(id_utilisateur=request.session.get('id_user'))
-        return render(request, 'docs/detaildossier.html', {'forms': forms, 'dossier': dossier, 'util': user})
-
-
-def recherchebl(request):
-    if request.method == 'POST':
-        id_user = request.POST['id_user']
-        id = request.POST['id_boite']
-        bl = request.POST['bl']
-        listedoc = []
-        # rresponse = f""
-
-        # return HttpResponse('<p>id_user: </p>'+{{id_user}})
-        # listedoc = Dossier.objects.filter(id_boite=request.POST['id_boite'])
+        id_user = request.POST.get('id_utilisateur')
 
         try:
-            listedoc = Dossier.objects.filter(numero_dossier=bl)
-        # user=Utilisateurs.objects.get(id_user=id)
-        except:
-            pass
-        if listedoc:
+            user = Utilisateurs.objects.get(id_utilisateur=id_user)
+        except Utilisateurs.DoesNotExist:
+            message = 'Utilisateur introuvable.'
+            return render(request, 'templatetra/page_profile_ged.html', {'message': message})
+        prenom = request.POST.get('prenom', user.prenom)
+        nom = request.POST.get('nom', user.nom)  # Valeur par défaut si non fournie
+        email = request.POST.get('email', user.email)
 
-            boite = Boite.objects.get(id_boite=id)
-            user = Utilisateurs.objects.get(id_utilisateur=boite.id_user)
-            # useru = Utilisateurs.objects.get(id_utilisateur=request.session.get('id_user'))
-            return render(request, 'docs/archivefact.html',
-                          {'doc': listedoc, 'user': user, 'util': user, 'boite': boite})
-        else:
+        # Vérifier si l'email est déjà utilisé par un autre utilisateur
+        if Utilisateurs.objects.filter(email=email).exclude(id_utilisateur=id_user).exists():
+            message = 'Cet email est déjà utilisé !!'
+            return render(request, 'templatetra/page_profile_ged.html', {'util': user, 'message': message})
 
-            # id=request.POST['id_boite'])
-            return listeaaarchboite(request, id)
+        password = request.POST.get('password')
 
-    # return render(request, 'docs/archivefact.html')
+        # Mettre à jour les informations de l'utilisateur
+        user.nom = nom
+        user.prenom = prenom
+        user.email = email
 
+        if password:
+            user.password=password  # Utiliser set_password pour hacher le mot de passe
 
+        user.save()
 
-
-
-
-
-
-
-def listeaaarchboite(request, id):
-    listedoc = []
-    boite = Boite.objects.get(id_boite=id)
-    try:
-        listedoc = Dossier.objects.filter(id_boite=id)
-        # listedoc = Dossier.objects.filter(id_user=a)
-        # user=Utilisateurs.objects.get(id_user=id)
-    except:
-        pass
-    user = Utilisateurs.objects.get(id_utilisateur=boite.id_user)
-    # user = Utilisateurs.objects.get(id_utilisateur=a)
-    return render(request, 'docs/archivefact.html', {'doc': listedoc, 'user': user, 'util': user, 'boite': boite})
+        #messages.success(request, "Profil mis à jour avec succès.")
+        return render(request, 'templatetra/index_ged.html', {'util': user, 'message': message})
+def retour_profile(request,id_user):
+    util = Utilisateurs.objects.get(id_utilisateur=id_user)
+    return render(request, 'templatetra/index_ged.html', {'util': util, })
 
 
-##ARCHIVE
-def login_page_archiviste(request):
-    forms = UtilisateurForm()
-    return render(request, 'docs/login_archiviste.html', {'forms': forms})
 
 
-#####
-def listeHarmoire(request, id):
-    listedoc = []
-    # boite = Localisation.objects.get(id_user=id)
-    try:
-        listedoc = Localisation.objects.filter(id_user=id)
-        # listedoc = Dossier.objects.filter(id_user=a)
-        # user=Utilisateurs.objects.get(id_user=id)
-    except:
-        pass
-    user = Utilisateurs.objects.get(id_utilisateur=id)
-    # user = Utilisateurs.objects.get(id_utilisateur=a)
-    return render(request, 'docs/listedossierarchivite.html', {'doc': listedoc, 'user': user, 'util': user})
 
 
-def classerdossierarchivist_page(request, id, id_user):
-    forms = ArchiveForm()
-    boite = Boite.objects.get(id_boite=id)
-    user = Utilisateurs.objects.get(id_utilisateur=id_user)
-    return render(request, 'docs/ajouterdossierarchiviste.html',
-                  {'form': forms, 'user': user, 'util': user, 'boite': boite})
 
 
-def entregistrerdossierarchives(request):
-    if request.method == 'POST':
-        id = request.POST['id_user']
-        id_boite = request.POST['id_boite']
-        id_user = request.POST['id_user']
-        form = ArchiveForm(request.POST)
-        if form.is_valid() or 1:
-            cleaned_data = form.cleaned_data
-
-            boit = Boite.objects.get(id_boite=id_boite)
-            boit.numero_rang = request.POST['numerorang']
-            boit.harmoire = request.POST['armoire']
-            boit.numero_comp = request.POST['com']
-            boit.niveau = request.POST['niveau']
-            boit.save()
-            instance = Localisation(
-                id_harmoire=request.POST['armoire'],
-                niveau=request.POST['niveau'],
-
-                numero_comp=request.POST['com'],
-
-                numero_dossier=boit.id_boite,
-                id_user=request.POST['id_user']
-
-            )
-            instance.save()
-
-            return listeboiteclasser(request, request.POST['id_user'])
-        else:
-
-            return classerdossierarchivist_page(request, request.POST['id_user'])
 
 
-def toutdossier(request, id):
-    listedoc = []
-    try:
-        user = Utilisateurs.objects.get(id_utilisateur=id)
-        direction = user.direction
-        listeuser = Utilisateurs.objects.filter(direction=direction)
-        listedoc = Dossier.objects.filter(id_user__in=listeuser)
-    except:
-        pass
-    user = Utilisateurs.objects.get(id_utilisateur=id)
-    return render(request, 'docs/toutdossier.html', {'doc': listedoc, 'user': user, 'util': user})
 
-
-def update(request, id):
-    boite = Boite.objects.get(id_boite=id)
-    user = Utilisateurs.objects.get(id_utilisateur=boite.id_user)
-    boite.etat = True
-    if boite:
-        boite.save()
-        return listeboite(request, user.id_utilisateur)
-
-    return listeaaarchboite(request, id)
-
-
-def liste_doosier_boite(request, id):
-    boite = Boite.objects.get(numero_boite=id)
-    dossier = Dossier.objects.filter(id_boite=id)
-    return
-
-
-def listeboitearchive(request, id):
-    lisboite = []
-    # a = request.session.get('user_id')
-    user = Utilisateurs.objects.get(id_utilisateur=id)
-    # direction=user.direction
-    # listuser=Utilisateurs.objects.filter(direction=direction)
-    try:
-        lisboite = Boite.objects.filter(etat=True, numero_rang__startswith='Auc')
-    except:
-    
-        pass
-    loc = Localisation.objects.all()
-    return render(request, 'docs/listeboitearchive.html', {'doc': lisboite, 'user': user, 'util': user, 'loc': loc})
-
-
-def listeboiteclasser(request, id):
-    boite = Boite.objects.exclude(numero_rang__startswith='Aucune')
-    loc = Localisation.objects.all()
-    user = Utilisateurs.objects.get(id_utilisateur=id)
-    return render(request, 'docs/listeboiteclasser.html', {'doc': boite, 'user': user, 'util': user, 'loc': loc})
-
-
-def detailrang(request, id, id_user):
-    boite = Boite.objects.get(id_boite=id)
-    dossier = Dossier.objects.filter(id_boite=id)
-
-    user = Utilisateurs.objects.get(id_utilisateur=id_user)
-
-    loc = Localisation.objects.get(numero_dossier=id)
-    # user = Utilisateurs.objects.get(id_utilisateur=loc.id_user)
-    return render(request, 'docs/detailrang.html',
-                  {'detboit': boite, 'user': user, 'util': user, 'loc': loc, 'dos': dossier})
-
-
-def voir_pdf_archive(request, pdf_id, id_user):
-    fichier_pdf = Dossier.objects.get(numero_dossier=pdf_id)
-    boite = Boite.objects.get(id_boite=fichier_pdf.id_boite)
-    # fichier = 'certificat_inscription_master1_SIR.pdf'
-    user = Utilisateurs.objects.get(id_utilisateur=id_user)
-    return render(request, 'docs/voirfichierarchive.html',
-                  {'doc': fichier_pdf, 'user': user, 'boite': boite, 'util': user})
-
-
-def annulerarchive(request, id, id_user):
-    return detailrang(request, id, id_user)
-
-
-def detaildossierarchive(request, id, id_user):
-    dossier = Dossier.objects.get(numero_dossier=id)
-    detdo = False
-    try:
-        detdo = DetailsDossier.objects.get(id_dossier=id)
-    except:
-        detdo = True
-        pass
-    boite = Boite.objects.get(id_boite=dossier.id_boite)
-    # fichier = 'certificat_inscription_master1_SIR.pdf'
-    user = Utilisateurs.objects.get(id_utilisateur=id_user)
-    loc = Localisation.objects.get(numero_dossier=boite.id_boite)
-    return render(request, 'docs/detaildossierarchive.html',
-                  {'dossier': dossier, 'util': user, 'detdo': detdo, 'boite': boite, 'loc': loc, 'detdo': detdo})
-    # return  detailrang(request,id,id_user)
-
-
-def voir_pdf_tout(request, pdf_id):
-    fichier_pdf = Dossier.objects.get(numero_dossier=pdf_id)
-    boite = Boite.objects.get(id_boite=fichier_pdf.id_boite)
-    fichier = 'certificat_inscription_master1_SIR.pdf'
-    user = Utilisateurs.objects.get(id_utilisateur=request.session.get('id_user'))
-    return render(request, 'docs/voirfichiertout.html',
-                  {'doc': fichier_pdf, 'user': fichier_pdf.id_user, 'util': user, 'boite': boite})
-
-
-def voir_detailtout(request, id):
-    forms = DetailDossierForm()
-    loc = []
-    try:
-        dossier = Dossier.objects.get(numero_dossier=id)
-        det = DetailsDossier.objects.get(id_dossier=id)
-        loc = Localisation.objects.filter(numero_dossier=id)
-        forms = DetailDossierForm(initial={
-            'eta': det.eta,
-            'nom_navire': det.nom_navire,
-            'numero_voyage': det.numero_voyage,
-            'localisation': det.localisation,
-            'numer_boite': det.numer_boite,
-            'carton': det.carton,
-            'classeur': det.classeur,
-
-        })
-    except:
-        pass
-    user = Utilisateurs.objects.get(id_utilisateur=request.session.get('id_user'))
-    dossier = Dossier.objects.get(numero_dossier=id)
-    boite = Boite.objects.get(id_boite=dossier.id_boite)
-    # return listeaaarchboite(request,boite.id_boite)
-
-    #return render(request, 'docs/detailstout.html', {'forms': forms, 'dossier': dossier, 'util': user, 'boite': boite, 'loc': loc})
-"""

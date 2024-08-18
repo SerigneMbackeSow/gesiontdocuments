@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        .d-flex {
+            display: flex;
+        }
+
+        .card-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.25rem; /* Espace entre les boutons */
+            margin-top: 0.5rem; /* Ajoute un espace entre le contenu de la carte et les boutons */
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+
+        .contenus-courants, .contenus-globals {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .card {
+            width: 10rem; /* Largeur des cartes */
+            height: auto; /* Hauteur automatique pour permettre l'ajustement en fonction du contenu */
+            min-height: 12rem; /* Hauteur minimale pour que la carte ait une taille constante */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0.5rem; /* Ajoute du padding autour du contenu de la carte */
+            box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1); /* Ajoute une ombre légère pour améliorer la visibilité */
+            border-radius: 0.5rem; /* Ajoute des coins arrondis */
+            background-color: #fff; /* Assure que la carte a un fond blanc */
+            overflow: hidden; /* Assure que le contenu ne déborde pas de la carte */
+        }
+
+        .card-img-top {
+            width: 100%; /* Largeur de l'image */
+            height: 7rem; /* Hauteur de l'image */
+            object-fit: cover; /* Maintient le ratio d'aspect de l'image */
+            margin-bottom: 0.5rem; /* Ajoute un espace entre l'image et le texte */
+        }
+
+        .card-body {
+            flex: 1; /* Permet au corps de la carte d'occuper l'espace restant */
+            padding: 0.5rem; /* Ajoute du padding autour du texte */
+            overflow: hidden; /* Assure que le texte ne déborde pas du conteneur */
+        }
+
+        .card-text {
+            font-size: 0.875rem; /* Réduit la taille de la police pour le texte */
+            margin: 0; /* Supprime les marges pour éviter les débordements */
+            overflow: hidden; /* Assure que le texte ne déborde pas du conteneur */
+            text-overflow: ellipsis; /* Ajoute des points de suspension si le texte est trop long */
+            white-space: nowrap; /* Empêche le texte de passer à la ligne suivante */
+        }
+
+        .btn {
+            width: 50%; /* Assure que les boutons utilisent toute la largeur de la carte */
+            margin-top: 0.5rem; /* Ajoute un espace entre le texte et les boutons */
+            font-size: 0.50rem; /* Réduit la taille de la police des boutons */
+            padding: 0.5rem; /* Ajoute du padding interne aux boutons */
+            box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur totale du bouton */
+        }
+
+
+        .disabled-link {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+
+    </style>
+    <link rel="stylesheet" href=" /static/fonts/icomoon/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css"
+          rel="stylesheet">
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <link rel="stylesheet" href="/static/assets/styletra/css/owl.carousel.min.css">
+    <!-- Pour les icones -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/assets/styletra/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- For icons -->
+    <!-- Style -->
+    <!--<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">-->
+    <link href="/static/assets/styletra/css/style.css" rel="stylesheet">
+    <link href="/static/assets/styletra/css/style1.css" rel="stylesheet">
+    <title>TOM-MEDLOG GED</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let fetchInterval;
+            let notificationCount = 0;
+
+            function fetchData() {
+                const paragraphElement = document.getElementById('monutil');
+                const paragraphContent = paragraphElement.textContent;
+
+                $.ajax({
+                    url: '/doc/fetch_permission/18',
+                    method: 'GET',
+                    data: {id_user: paragraphContent},
+                    success: function (response) {
+                        if (response.data) {
+                            updateTable(response.data);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error fetching data: ", status, error);
+                    }
+                });
+            }
+
+            function updateTable(data) {
+                let tableBody = $("#your-table-id tbody");
+                let paragraphElement = document.getElementById('monutil');
+                let paragraphContent = paragraphElement.textContent;
+                tableBody.empty();  // Vide la table actuelle
+
+                data.forEach(function (item) {
+                    notificationCount = data.length;
+                    let row = '<tr>';
+
+                    row += '<td>' + item.numero_document + '</td>';
+                    row += '<td>' + item.useru + '</td>';
+
+                    row += `<td>`
+                    row += '<div class="action-buttons">';
+
+                    row += `<a href="/doc/voir_document_demande/${paragraphContent}/${item.id}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"><i class="bi bi-eye">Voir</i></a>`;
+                    if (item.mdir === 1) {
+
+
+                        row += `<a href="/doc/accepter_per/${item.id_res}/${paragraphContent}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"><i class="bi bi-check">Accepter</i></a>`;
+                        row += `<a href="/doc/refuser_per/${item.id_res}/${paragraphContent}" class="btn btn-danger btn-icon btn-sm"><i class="bi bi-eye">Refuser</i></a>`;
+                    }
+                    if (item.mdir === 0) {
+                        row += `<a href="/doc/accepter_non_dir/${item.id_res}/${paragraphContent}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"><i class="bi bi-check"></i>Accepter</a>`;
+                        row += `<a href="/doc/refuse_non_dir/${item.id_res}/{paragraphContent}" class="btn btn-danger btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px;" ><i class="bi bi-x">Refuser</i></a>`;
+                    }
+                    row += '</div>';
+
+                    row += `</td>`
+
+                    row += '</tr>';
+
+                    // Ajout de la ligne au tableau
+                    tableBody.append(row);
+                });
+            }
+
+            ///Recherche
+            ///Recherche
+//let fetchInterval;
+            function filterTable(searchTerm) {
+                const tableBody = $("#your-table-id tbody");
+                const rows = tableBody.find('tr');
+
+                rows.each(function () {
+                    const textContent = $(this).text().toLowerCase();
+                    const visible = textContent.indexOf(searchTerm.toLowerCase()) !== -1;
+                    $(this).toggle(visible);
+                });
+            }
+
+            // Event listener for search input
+            $("#searchInput").on('keyup', function () {
+                const searchTerm = $(this).val();
+                filterTable(searchTerm);
+            });
+
+
+            function startFetchingData() {
+                fetchData(); // Charger les données initiales
+                fetchInterval = setInterval(fetchData, 5000); // 5000ms = 5s
+            }
+
+
+            function stopFetchingData() {
+                clearInterval(fetchInterval);
+
+
+            }
+
+            $("#searchInput").on('keyup', function () {
+                if ($("#searchInput").val().trim() !== "") {
+                    //
+                    stopFetchingData();
+                } else {
+                    //
+
+                }
+                if ($("#searchInput").val().trim() === "") {
+                    startFetchingData();
+                }
+
+
+            });
+
+
+            // Appeler fetchData() pour charger les données initiales
+            //fetchData();
+
+            // Optionnel: Actualiser les données toutes les X secondes
+            //setInterval(fetchData, 5000); // 30000ms = 30s
+            startFetchingData();
+
+
+            // Function to update notification bar
+
+
+            // Function to fetch message count from server
+
+
+            // Periodically fetch and update message count
+
+            function updateNotificationCount() {
+                // Update the paragraph content with the notification count
+                const notificationBarElement = document.getElementById('notification-bar');
+                notificationBarElement.textContent = `${notificationCount}`;
+            }
+
+// Update notification count every 100 milliseconds (replace with a suitable interval)
+            setInterval(updateNotificationCount, 100);
+
+        });
+    </script>
+
+
+</head>
+<body>
+<!-- INCLUSION DU SIDEBAR-->
+{% include 'templatetra/sidebar.html' %}
+
+
+<main>
+
+    <main>
+        <div class="header">
+            <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
+                <!-- Barre de recherche à gauche -->
+                <div class="d-flex align-items-center" style="width: 55%;">
+                    <input class="form-control" id="myInputGlobalSearch" type="text" onkeyup="filterTable()"
+                           placeholder="Global Search">
+                    <!--<form class="form-inline my-2" style="width: 100%;" sty>
+                        <input class="form-control mr-2 search-bar w-100" type="search" placeholder="Search" aria-label="Search">
+                    </form>-->
+                </div>
+                {% if util.role == 'chef' %}
+                    <div class="d-flex align-items-center">
+
+                        <a
+
+
+                                href="/doc/liste_permission/{{ util.id_utilisateur }}"
+                                id="navbarDropdownMenuLink"
+                                role="button"
+                                aria-expanded="false"
+                        >
+                            <i class="fas fa-bell" style="color: black"></i>
+                            <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar"></span>
+                        </a>
+
+                    </div>
+                {% endif %}
+                <div class="d-flex align-items-center">
+
+                    <div class="text-right text-white mr-3">
+                        <p style="color: black" class="mb-0">{{ util.fullname }}</p>
+                        <p style="color: black" class="mb-0">{{ util.direction }}</p>
+                        <a style="color: red" href="/doc/deconnexion/">Se Déconnecter</a>
+                    </div>
+                    <img src="/static/images/imgtra/images/logo1.png" alt="Profile Image"
+                         class="rounded-circle profile-img" style="width: 80px; height: 80px;">
+                </div>
+            </div>
+
+        </div>
+        <div class="site-section">
+            {#% if util.direction == 'ADMIN' %#}
+
+            {#% else %#}
+
+
+            {#% endif %#}
+            <div style="display: flex; justify-content: center; width: 100%;">
+
+
+                <main style="width: 100%;">
+
+
+                    <div class="site-section">
+
+
+                        <div class="container">
+                        {% if util.direction != "management" %}
+                            <button class="btn btn-info btn-icon btn-sm"
+                                    style="padding: 6px 6px; margin-left:10px; font-size: 14px; width: 90px;"
+                                    data-toggle="modal" data-target="#ajouterDossierModal"
+                                    data-iduser="{{ util.id_user }}" data-iddossier="{{ dossier_crt.id_dossier }}">
+                                <i class="bi bi-plus-lg"></i> Dossier
+                            </button>
+                        {% endif %}
+                            <p>Recherche Dans Le Dossier Courant</p>
+                            <input class="form-control" id="myInput" type="text" onkeyup="filterTable()"
+                                   placeholder="Recherche Dans Le Dossier Courant">
+                            <br>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    {% for dossier in arborescence %}
+                                        <li class="breadcrumb-item">
+                                            <a href="/archive/liste_dossier/{{ util.id_user }}/{{ dossier.id_dossier }}"
+                                               style="color: black">
+                                                {{ dossier.nom }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ol>
+                            </nav>
+                            <!--------Recherche -->
+                            <!--h2>Filterable Cards</h2-->
+
+
+                            <br><br>
+                            <script>
+                                $(document).ready(function () {
+                                    // Masquer le contenu global initialement
+                                    $(".contenus-globals .card").hide();
+
+                                    // Gestion de la recherche globale
+                                    $("#myInputGlobalSearch").on("keyup", function () {
+                                        var value = $(this).val().toLowerCase().trim();
+
+                                        if (value) {
+                                            // Masquer le contenu courant
+                                            $(".contenus-courants").hide();
+
+                                            // Afficher ou masquer les cartes dans le contenu global
+                                            $(".contenus-globals .card").each(function () {
+                                                var isVisible = $(this).find(".card-text").toArray().some(function (element) {
+                                                    return $(element).text().toLowerCase().indexOf(value) > -1;
+                                                });
+                                                $(this).toggle(isVisible);
+                                            });
+                                        } else {
+                                            // Masquer le contenu global et afficher le contenu courant
+                                            $(".contenus-globals .card").hide();
+                                            $(".contenus-courants").show();
+                                        }
+                                    });
+
+                                    // Gestion de la recherche courante
+                                    $("#myInput").on("keyup", function () {
+                                        var value = $(this).val().toLowerCase().trim();
+
+                                        $(".contenus-courants .card").each(function () {
+                                            var isVisible = $(this).find(".card-text").toArray().some(function (element) {
+                                                return $(element).text().toLowerCase().indexOf(value) > -1;
+                                            });
+                                            $(this).toggle(isVisible);
+                                        });
+                                    });
+                                });
+
+
+                            </script>
+                            <div class="d-flex flex-wrap" style="gap: 1rem;">
+                                <div class="contenus-courants">
+                                    {#  #% for ldos in tout_dos %#}
+
+                                        <div class="card" style="width: 8rem; height: auto;">
+                                            <top style="position: absolute; top: 10px; right: 10px;">
+                                                <button type="button" class="btn  p-0 open-modal" style="color: black"
+                                                        data-toggle="modal"
+                                                        data-target="#detailModal" data-nom="{{ ldos.nom }}"
+                                                        data-numero-direction="{{ ldos.direction }}"
+                                                        data-date-creation="{{ ldos.date_creation }}"
+                                                        data-id_parent="{{ ldos.id_parent }}"
+                                                        data-iddossier="{{ ldos.id_dossier }}"
+                                                >
+                                                    <i class="fas fa-info-circle"></i>
+                                                </button>
+                                                <!--<button type="button" class="btn  p-0 open-modal" style="color: black"
+                                                    data-toggle="modal"
+                                                    data-target="#options" data-nom="{{ ldoc.nom }}"
+                                                    data-numero-document="{{ ldoc.numero_document }}"
+                                                    data-date-creation="{{ ldoc.date_creation }}"
+                                                    data-eta="{{ ldoc.eta }}"
+                                                    data-bl="{{ ldoc.bl }}" data-client="{{ ldoc.client }}"
+                                                    data-vessel="{{ ldoc.vessel }}"
+                                                    data-numero-voyage="{{ ldoc.numero_voyage }}"
+                                                    data-journal="{{ ldoc.journal }}"
+                                                    data-montant="{{ ldoc.montant }}">
+                                                <i class="fas fa-ellipsis-v"></i>
+
+                                            </button>-->
+                                            </top>
+
+                                            <a href="/archive/liste_dossier_admin/{{ util.id_user }}/{{ ldos.id_dossier }}"
+                                               class="{% if ldos.acces == 1 %}disabled-link{% endif %}">
+                                                <img class="card-img-top" src="/static/images/imgtra/image-dossier.jpg"
+                                                     alt="Card image cap" style="width: 5rem; height: 5rem;">
+                                                <div class="card-body">
+                                                    <p class="card-text">{{ ldos.nom }}</p>
+                                                </div>
+                                            </a>
+                                        </div>
+
+
+                                    {#% endfor %#}
+
+
+                                </div>
+
+
+                            </div>
+                            <!-- Modal Structure -->
+                            <div class="modal fade" id="ajouterDossierModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Ajouter Dossier</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <form method="POST" action="/archive/ajouter_dossier/">
+                                                <input name="id_user" type="hidden" id="id_user_input"
+                                                       placeholder="ID User">
+                                                <input name="id_parent" type="hidden" id="id_dossier_input"
+                                                       placeholder="ID Dossier">
+                                                <input name="admin" type="hidden" id="admin" value="admin"
+                                                       placeholder="admin">
+                                                <!-- Ajoutez d'autres champs nécessaires -->
+                                                <div class="form-group mb-4">
+                                                    <label for="direction">Direction</label>
+                                                    <select id="direction" name="direction"
+                                                            class="form-control form-control-lg"
+                                                            required>
+
+                                                        {% for dir in lst_dir %}
+                                                            {% if dir.nom != 'admin' %}
+                                                                <option value="{{ dir.nom }}">{{ dir.nom }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group mb-4">
+                                                    {% csrf_token %}
+                                                    <label for="mentions">Nom</label>
+                                                    <input type="text" name="nom" id="mentions"
+                                                           class="form-control form-control-lg"
+                                                           placeholder="Nom" required/>
+
+                                                    {% if message %}
+                                                        <p style="color: red">{{ message }}</p>
+                                                    {% endif %}
+                                                </div>
+
+
+                                                <div class="modal-footer d-flex justify-content-center align-items-center"
+                                                     style="gap: 10px;">
+                                                    <button type="button" class="btn-danger" data-dismiss="modal"
+                                                            style="padding: 5px 18px; background-color: red; color: white; border: none; border-radius: 4px;">
+                                                        Fermer
+                                                    </button>
+                                                    <button type="submit" class="btn-info"
+                                                            style="padding: 5px 5px;  border: none; border-radius: 4px;">
+                                                        Enregistrer
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="detailModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="detailModalLabel">Détails du dossier</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="/archive/modifier_dossier/" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" class="form-control" name="id_user"
+                                                   value="{{ util.id_user }}" id="id_user" readonly>
+                                            <input type="hidden" class="form-control" name="id_dossier" id="iddossier"
+                                                   placeholder="modaliddossier" readonly>
+
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="form-group">
+                                                        <label for="modalNom">Nom</label>
+                                                        {% if util.direction == "management" %}
+                                                        <input type="text" name="nom" class="form-control"
+                                                               id="modalNom" readonly>
+                                                        {% else %}
+                                                            <input type="text" name="nom" class="form-control"
+                                                               id="modalNom" >
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="form-group">
+                                                         {% if util.direction != "management" %}
+                                                        <label for="modalDateCreation">Ancienne Direction</label>
+                                                        {% else %}
+                                                              <label for="modalDateCreation">Direction</label>
+                                                        {% endif %}
+                                                        <input type="text" class="form-control" id="modalDateCreation"
+                                                               readonly>
+                                                    </div>
+                                                {% if util.direction != "management" %}
+                                                    <div class="form-group">
+                                                        <label for="modalNumeroDirection">Nouvelle Direction</label>
+                                                        <select name="nouv_direction" class="form-control"
+                                                                id="modalNumeroDirection">
+                                                            {% for dir in lst_dir %}
+                                                                {% if dir.nom != 'admin' %}
+                                                                    <option value="{{ dir.nom }}">{{ dir.nom }}</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                {%  endif %}
+
+
+                                                    <div class="modal-footer d-flex justify-content-center align-items-center"
+                                                         style="gap: 10px;">
+                                                        <button type="button" class="btn-danger" data-dismiss="modal"
+                                                                style="padding: 5px 18px; background-color: red; color: white; border: none; border-radius: 4px;">
+                                                            Fermer
+                                                        </button>
+                                                        <button type="submit" class="btn-info"
+                                                                style="padding: 5px 5px;  border: none; border-radius: 4px;">
+                                                            Enregistrer
+                                                        </button>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                </main>
+                <script>
+                    $(document).ready(function () {
+                        $('.open-modal').on('click', function () {
+                            // Récupérer les données à partir des attributs data-*
+                            var nom = $(this).data('nom');
+                            var numeroDirection = $(this).data('numero-direction');
+                            var dateCreation = $(this).data('date-creation');
+                            var idParent = $(this).data('id-parent');
+                            var iddossier = $(this).data('iddossier');
+
+                            // Remplir les champs du modal avec les valeurs récupérées
+                            $('#modalNom').val(nom);
+                            $('#modalNumeroDirection').val(numeroDirection); // Pre-select the direction
+                            $('#modalDateCreation').val(numeroDirection);
+                            $('#modalIdParent').val(idParent);
+                            $('#iddossier').val(iddossier);
+
+                            // Sélectionner la bonne option dans le select
+                            $('#modalNumeroDirection').val(numeroDirection).change();
+                        });
+                    });
+
+                </script>
+                <script>
+                    function filterTable() {
+                        // Déclaration des variables
+                        var input, filter, table, tr, td, i, j, txtValue;
+                        input = document.getElementById("searchInput");
+                        filter = input.value.toLowerCase();
+                        table = document.getElementById("dataTable");
+                        tr = table.getElementsByTagName("tr");
+
+                        // Boucle sur toutes les lignes du tableau, sauf l'en-tête
+                        for (i = 1; i < tr.length; i++) {
+                            tr[i].style.display = "none"; // Cache la ligne par défaut
+                            td = tr[i].getElementsByTagName("td");
+                            // Boucle sur toutes les cellules de la ligne courante
+                            for (j = 0; j < td.length; j++) {
+                                if (td[j]) {
+                                    txtValue = td[j].textContent || td[j].innerText;
+                                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                                        tr[i].style.display = ""; // Affiche la ligne si une cellule correspond
+                                        break; // Sort de la boucle pour passer à la ligne suivante
+                                    }
+                                }
+                            }
+                        }
+                    }
+                </script>
+
+                <script>
+                    $(document).ready(function () {
+                        $("#myInput").on("keyup", function () {
+                            var value = $(this).val().toLowerCase();
+                            $("#myTable tr").filter(function () {
+                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                            });
+                        });
+                    });
+                </script>
+                <!-- modale------------>
+
+                <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
+                <script src="/static/assets/js/jstra/js/popper.min.js"></script>
+                <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
+                <script src="/static/assets/js/jstra/js/main.js"></script>
+
+                <script>
+                    $(document).ready(function () {
+                        $('#ajouterDossierModal').on('show.bs.modal', function (event) {
+                            var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
+                            var idUser = button.data('iduser'); // Récupérer la valeur de data-iduser
+                            var idDossier = button.data('iddossier'); // Récupérer la valeur de data-iddossier
+
+                            // Insérer les valeurs dans les inputs du modal
+                            var modal = $(this);
+                            modal.find('#id_user_input').val(idUser);
+                            modal.find('#id_dossier_input').val(idDossier);
+                        });
+                    });
+
+                </script>
+                <!--mOdale Ajout Documnet -->
+                <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
+                <script src="/static/assets/js/jstra/js/popper.min.js"></script>
+                <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
+                <script src="/static/assets/js/jstra/js/main.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('#ajouterdocumentModal').on('show.bs.modal', function (event) {
+                            var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
+                            var idUser = button.data('iduser'); // Récupérer la valeur de data-iduser
+                            var idDossier = button.data('iddossier'); // Récupérer la valeur de data-iddossier
+
+                            // Insérer les valeurs dans les inputs du modal
+                            var modal = $(this);
+                            modal.find('#id_user_input').val(idUser);
+                            modal.find('#id_dossier_input').val(idDossier);
+                        });
+                    });
+
+                </script>
+                <!------------Script Arbo --------->
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    function fetchArborescence() {
+                        const paragraphElement = document.getElementById('mondoc');
+                        const paragraphContent = paragraphElement.textContent;
+
+                        $.ajax({
+                            url: '/archive/fetch_arborescence/18',
+                            method: "GET",
+                            data: {id_dos: paragraphContent},
+                            success: function (response) {
+                                if (response.data) {
+                                    const arborescence = response.data.reverse().join(' > '); // Joignez les éléments par ' > ' ou tout autre séparateur
+                                    $('#arborescence').text(arborescence);
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error fetching data:', error);
+                            }
+                        });
+                    }
+
+                    $(document).ready(function () {
+                        fetchArborescence(); // Fetch initially
+                        setInterval(fetchArborescence, 500); // Fetch every 10 seconds
+                    });
+                </script>
+                <!-----------script permission ---->
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('#demandepermissiondossiers').on('show.bs.modal', function (event) {
+                            var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
+                            var idUser = button.data('iduser'); // Extraire les infos à partir des attributs data-*
+                            var idDossier = button.data('iddossier');
+                            var idObjet = button.data('idobjet');
+
+                            // Mettre à jour les champs du formulaire avec les valeurs extraites
+                            var modal = $(this);
+                            modal.find('#id_user_input').val(idUser);
+                            modal.find('#id_objet').val(idObjet);
+                        });
+                    });
+                </script>
+                <!----------Script Essaie ----------------->
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+                <script>
+                    $(document).ready(function () {
+                        $('#demandepermissiondossierssssssssss').on('show.bs.modal', function (event) {
+                            var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
+                            var idUser = button.data('iduser'); // Récupère la valeur de l'attribut data-iduser
+                            var idDossier = button.data('iddossier'); // Récupère la valeur de l'attribut data-iddossier
+                            var idObjet = button.data('idobjet'); // Récupère la valeur de l'attribut data-idobjet
+
+                            // Insère les valeurs dans les champs du modal
+                            var modal = $(this);
+                            modal.find('.modal-body #idUser').val(idUser);
+                            modal.find('.modal-body #idDossier').val(idDossier);
+                            modal.find('.modal-body #idObjet').val(idObjet);
+                        });
+                    });
+
+                </script>
+
+                <script>
+                    $(document).ready(function () {
+                        $('#demandepermissiondocumentssssssssss').on('show.bs.modal', function (event) {
+                            var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
+                            var idUser = button.data('iduser'); // Récupère la valeur de l'attribut data-iduser
+                            var idDossier = button.data('iddossier'); // Récupère la valeur de l'attribut data-iddossier
+                            var idObjet = button.data('idobjet'); // Récupère la valeur de l'attribut data-idobjet
+
+                            // Insère les valeurs dans les champs du modal
+                            var modal = $(this);
+                            modal.find('.modal-body #idUser').val(idUser);
+                            modal.find('.modal-body #idDossier').val(idDossier);
+                            modal.find('.modal-body #idObjet').val(idObjet);
+                        });
+                    });
+
+                </script>
+                <!------------Script detail Modal ------------------------>
+
+
+                <script>
+                    $(document).ready(function () {
+                        let fetchInterval;
+                        let notificationCount = 0;
+
+                        function fetchData() {
+                            const paragraphElement = document.getElementById('monutil');
+                            const paragraphContent = paragraphElement.textContent;
+
+                            $.ajax({
+                                url: '/doc/fetch_permission/18',
+                                method: 'GET',
+                                data: {id_user: paragraphContent},
+                                success: function (response) {
+                                    if (response.data) {
+                                        updateTable(response.data);
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error("Error fetching data: ", status, error);
+                                }
+                            });
+                        }
+
+                        function updateTable(data) {
+                            let tableBody = $("#your-table-id tbody");
+                            let paragraphElement = document.getElementById('monutil');
+                            let paragraphContent = paragraphElement.textContent;
+                            tableBody.empty();  // Vide la table actuelle
+
+                            data.forEach(function (item) {
+                                notificationCount = data.length;
+                                let row = '<tr>';
+
+                                row += '<td>' + item.numero_document + '</td>';
+                                row += '<td>' + item.useru + '</td>';
+
+                                row += `<td>`
+                                row += '<div class="action-buttons">';
+
+                                row += `<a href="/doc/voir_document_demande/${paragraphContent}/${item.id}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"><i class="bi bi-eye">Voir</i></a>`;
+                                if (item.mdir === 1) {
+
+
+                                    row += `<a href="/doc/accepter_per/${item.id_res}/${paragraphContent}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"><i class="bi bi-check">Accepter</i></a>`;
+                                    row += `<a href="/doc/refuser_per/${item.id_res}/${paragraphContent}" class="btn btn-danger btn-icon btn-sm"><i class="bi bi-eye">Refuser</i></a>`;
+                                }
+                                if (item.mdir === 0) {
+                                    row += `<a href="/doc/accepter_non_dir/${item.id_res}/${paragraphContent}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"><i class="bi bi-check"></i>Accepter</a>`;
+                                    row += `<a href="/doc/refuse_non_dir/${item.id_res}/{paragraphContent}" class="btn btn-danger btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px;" ><i class="bi bi-x">Refuser</i></a>`;
+                                }
+                                row += '</div>';
+
+                                row += `</td>`
+
+                                row += '</tr>';
+
+                                // Ajout de la ligne au tableau
+                                tableBody.append(row);
+                            });
+                        }
+
+                        ///Recherche
+                        ///Recherche
+//let fetchInterval;
+                        function filterTable(searchTerm) {
+                            const tableBody = $("#your-table-id tbody");
+                            const rows = tableBody.find('tr');
+
+                            rows.each(function () {
+                                const textContent = $(this).text().toLowerCase();
+                                const visible = textContent.indexOf(searchTerm.toLowerCase()) !== -1;
+                                $(this).toggle(visible);
+                            });
+                        }
+
+                        // Event listener for search input
+                        $("#searchInput").on('keyup', function () {
+                            const searchTerm = $(this).val();
+                            filterTable(searchTerm);
+                        });
+
+
+                        function startFetchingData() {
+                            fetchData(); // Charger les données initiales
+                            fetchInterval = setInterval(fetchData, 5000); // 5000ms = 5s
+                        }
+
+
+                        function stopFetchingData() {
+                            clearInterval(fetchInterval);
+
+
+                        }
+
+                        $("#searchInput").on('keyup', function () {
+                            if ($("#searchInput").val().trim() !== "") {
+                                //
+                                stopFetchingData();
+                            } else {
+                                //
+
+                            }
+                            if ($("#searchInput").val().trim() === "") {
+                                startFetchingData();
+                            }
+
+
+                        });
+
+
+                        // Appeler fetchData() pour charger les données initiales
+                        //fetchData();
+
+                        // Optionnel: Actualiser les données toutes les X secondes
+                        //setInterval(fetchData, 5000); // 30000ms = 30s
+                        startFetchingData();
+
+
+                        // Function to update notification bar
+
+
+                        // Function to fetch message count from server
+
+
+                        // Periodically fetch and update message count
+
+                        function updateNotificationCount() {
+                            // Update the paragraph content with the notification count
+                            const notificationBarElement = document.getElementById('notification-bar');
+                            notificationBarElement.textContent = `${notificationCount}`;
+                        }
+
+// Update notification count every 100 milliseconds (replace with a suitable interval)
+                        setInterval(updateNotificationCount, 100);
+
+                    });
+                </script>
+                <!-- modale------------>
+
+                <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
+                <script src="/static/assets/js/jstra/js/popper.min.js"></script>
+                <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
+                <script src="/static/assets/js/jstra/js/main.js"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+                <!--Aajouter Permission ---->
+
+
+                <!-----------Ajouter Permission Doocument--------------->
+                <!--Aajouter Permission ---->
+
+
+                <!--mOdale Ajout Documnet -->
+
+
+                <!------------Script Arbo --------->
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                <!-----------script permission ---->
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                <!----------Script Essaie ----------------->
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" href=" /static/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/static/assets/styletra/css/owl.carousel.min.css">
+<!-- Pour les icones -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/assets/styletra/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> <!-- For icons -->
+    <!-- Style -->
+    <!--<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">-->
+      <link href="/static/assets/styletra/css/style.css" rel="stylesheet">
+    <link href="/static/assets/styletra/css/style1.css" rel="stylesheet">
+    <title>TOM-MEDLOG GED</title>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    let fetchInterval;
+    let notificationCount = 0;
+    function fetchData(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+
+        $.ajax({
+            url: '/archive/fetch_demande_acces/18',
+            method: 'GET',
+            data: { id_user: paragraphContent },
+            success: function(response){
+                if (response.data) {
+                    updateTable(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+    function updateTable(data) {
+        let tableBody = $("#your-table-id tbody");
+        let paragraphElement = document.getElementById('monutil');
+        let paragraphContent = paragraphElement.textContent;
+        tableBody.empty();  // Vide la table actuelle
+
+        data.forEach(function(item) {
+            notificationCount=data.length;
+        let row = '<tr>';
+
+    row += '<td>' + item.type + '</td>';
+    row += '<td>' + item.fullname + '</td>';
+     row += '<td>' + item.direction + '</td>';
+
+     row += `<td>`
+            row += '<div class="action-buttons">';
+         row += `<a href="/archive/accepter_dmd/${item.id}/${paragraphContent}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"><i class="bi bi-check"></i>Accepter</a>`;
+         row += `<a href="#"  data-toggle="modal" data-target="#demandepermissiondossier"
+class="btn btn-danger btn-icon btn-sm"
+   data-id="${item.id}"
+
+   style="padding: 10px 20px; font-size: 14px;">
+   <i class="bi bi-x">Refuser</i></a>`;
+
+     row += '</div>';
+
+     row += `</td>`
+
+row += '</tr>';
+
+    // Ajout de la ligne au tableau
+    tableBody.append(row);
+    });
+    }
+        ///Recherche
+          ///Recherche
+//let fetchInterval;
+    function filterTable(searchTerm) {
+    const tableBody = $("#your-table-id tbody");
+    const rows = tableBody.find('tr');
+
+    rows.each(function() {
+      const textContent = $(this).text().toLowerCase();
+      const visible = textContent.indexOf(searchTerm.toLowerCase()) !== -1;
+      $(this).toggle(visible);
+    });
+  }
+
+  // Event listener for search input
+  $("#searchInput").on('keyup', function() {
+    const searchTerm = $(this).val();
+    filterTable(searchTerm);
+  });
+
+
+    function startFetchingData() {
+        fetchData(); // Charger les données initiales
+        fetchInterval = setInterval(fetchData, 5000); // 5000ms = 5s
+    }
+
+
+    function stopFetchingData() {
+        clearInterval(fetchInterval);
+
+
+    }
+    $("#searchInput").on('keyup', function() {
+        if ($("#searchInput").val().trim() !== "") {
+            //
+            stopFetchingData();
+        }else
+        {
+            //
+
+        }
+        if ($("#searchInput").val().trim() === "") {
+            startFetchingData();
+        }
+
+
+
+            });
+
+
+
+
+
+
+    // Appeler fetchData() pour charger les données initiales
+    //fetchData();
+
+    // Optionnel: Actualiser les données toutes les X secondes
+    //setInterval(fetchData, 5000); // 30000ms = 30s
+    startFetchingData();
+
+
+    // Function to update notification bar
+
+
+    // Function to fetch message count from server
+
+
+    // Periodically fetch and update message count
+
+function updateNotificationCount() {
+    // Update the paragraph content with the notification count
+  const notificationBarElement = document.getElementById('notification-bar');
+  notificationBarElement.textContent = `${notificationCount}`;
+}
+
+// Update notification count every 100 milliseconds (replace with a suitable interval)
+setInterval(updateNotificationCount, 100);
+
+});
+</script>
+
+
+  </head>
+  <body>
+   {% include 'templatetra/sidebar.html' %}
+    <main>
+       <div class="header">
+    <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
+        <!-- Barre de recherche à gauche -->
+        <div class="d-flex align-items-center" style="width: 55%;">
+            <!--<form class="form-inline my-2" style="width: 100%;" sty>
+                <input class="form-control mr-2 search-bar w-100" type="search" placeholder="Search" aria-label="Search">
+            </form>-->
+        </div>
+         {% if util.role == 'chef'%}
+     <div class="d-flex align-items-center">
+
+               <a
+
+
+          href="/archive/demande_permission_recue/{{ util.id_user }}"
+          id="navbarDropdownMenuLink"
+          role="button"
+          aria-expanded="false"
+        >
+          <i class="fas fa-bell" style="color: black"></i>
+          <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar"></span>
+        </a>
+
+        </div>
+        {% endif %}
+       <div class="d-flex align-items-center">
+
+            <div class="text-right text-white mr-3">
+                <p style="color: black" class="mb-0">{{ util.fullname }}</p>
+                <p style="color: black" class="mb-0">{{ util.direction }}</p>
+                <a style="color: red" href="/doc/deconnexion/">Se Déconnecter</a>
+            </div>
+            <img src="/static/images/imgtra/images/logo1.png" alt="Profile Image" class="rounded-circle profile-img" style="width: 80px; height: 80px;">
+        </div>
+    </div>
+
+</div>
+      <div class="site-section">
+
+
+        <div style="display: flex; justify-content: center; width: 100%;">
+
+          <main style="width: 100%;">
+
+
+              <div class="site-section">
+
+                  <div class="container">
+
+                   <p>Tapez un mot à rechercher</p>
+  <input class="form-control"  id="searchInput" onkeyup="filterTable()" type="text" placeholder="Search..">
+<br>
+
+
+                                     <table class="table table-striped table-hover" id="your-table-id">
+ <thead class="thead-light">
+                                        <tr>
+                                           <th scope="col" class="col-3">Type d'Objet</th>
+                                <th scope="col" class="col-3">Prenom & Nom</th>
+                                  <th scope="col" class="col-3">Direction</th>
+
+                                <th scope="col" class="col-3">Action</th>
+                                        </tr>
+                                    </thead>
+    <tbody class="monbody">
+        <!-- Les données seront insérées ici par AJAX -->
+    </tbody>
+</table>
+                      <p style="color: blanchedalmond" id="monutil">{{ util.id_user }}</p>
+                  <!--<p id="notification-bar">0 Messages</p>-->
+
+                      </div>
+                  </div>
+              </div>
+          </main>
+      </div>
+
+      </div>
+    <!------------------Modale Restreindre ------------------------>
+    <div class="modal fade" id="demandepermissiondossier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Refuser la Demande</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form method="Post" action="/archive/refuser_dmd/">
+        <input name="id_user" type="hidden" id="id_user_input" placeholder="{{ util.id_user }}" value="{{ util.id_user }}">
+        <input name="id_dmd" type="hidden" id="id_dmd" placeholder="id_dmd">
+
+         <div class="form-group mb-4">
+                                        {% csrf_token %}
+                                        <label for="mentions">Raison du refut</label>
+                                        <input type="text" name="commentaire" id="commentaire" class="form-control form-control-lg" placeholder="Raison du refut" />
+
+                                         {% if message %}
+                                            <p style="color: red">{{ message }}</p>
+                                        {%  endif %}
+                                    </div>
+      <div class="modal-footer">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="submit" class="btn btn-danger">Refus</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+      $(document).ready(function() {
+    $('#demandepermissiondossier').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
+        var id_dmd = button.data('id'); // Récupérer la valeur de data-iduser
+
+
+        // Insérer les valeurs dans les inputs du modal
+        var modal = $(this);
+        modal.find('#id_dmd').val(id_dmd);
+
+    });
+});
+
+  </script>
+    </main>
+    <script>
+        function filterTable() {
+            // Déclaration des variables
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Boucle sur toutes les lignes du tableau, sauf l'en-tête
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none"; // Cache la ligne par défaut
+                td = tr[i].getElementsByTagName("td");
+                // Boucle sur toutes les cellules de la ligne courante
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                            tr[i].style.display = ""; // Affiche la ligne si une cellule correspond
+                            break; // Sort de la boucle pour passer à la ligne suivante
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+ <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/assets/js/jstra/js/popper.min.js"></script>
+    <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
+    <script src="/static/assets/js/jstra/js/main.js"></script>
+  </body>
+</html>

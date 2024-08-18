@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" href=" /static/fonts/icomoon/style.css">
+<!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/assets/styletra/css/owl.carousel.min.css">
+      <link rel="stylesheet" href="
+https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/assets/styletra/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> <!-- For icons -->
+    <!-- Style -->
+    <!--<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">-->
+      <link href="/static/assets/styletra/css/style.css" rel="stylesheet">
+    <link href="/static/assets/styletra/css/style1.css" rel="stylesheet">
+    <title>TOM-MEDLOG GED</title>
+      <!-----------Sweet Alert --------------->
+      <!-- Include SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<!-- Include SweetAlert2 JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  </head>
+  <body>
+{% include 'templatetra/sidebar.html' %}
+
+    <main>
+  <div class="header">
+    <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
+        <!-- Barre de recherche à gauche -->
+        <div class="d-flex align-items-center" style="width: 55%;">
+
+
+        </div>
+        {% if util.role == 'chef'  %}
+             <div class="d-flex align-items-center">
+
+               <!--<a
+
+
+          href="/doc/liste_permission/{{ util.id_utilisateur }}"
+          id="navbarDropdownMenuLink"
+          role="button"
+          aria-expanded="false"
+        >
+          <i class="fas fa-bell" style="color: black"></i>
+          <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar"></span>
+        </a>-->
+
+        </div>
+        {% endif %}
+      <div class="d-flex align-items-center">
+
+            <div class="text-right text-white mr-3">
+                <p style="color: black" class="mb-0">{{ util.fullname }}</p>
+                <p style="color: black" class="mb-0">{{ util.direction }}</p>
+                <a style="color: red" href="/doc/deconnexion/">Se Déconnecter</a>
+            </div>
+            <img src="/static/images/imgtra/images/logo1.png" alt="Profile Image" class="rounded-circle profile-img" style="width: 80px; height: 80px;">
+        </div>
+    </div>
+</div>
+      <div class="site-section">
+
+
+        <div style="display: flex; justify-content: center; width: 100%;">
+
+          <main style="width: 100%;">
+
+
+              <div class="site-section">
+
+                  <div class="container">
+                    <button class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"
+                    data-toggle="modal" data-target="#ajouterUtilisateurModal">
+                    <i class="bi bi-plus-lg"></i> Ajouter
+                </button>
+                    <!--<div class="row align-items-center">
+                        <form class="form-inline my-4" style="width: 100%; justify-content: center;">
+                            <input class="form-control mr-sm-2 search-bar w-75" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-dark my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+                        </form>
+                    </div>-->
+                   <p>Tapez un mot à rechercher</p>
+  <input class="form-control"  id="searchInput" onkeyup="filterTable()" type="text" placeholder="Search..">
+  <br>
+                      <div class="row align-items-center">
+
+                        <table class="table table-striped table-hover" id="dataTable">
+                            <thead class="thead-light">
+                              <tr>
+                                <th scope="col">Prénom et Nom</th>
+
+                                <th scope="col">Email</th>
+                                  <th scope="col">Etat</th>
+                                  <th scope="col">Direction</th>
+                                  <th scope="col">Role</th>
+                                <th scope="col" class="col-3">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody id="myTable">
+                              {% for user in tout_user %}
+                              <tr>
+                                <td>{{ user.fullname }}</td>
+
+
+
+                                <td>{{ user.email }}</td>
+                                     <td>
+                                    {{  user.status }}
+                                </td>
+                               <td>{{ user.direction }}</td>
+                               <td>{{ user.role }}</td>
+                                <td>
+                                  <div class="action-buttons">
+                                      {% if  user.status == 'innactif' %}
+                                            <a href="/archive/activer/{{user.id_user}}" class="btn btn-info btn-icon btn-sm" style="padding: 5px 5px; font-size: 14px; width: 100px;" title="Activer">
+                                                <i class="bi bi-check-circle"></i>  Activer
+                                            </a>
+                                      {% else %}
+                                        <a href="/archive/desactiver/{{ user.id_user }}" class="btn btn-danger btn-icon btn-sm" title="Désactiver">
+                                            <i class="bi bi-x-circle"></i> Désactiver
+                                        </a>
+
+                                      {% endif %}
+                                            <!-- Bouton Désactiver
+                                            <a href="/doc/update_page/{{ util.id_utilisateur }}/{{ user.id_utilisateur }}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;"  title="Désactiver">
+                                                <i class="bi bi-pencil"></i>  Modifier
+                                            </a>-->
+                                  <a href="#"
+   class="btn btn-info btn-icon btn-sm"
+   style="padding: 10px 20px; font-size: 14px; width: 100px;"
+   title="Modifier"
+   data-toggle="modal"
+   data-target="#editUserModal"
+   data-user-id="{{ user.id_user }}"
+   data-fullname="{{ user.fullname }}"
+   data-email="{{ user.email }}"
+   data-direction="{{ user.direction }}"
+   data-role="{{ user.role }}">
+    <i class="bi bi-pencil"></i> Modifier
+</a>
+                                            <!-- Bouton Réinitialiser -->
+                                            <a href="/archive/reinitialiser_utilisateur/{{ user.id_user }}" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;" title="Réinitialiser">
+                                                <i class="bi bi-arrow-counterclockwise"></i> Réinitialiser
+                                            </a>
+                                  </div>
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                      <p  id="monutil">{{ util.id_utilisateur }}</p>
+                            <p id="monboite">{{ boite.id_boite }}</p>
+                            <p id="rg">{{ boite.numero_rang }}</p>
+                            <p style="color: blanchedalmond" id="role">{{ util.role }}</p>
+
+                      </div>
+                  </div>
+              </div>
+          </main>
+      </div>
+
+      </div>
+    <!-- Modal -->
+    <div class="modal fade" id="ajouterUtilisateurModal" tabindex="-1" aria-labelledby="ajouterUtilisateurModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ajouterUtilisateurModalLabel">Ajouter un Utilisateur</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/archive/ajouter_utilisateur/" method="post">
+                        <div class="form-group">
+                            <label for="fullname">Nom Complet</label>
+                            <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Entrez le nom complet" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Entrez l'email" required>
+                        </div>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="password">Mot de Passe</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Entrez le mot de passe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="direction">Direction</label>
+                            <select class="form-control" id="direction" name="direction" required>
+                                {% for dir in lst_dir %}
+                                                        {% if dir.nom != 'admin' %}
+                                                            <option value="{{ dir.nom }}">{{ dir.nom }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Rôle</label>
+                            <select class="form-control" id="role" name="role" required>
+                                <option value="">Sélectionnez un rôle</option>
+                                <option value="chef">Chef</option>
+                                <option value="agent">Agent</option>
+                            </select>
+                        </div>
+                       <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Modifier Utilisateur -->
+        <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">Modifier Utilisateur</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/archive/update_utilisateur/" method="POST">
+                    <div class="form-group">
+                        <label for="fullname">Nom Complet</label>
+                        <input type="text" name="fullname" class="form-control" id="fullname" placeholder="Nom complet">
+                    </div>
+                    <input type="hidden" class="form-control" id="util" placeholder="Email" value="{{ util.id_user }}">
+                    <input type="hidden" class="form-control" name="id_user" id="id_user" placeholder="ID USER" >
+                    <input type="hidden" class="form-control" id="email" placeholder="Email">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" placeholder="Email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="direction">Direction</label>
+                        <select class="form-control" id="direction" name="direction">
+                            {% for dir in lst_dir %}
+                                                        {% if dir.nom != 'admin' %}
+                                                            <option value="{{ dir.nom }}">{{ dir.nom }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Rôle</label>
+                        <select class="form-control" id="role" name="role">
+                            <option value="agent">agent</option>
+                            <option value="chef">chef</option>
+                        </select>
+                    </div>
+
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary">Modifier</button>
+            </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% if messages %}
+    {% for message in messages %}
+        <script>
+            {% if message.tags == 'success' %}
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Succès',
+                    text: '{{ message }}',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            {% elif message.tags == 'error' %}
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: '{{ message }}',
+                    confirmButtonText: 'OK',
+                    timer: 3000
+                });
+            {% endif %}
+        </script>
+    {% endfor %}
+{% endif %}
+
+
+
+
+    </main>
+
+    <script>
+        function filterTable() {
+            // Déclaration des variables
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Boucle sur toutes les lignes du tableau, sauf l'en-tête
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none"; // Cache la ligne par défaut
+                td = tr[i].getElementsByTagName("td");
+                // Boucle sur toutes les cellules de la ligne courante
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                            tr[i].style.display = ""; // Affiche la ligne si une cellule correspond
+                            break; // Sort de la boucle pour passer à la ligne suivante
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+      <!--------------Modifier ----------------->
+<!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Votre script pour pré-remplir le modal -->
+    <script>
+        $(document).ready(function() {
+    $('#editUserModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var userId = button.data('user-id');
+        var fullname = button.data('fullname');
+        var email = button.data('email');
+        var direction = button.data('direction');
+        var role = button.data('role');
+        var modal = $(this);
+
+        // Pré-remplir les champs texte
+        modal.find('#id_user').val(userId);
+        modal.find('#fullname').val(fullname);
+        modal.find('#email').val(email);
+
+        // Pré-remplir les éléments select
+        modal.find('#direction').val(direction);
+        modal.find('#role').val(role);
+
+        // Assurez-vous que l'option correcte est sélectionnée
+        modal.find('#direction').find('option').each(function() {
+            if ($(this).val() === direction) {
+                $(this).prop('selected', true);
+                }
+        });
+
+        modal.find('#role').find('option').each(function() {
+            if ($(this).val() === role) {
+                $(this).prop('selected', true);
+            }
+        });
+    });
+});
+
+    </script>
+  <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/assets/js/jstra/js/popper.min.js"></script>
+    <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
+    <script src="/static/assets/js/jstra/js/main.js"></script>
+
+
+
+
+
+  </body>
+</html>

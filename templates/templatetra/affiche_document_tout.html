@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/assets/styletra/css/style.css">
+    <link rel="stylesheet" href="/static/assets/styletra/css/style1.css">
+    <title>TOM-MEDLOG GED</title>
+  </head>
+  <body>
+    <main>
+      <div class="site-section">
+
+          <a type="button" class="btn btn-danger btn-lg ms-3" href="/archive/liste_tout_document/{{ util.id_user }}">
+          <i class="bi bi-arrow-left"></i>
+        </a>
+
+
+
+        {% if file_type == 'pdf' %}
+        <iframe style="background-color: #edd183" class="rounded" src="{{ file_url }}" width="100%" height="1000px"></iframe>
+
+        {% elif file_type == 'mhtml' %}
+        <iframe style="background-color: #edd183" class="rounded" src="{{ file_url }}" width="100%" height="1000px"></iframe>
+
+        {% else %}
+        <div class="mt-4 text-center">
+          <p>Impossible de visualiser ce document. <a class="btn btn-primary" href="{{ file_url }}" download>Cliquer ici pour le télécharger</a>.</p>
+        </div>
+        {% endif %}
+      </div>
+    </main>
+    <script src="/static/assets/styletra/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/assets/styletra/js/popper.min.js"></script>
+    <script src="/static/assets/styletra/js/bootstrap.min.js"></script>
+    <script src="/static/assets/styletra/js/main.js"></script>
+  </body>
+</html>

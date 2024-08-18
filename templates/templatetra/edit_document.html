@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Document</title>
+</head>
+<body>
+<form method="post" action="{% url 'sauvegarde_contenu_document' %}">
+    {% csrf_token %}
+    <input type="hidden" name="id_user" value="{{ user.id_user }}">
+    <input type="hidden" name="id_doc" value="{{ doc.id_document }}">
+    <textarea name="content" rows="20" style="width: 100%" >{{ content }}</textarea>
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

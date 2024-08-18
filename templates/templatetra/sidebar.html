@@ -1,0 +1,155 @@
+  <aside class="sidebar" style="background-color: rgb(49, 47, 47);">
+        <div class="toggle">
+            <a href="#" class="burger js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
+                <span></span>
+            </a>
+        </div>
+        <div class="side-inner">
+            <div class="profile">
+                <img src="/static/images/imgtra/images/logo.png" alt="Image" class="img-fluid">
+            </div>
+
+            <!-- Menu principal -->
+            <div class="nav-menu folo">
+                <ul>
+                    <li class="accordion main-menu">
+
+                            <span class="icon-home mr-3"></span>MENU PRINCIPAL
+
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-menu">
+                <ul>
+
+
+
+                {% if util.direction != 'ADMIN' and util.direction != 'management' %}
+
+
+                     <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseFacturation" aria-expanded="false" aria-controls="collapseFacturation" class="collapsible">
+                            <span class="icon-file-text mr-3"></span>{{ util.direction.upper }}
+                        </a>
+                        <div id="collapseFacturation" class="collapse" aria-labelledby="headingFacturation">
+                            <div>
+                            <ul>
+                               <li><a href="/archive/dossier_racine/{{ util.id_user }}">Dossier</a></li>
+                                {% if util.role == 'chef' %}
+                                 <li><a href="/archive/demande_permission_recue/{{ util.id_user }}">Requete Recus</a></li>
+                                     {% endif %}
+                                 <li><a href="/archive/demande_permission_envoyes/{{ util.id_user }}">Requete Envoyees</a></li>
+
+                                <li><a href="/archive/profile/{{ util.id_user }}">Mon Compte</a></li>
+                       </ul>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+
+                {% if util.direction == 'ADMIN'  %}
+
+                     <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseFacturation" aria-expanded="false" aria-controls="collapseFacturation" class="collapsible">
+                            <span class="icon-file-text mr-3"></span>ADMINISTRATEUR
+                        </a>
+                        <div id="collapseFacturation" class="collapse" aria-labelledby="headingFacturation">
+                            <div>
+                            <ul>
+                                <li><a href="/archive/gestion_utilsateurs/{{ util.id_user }}">Gestion Utilisateur</a></li>
+                                <li><a href="/archive/tout_dossier_admin/{{ util.id_user }}">Gestion Dossiers</a></li>
+                                 <li><a href="/archive/profile/{{ util.id_user }}">Mon Compte</a></li>
+
+
+                       </ul>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+                 {#% if util.direction == 'transfert'%#}
+
+                    <!--li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseTransfert" aria-expanded="false" aria-controls="collapseTransfert" class="collapsible">
+                            <span class="icon-sync mr-3"></span>TRANSFERT
+                        </a>
+                        <div id="collapseTransfert" class="collapse" aria-labelledby="headingTransfert">
+                            <div>
+                                <ul>
+                                    <li><a href="/archive/dossier_racine/{{ util.id_user }}">Dossier</a></li>
+                                {#% if util.role == 'chef' %#}
+                                 <li><a href="/archive/demande_permission_recue/{{ util.id_user }}">Requete Recus</a></li>
+                                     {#% endif %#}
+                                 <li><a href="/archive/demande_permission_envoyes/{{ util.id_user }}">Requete Envoyees</a></li>
+
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </li-->
+                     {#% endif %#}
+
+
+                {% if util.direction == 'management'  %}
+                     <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseSacherie" aria-expanded="false" aria-controls="collapseSacherie" class="collapsible">
+                            <span  class="icon-file-text mr-3"></span>MANAGEMENT
+                        </a>
+                        <div id="collapseSacherie" class="collapse" aria-labelledby="headingSacherie">
+                            <div>
+                                <ul>
+                                     <li><a href="/archive/dossier_racine/{{ util.id_user }}">Dossier</a></li>
+                                 <!--<li><a href="/archive/demande_permission_recue/{{ util.id_user }}">Requete Recus</a></li>-->
+
+                                 <!--<li><a href="/archive/demande_permission_recue/{{ util.id_user }}">Requete Recus</a></li>
+
+                                 <li><a href="/archive/gestion_utilsateurs/{{ util.id_user }}">Gestion Utilisateur</a></li>
+                                <li><a href="/archive/tout_dossier_admin/{{ util.id_user }}">Tout Dossiers</a></li>--->
+
+                                 <li><a href="/archive/liste_tout_document/{{ util.id_user }}">Tout Documents</a></li>
+                                <li><a href="/archive/profile/{{ util.id_user }}">Mon Compte</a></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+                {#% if util.direction == 'sacherie' %#}
+                    <!--li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseSacherie" aria-expanded="false" aria-controls="collapseSacherie" class="collapsible">
+                            <span  class="icon-file-text mr-3"></span>SACHERIE
+                        </a>
+                        <div id="collapseSacherie" class="collapse" aria-labelledby="headingSacherie">
+                            <div>
+                                <ul>
+
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                 {#% endif %#}
+                {#% if util.direction == 'comptabilite' %#}
+                    <li class="accordion">
+                        <a href="#" data-toggle="collapse" data-target="#collapseComptabilite" aria-expanded="false" aria-controls="collapseComptabilite" class="collapsible">
+                            <span class="icon-calculator mr-3"></span>COMPTABILITÉ
+                        </a>
+                        <div id="collapseComptabilite" class="collapse" aria-labelledby="headingComptabilite">
+                            <div>
+                                <ul>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </li-->
+                {#% endif %#}
+
+
+
+                </ul>
+            </div>
+        </div>
+    </aside>

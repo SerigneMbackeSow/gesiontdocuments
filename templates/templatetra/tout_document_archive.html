@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        .d-flex {
+            display: flex;
+        }
+
+        .card-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.25rem; /* Espace entre les boutons */
+            margin-top: 0.5rem; /* Ajoute un espace entre le contenu de la carte et les boutons */
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+
+        .contenus-courants, .contenus-globals {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .card {
+            width: 10rem; /* Largeur des cartes */
+            height: auto; /* Hauteur automatique pour permettre l'ajustement en fonction du contenu */
+            min-height: 12rem; /* Hauteur minimale pour que la carte ait une taille constante */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0.5rem; /* Ajoute du padding autour du contenu de la carte */
+            box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1); /* Ajoute une ombre légère pour améliorer la visibilité */
+            border-radius: 0.5rem; /* Ajoute des coins arrondis */
+            background-color: #fff; /* Assure que la carte a un fond blanc */
+            overflow: hidden; /* Assure que le contenu ne déborde pas de la carte */
+        }
+
+        .card-img-top {
+            width: 100%; /* Largeur de l'image */
+            height: 7rem; /* Hauteur de l'image */
+            object-fit: cover; /* Maintient le ratio d'aspect de l'image */
+            margin-bottom: 0.5rem; /* Ajoute un espace entre l'image et le texte */
+        }
+
+        .card-body {
+            flex: 1; /* Permet au corps de la carte d'occuper l'espace restant */
+            padding: 0.5rem; /* Ajoute du padding autour du texte */
+            overflow: hidden; /* Assure que le texte ne déborde pas du conteneur */
+        }
+
+        .card-text {
+            font-size: 0.875rem; /* Réduit la taille de la police pour le texte */
+            margin: 0; /* Supprime les marges pour éviter les débordements */
+            overflow: hidden; /* Assure que le texte ne déborde pas du conteneur */
+            text-overflow: ellipsis; /* Ajoute des points de suspension si le texte est trop long */
+            white-space: nowrap; /* Empêche le texte de passer à la ligne suivante */
+        }
+
+        .btn {
+            width: 50%; /* Assure que les boutons utilisent toute la largeur de la carte */
+            margin-top: 0.5rem; /* Ajoute un espace entre le texte et les boutons */
+            font-size: 0.50rem; /* Réduit la taille de la police des boutons */
+            padding: 0.5rem; /* Ajoute du padding interne aux boutons */
+            box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur totale du bouton */
+        }
+
+
+        .disabled-link {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+
+    </style>
+    <link rel="stylesheet" href=" /static/fonts/icomoon/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css"
+          rel="stylesheet">
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <link rel="stylesheet" href="/static/assets/styletra/css/owl.carousel.min.css">
+    <!-- Pour les icones -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/assets/styletra/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- For icons -->
+    <!-- Style -->
+    <!--<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">-->
+    <link href="/static/assets/styletra/css/style.css" rel="stylesheet">
+    <link href="/static/assets/styletra/css/style1.css" rel="stylesheet">
+    <title>TOM-MEDLOG GED</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        // Vérifiez que 'util' est correctement défini avant de l'utiliser
+        if (typeof util === 'undefined' || typeof util.id_user === 'undefined') {
+            console.error('La variable util.id_user est indéfinie');
+            return;
+        }
+
+        function fetchDocuments() {
+            $.ajax({
+                url: '/archive/fetch_documents/',  // L'URL de votre vue
+                method: 'GET',
+                success: function(response) {
+                    const documents = response.documents;
+                    const container = $('#documents-container');
+
+                    // Vider le conteneur avant d'ajouter de nouvelles cartes
+                    container.empty();
+
+                    if (documents.length === 0) {
+                        console.warn('Aucun document trouvé');
+                        return;
+                    }
+
+                    documents.forEach(function(doc) {
+                        const card = `
+                            <div class="card" style="width: 8rem; height: auto;">
+                                <small style="position: absolute; top: 10px; right: 10px;">
+                                    <button type="button" class="btn  p-0 open-modal" style="color: black"
+                                            data-toggle="modal"
+                                            data-target="#detailModal" data-nom="${doc.nom}"
+                                            data-numero-document="${doc.numero_document}"
+                                            data-date-creation="${doc.date_creation}"
+                                            data-eta="${doc.eta}"
+                                            data-bl="${doc.bl}" data-client="${doc.client}"
+                                            data-vessel="${doc.vessel}"
+                                            data-numero-voyage="${doc.numero_voyage}"
+                                            data-journal="${doc.journal}"
+                                            data-montant="${doc.montant}">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                    <button type="button" class="btn  p-0 open-modal" style="color: black"
+                                            data-toggle="modal"
+                                            data-target="#optionstout" data-nom="${doc.nom}"
+                                            data-numero-document="${doc.numero_document}"
+                                            data-date-creation="${doc.date_creation}"
+                                            data-eta="${doc.eta}"
+                                            data-bl="${doc.bl}" data-client="${doc.client}"
+                                            data-vessel="${doc.vessel}"
+                                            data-numero-voyage="${doc.numero_voyage}"
+                                            data-journal="${doc.journal}"
+                                            data-montant="${doc.montant}">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </small>
+                                <a href="/archive/affiche_document/${util.id_user}/${doc.id_document}"
+                                   class="${doc.acces === 1 ? 'disabled-link' : ''}">
+                                    <img class="card-img-top" src="/static/images/imgtra/image-fichier.jpg"
+                                         alt="Card image cap" style="width: 7rem; height: 7rem;">
+                                    <div class="card-body">
+                                        <p class="card-text">${doc.nom}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        `;
+                        container.append(card);
+                    });
+                },
+                error: function(error) {
+                    console.error('Erreur lors de la récupération des documents :', error);
+                }
+            });
+        }
+
+        // Appeler fetchDocuments toutes les 10 secondes
+        setInterval(fetchDocuments, 10000);
+
+        // Appeler fetchDocuments immédiatement au chargement de la page
+        fetchDocuments();
+    });
+</script>
+
+
+</head>
+<body>
+<!-- INCLUSION DU SIDEBAR-->
+{% include 'templatetra/sidebar.html' %}
+
+
+<main>
+    <div class="header">
+        <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
+            <!-- Barre de recherche à gauche -->
+            <div class="d-flex align-items-center" style="width: 55%;">
+                <input class="form-control" id="myInputGlobalSearch" type="text" onkeyup="filterTable()"
+                       placeholder="Global Search">
+                <!--<form class="form-inline my-2" style="width: 100%;" sty>
+                    <input class="form-control mr-2 search-bar w-100" type="search" placeholder="Search" aria-label="Search">
+                </form>-->
+            </div>
+            {% if util.role == 'chef' %}
+                <div class="d-flex align-items-center">
+
+                    <a
+
+
+                            href="/archive/demande_permission_recue/{{ util.id_user }}"
+                            id="navbarDropdownMenuLink"
+                            role="button"
+                            aria-expanded="false"
+                    >
+                        <i class="fas fa-bell" style="color: black"></i>
+                        <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar"></span>
+                    </a>
+
+                </div>
+            {% endif %}
+            <div class="d-flex align-items-center">
+
+                <div class="text-right text-white mr-3">
+                    <p style="color: black" class="mb-0">{{ util.fullname }}</p>
+                    <p style="color: black" class="mb-0">{{ util.direction }}</p>
+                    <a style="color: red" href="/doc/deconnexion/">Se Déconnecter</a>
+                </div>
+                <img src="/static/images/imgtra/images/logo1.png" alt="Profile Image"
+                     class="rounded-circle profile-img" style="width: 80px; height: 80px;">
+            </div>
+        </div>
+
+    </div>
+    <div class="site-section">
+        {#% if util.direction == 'ADMIN' %#}
+
+        {#% else %#}
+
+
+        {#% endif %#}
+        <div style="display: flex; justify-content: center; width: 100%;">
+
+            <main style="width: 100%;">
+
+
+                <div class="site-section">
+
+                    <div class="container">
+ <!--<button class="btn btn-info btn-icon btn-sm" style="padding: 6px 6px; font-size: 14px; width: 100px;"
+                data-toggle="modal" data-target="#ajouterdocumentModal"
+                data-iduser="{{ util.id_user }}" data-iddossier="{{ dossier_crt.id_dossier }}">
+            <i class="bi bi-plus-lg"></i> Document
+        </button>
+                        <p>Tapez un mot à rechercher</p>
+                        <input class="form-control" id="myInput" type="text" onkeyup="filterTable()"
+                               placeholder="Search..">-->
+                        <br>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                {% for dossier in arborescence %}
+                                    <li class="breadcrumb-item">
+                                        <a href="/archive/liste_dossier/{{ util.id_user }}/{{ dossier.id_dossier }}"
+                                           style="color: black">
+                                            {{ dossier.nom }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ol>
+                        </nav>
+                        <!--------Recherche -->
+                        <!--h2>Filterable Cards</h2-->
+
+
+                        <br><br>
+                        <script>
+                            $(document).ready(function () {
+                                // Masquer le contenu global initialement
+                               // $(".contenus-globals .card").hide();
+
+                                // Gestion de la recherche globale
+                                $("#myInputGlobalSearch").on("keyup", function () {
+                                    var value = $(this).val().toLowerCase().trim();
+
+                                    if (value || 1) {
+                                        // Masquer le contenu courant
+                                        $(".contenus-courants").hide();
+
+                                        // Afficher ou masquer les cartes dans le contenu global
+                                        $(".contenus-globals .card").each(function () {
+                                            var isVisible = $(this).find(".card-text").toArray().some(function (element) {
+                                                return $(element).text().toLowerCase().indexOf(value) > -1;
+                                            });
+                                            $(this).toggle(isVisible);
+                                        });
+                                    } else {
+                                        // Masquer le contenu global et afficher le contenu courant
+                                        $(".contenus-globals .card").hide();
+                                        $(".contenus-courants").show();
+                                    }
+                                });
+
+                                // Gestion de la recherche courante
+                                $("#myInput").on("keyup", function () {
+                                    var value = $(this).val().toLowerCase().trim();
+
+                                    $(".contenus-courants .card").each(function () {
+                                        var isVisible = $(this).find(".card-text").toArray().some(function (element) {
+                                            return $(element).text().toLowerCase().indexOf(value) > -1;
+                                        });
+                                        $(this).toggle(isVisible);
+                                    });
+                                });
+                            });
+
+
+                        </script>
+                        <div class="d-flex flex-wrap" style="gap: 1rem;">
+                            <div class="contenus-courants">
+                                {% for ldos in lst_dos %}
+
+                                    <div class="card" style="width: 7rem; height: 6rem;">
+
+
+
+                                        <a href="/archive/liste_dossier/{{ util.id_user }}/{{ ldos.id_dossier }}"
+                                           class="{% if ldos.acces == 1 %}disabled-link{% endif %}">
+                                        {% if ldos.acces == 1 %}
+                                            <img class="card-img-top" src="/static/images/imgtra/image-dossier-blocke.png"
+                                                 alt="Card image cap" style="width: 4rem; height: 3rem;">
+                                            {% else %}
+                                            <img class="card-img-top" src="/static/images/imgtra/image-dossier.jpg"
+                                                 alt="Card image cap" style="width: 4rem; height: 3rem;">
+                                            {% endif %}
+                                            <div class="card-body">
+                                                <p class="card-text">{{ ldos.nom }}</p>
+                                            </div>
+                                        </a>
+                                     {% if ldos.acces == 1  and ldos.etat != 0 %}
+                                            <button class="btn btn-info btn-sm" data-toggle="modal"
+                                                    data-target="#demandepermissiondossierssssssssss"
+                                                    data-iduser="{{ util.id_user }}"
+                                                    data-iddossier="{{ ldos.id_dossier }}"
+                                                    data-idobjet="{{ ldos.id_dossier }}">
+                                                <i class="bi bi-plus-lg"></i>
+                                            </button>
+                                        {% endif %}
+                                        {% if ldos.acces == 1  and ldos.etat == 0 %}
+                                            <p>Demande En Cours</p>
+                                        {% endif %}
+                                        {% if ldos.acces == 1  and ldos.etat == 2 %}
+                                            <p>Demande En Refusee</p>
+                                        {% endif %}
+                                        {% if util.role == 'chef' %}
+                                            <a href="/archive/restraindre_page/{{ util.id_user }}/{{ ldos.id_dossier }}/dossier"
+                                               class="btn btn-danger btn-sm"><i class="bi bi-x"></i></a>
+                                        {% endif %}
+                                        <div class="card-buttons">
+
+
+                                        </div>
+                                    </div>
+
+
+                                {% endfor %}
+
+                                {% for ldoc in lst_doc %}
+                                    <div class="card" style="width: 6rem; height:6rem;">
+
+                                        <top style="position: absolute; top: 10px; right: 10px;">
+                                            <button type="button" class="btn  p-0 open-modal" style="color: black"
+                                                    data-toggle="modal"
+                                                    data-target="#detailModal" data-nom="{{ ldoc.nom }}"
+                                                    data-numero-document="{{ ldoc.numero_document }}"
+                                                    data-date-creation="{{ ldoc.date_creation }}"
+                                                    data-eta="{{ ldoc.eta }}"
+                                                    data-bl="{{ ldoc.bl }}" data-client="{{ ldoc.client }}"
+                                                    data-vessel="{{ ldoc.vessel }}"
+                                                    data-numero-voyage="{{ ldoc.numero_voyage }}"
+                                                    data-journal="{{ ldoc.journal }}"
+                                                    data-montant="{{ ldoc.montant }}">
+                                                <i class="fas fa-info-circle"></i>
+                                            </button>
+                                            <button type="button" class="btn  p-0 open-modal" style="color: black"
+                                                    data-toggle="modal"
+                                                    data-target="#options" data-nom="{{ ldoc.nom }}"
+                                                    data-numero-document="{{ ldoc.numero_document }}"
+                                                    data-date-creation="{{ ldoc.date_creation }}"
+                                                    data-eta="{{ ldoc.eta }}"
+                                                    data-bl="{{ ldoc.bl }}" data-client="{{ ldoc.client }}"
+                                                    data-vessel="{{ ldoc.vessel }}"
+                                                    data-numero-voyage="{{ ldoc.numero_voyage }}"
+                                                    data-journal="{{ ldoc.journal }}"
+                                                    data-montant="{{ ldoc.montant }}">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                        </top>
+                                        <a href="/archive/affiche_document/{{ util.id_user }}/{{ ldoc.id_document }}"
+                                           class="{% if ldoc.acces == 1 %} disabled-link {% endif %}"
+                                        >
+                                        {% if ldoc.acces == 1 %}
+                                            <img class="card-img-top" src="/static/images/imgtra/image-fichier-blocke.jpg"
+                                                 alt="Card image cap" style="width: 4rem; height: 3rem;">
+                                            {% else %}
+                                             <img class="card-img-top" src="/static/images/imgtra/image-fichier.jpg"
+                                                 alt="Card image cap" style="width: 4rem; height: 3rem;">
+                                            {% endif  %}
+                                            <div class="card-body">
+                                                <p class="card-text">{{ ldoc.nom }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.nom }}</p>
+                                                <p style="display: none;"
+                                                   class="card-text">{{ ldoc.numero_document }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.date_creation }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.eta }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.bl }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.client }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.vessel }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.numero_voyage }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.journal }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.montant }}</p>
+                                            </div>
+                                        </a>
+                                    {% if ldoc.acces == 1  and ldoc.etat != 0 %}
+                                            <button class="btn btn-info btn-sm" data-toggle="modal"
+                                                    data-target="#demandepermissiondocumentssssssssss"
+                                                    data-iduser="{{ util.id_user }}"
+                                                    data-iddossier="{{ ldoc.id_document }}"
+                                                    data-idobjet="{{ ldoc.id_document }}">
+                                                <i class="bi bi-plus-lg"></i>
+                                            </button>
+
+
+                                        {% endif %}
+                                        {% if ldoc.acces == 1  and ldoc.etat == 0 %}
+                                            <p>Demande En Cours</p>
+                                        {% endif %}
+                                        {% if ldoc.acces == 1  and ldoc.etat == 2 %}
+                                            <p>Demande En Refusee</p>
+                                        {% endif %}
+
+                                        <div class="card-buttons">
+
+                                            {% if util.role == 'chef' %}
+                                                <a href="/archive/restraindre_page/{{ util.id_user }}/{{ ldoc.id_document }}/document"
+                                                   class="btn btn-danger btn-sm"><i class="bi bi-x"></i></a>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                {% endfor %}
+                            </div>
+
+                            <div class="contenus-globals">
+
+                                {% for ldoc in tout_doc %}
+                                    <p style="display: none;color: blanchedalmond"
+                                       id="mondoc">{{ ldoc.id_document }}</p>
+                                    <div class="card" style="width: 8rem; height: auto;">
+                                        <!--<small style="position: absolute; top: 10px; right: 10px;">
+                                            <button type="button" class="btn  p-0 open-modal" style="color: black"
+                                                    data-toggle="modal"
+                                                    data-target="#detailModal" data-nom="{{ ldoc.nom }}"
+                                                    data-numero-document="{{ ldoc.numero_document }}"
+                                                    data-date-creation="{{ ldoc.date_creation }}"
+                                                    data-eta="{{ ldoc.eta }}"
+                                                    data-bl="{{ ldoc.bl }}" data-client="{{ ldoc.client }}"
+                                                    data-vessel="{{ ldoc.vessel }}"
+                                                    data-numero-voyage="{{ ldoc.numero_voyage }}"
+                                                    data-journal="{{ ldoc.journal }}"
+                                                    data-montant="{{ ldoc.montant }}">
+                                                <i class="fas fa-info-circle"></i>
+                                            </button>
+                                            <button type="button" class="btn  p-0 open-modal" style="color: black"
+                                                    data-toggle="modal"
+                                                    data-target="#optionstout" data-nom="{{ ldoc.nom }}"
+                                                    data-numero-document="{{ ldoc.numero_document }}"
+                                                    data-date-creation="{{ ldoc.date_creation }}"
+                                                    data-eta="{{ ldoc.eta }}"
+                                                    data-bl="{{ ldoc.bl }}" data-client="{{ ldoc.client }}"
+                                                    data-vessel="{{ ldoc.vessel }}"
+                                                    data-numero-voyage="{{ ldoc.numero_voyage }}"
+                                                    data-journal="{{ ldoc.journal }}"
+                                                    data-montant="{{ ldoc.montant }}">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                        </small>-->
+                                        <a href="/archive/affiche_document_tout/{{ util.id_user }}/{{ ldoc.id_document }}"
+                                           class="{% if ldoc.acces == 1 %}disabled-link{% endif %}"
+                                        >
+                                            <img class="card-img-top" src="/static/images/imgtra/image-fichier.jpg"
+                                                 alt="Card image cap" style="width: 7rem; height: 7rem;">
+                                            <div class="card-body">
+                                                <p class="card-text">{{ ldoc.nom }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.nom }}</p>
+                                                <p style="display: none;"
+                                                   class="card-text">{{ ldoc.numero_document }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.date_creation }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.eta }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.bl }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.client }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.vessel }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.numero_voyage }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.journal }}</p>
+                                                <p style="display: none;" class="card-text">{{ ldoc.montant }}</p>
+                                            </div>
+                                        </a>
+
+                                    </div>
+
+                                {% endfor %}
+                            </div>
+                        <p style="color: white" id="monutil">{{ util.id_user }}</p>
+
+
+
+                    <div class="contenus-globalshgggggg" id="documents-container">
+
+    <!-- Les cartes de documents seront injectées ici -->
+</div>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+
+
+
+            </main>
+
+            <!-- modale------------>
+
+            <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
+            <script src="/static/assets/js/jstra/js/popper.min.js"></script>
+            <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
+            <script src="/static/assets/js/jstra/js/main.js"></script>
+
+            <!----------Script Essaie ----------------->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+        <script>
+$(document).ready(function(){
+    let fetchInterval
+
+    let notificationCount = 0;
+    function fetchDataNot(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+
+
+        $.ajax({
+            url: '/archive/fetch_demande_acces/18',
+            method: 'GET',
+            data: { id_user: paragraphContent },
+            success: function(response){
+                if (response.data) {
+                    updateTableNot(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+    function updateTableNot(data) {
+    notificationCount=data.length;
+        //notificationCount=5;
+
+
+    }
+
+      function startFetchingDataNot() {
+        fetchDataNot(); // Charger les données initiales
+       fetchInterval = setInterval(fetchDataNot, 5000); // 5000ms = 5s
+    }
+
+function updateNotificationCount() {
+    // Update the paragraph content with the notification count
+  const notificationBarElement = document.getElementById('notification-bar');
+  notificationBarElement.textContent = `${notificationCount}`;
+}
+
+// Update notification count every 100 milliseconds (replace with a suitable interval)
+setInterval(updateNotificationCount, 100);
+    startFetchingDataNot();
+
+});
+</script>
+
+
+
+</body>
+</html>

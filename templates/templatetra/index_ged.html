@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" href=" /static/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/static/assets/styletra/css/owl.carousel.min.css">
+  <style>
+          label{color: black}
+      </style>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/assets/styletra/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> <!-- For icons -->
+    <!-- Style -->
+    <!--<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">-->
+      <link href="/static/assets/styletra/css/style.css" rel="stylesheet">
+    <link href="/static/assets/styletra/css/style1.css" rel="stylesheet">
+    <title>TOM-MEDLOG GED</title>
+  </head>
+  <body>
+
+{% include 'templatetra/sidebar_ged.html' %}
+
+
+    <main>
+<div class="header">
+    <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
+        <!-- Barre de recherche à gauche -->
+        <div class="d-flex align-items-center" style="width: 55%;">
+
+
+
+
+        </div>
+         {% if util.direction != 'archive' and util.direction != 'management' and  util.direction != 'ADMIN' %}
+        <div class="d-flex align-items-center">
+
+
+               <a
+
+
+          href="/doc/liste_permission/{{ util.id_utilisateur }}"
+          id="navbarDropdownMenuLink"
+          role="button"
+          aria-expanded="false"
+        >
+          <i class="fas fa-bell" style="color: black"></i>
+          <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar">0</span>
+        </a>
+
+        </div>
+        {%  endif %}
+     {% if util.direction == 'management' %}
+        <div class="d-flex align-items-center">
+
+
+               <a
+
+
+          href="/doc/liste_permission_manage/{{ util.id_utilisateur }}"
+          id="navbarDropdownMenuLink"
+          role="button"
+          aria-expanded="false"
+        >
+          <i class="fas fa-bell" style="color: black"></i>
+          <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar"></span>
+        </a>
+
+        </div>
+        {%  endif %}
+    {% if util.direction == 'archive' %}
+                       <div class="d-flex align-items-center dropdown">
+    <a
+        href="#"
+        id="navbarDropdownMenuLink"
+        role="button"
+        aria-expanded="false"
+        class="d-flex align-items-center"
+        data-bs-toggle="dropdown"
+        aria-haspopup="true"
+    >
+        <i class="fas fa-bell" style="color: black; margin-right: 5px;"></i>
+        <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar-total">6</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <li>
+            <a class="dropdown-item" href="/doc/liste_boite_cloture/{{ util.id_utilisateur }}">
+                <span>Boite Cloturées</span>
+        <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar-boite-cloture">6</span>
+            </a>
+        </li>
+        <li>
+            <a href="/doc/listedmd/{{ util.id_utilisateur }}" class="dropdown-item" href="/autre_lien">
+                 <span>Consulations</span>
+        <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar-consultation">6</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- Ajoutez le script Bootstrap pour les fonctionnalités JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+
+    {%  endif %}
+
+
+        <div class="d-flex align-items-center">
+
+            <div class="text-right text-white mr-3">
+                <p style="color: black" class="mb-0">{{ util.nom }} {{ util.prenom }}</p>
+                <p style="color: black" class="mb-0">{{ util.direction }}</p>
+                <a style="color: red" href="/doc/deconnexion/">Se Déconnecter</a>
+            </div>
+            <img src="/static/images/imgtra/images/logo1.png" alt="Profile Image" class="rounded-circle profile-img" style="width: 80px; height: 80px;">
+        </div>
+
+    </div>
+
+</div>
+      <div class="site-section">
+
+
+        <div style="display: flex; justify-content: center; width: 100%;">
+          <main style="width: 100%;">
+              <div class="site-section">
+                  <div class="container">
+                      <div class="row align-items-center">
+                          <div class="col-sm-6">
+                              <h1 class="welcome-heading">BIENVENUE SUR LA</h1>
+                              <h1 class="ged-heading">GED</h1>
+                          </div>
+                          <div class="col-sm-6">
+                              <img class="img-fluid" src="/static/images/imgtra/images/welcome.PNG" style="width: 100%; height: auto;">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </main>
+      </div>
+
+      </div>
+           <p  id="monutil">{{ util.id_utilisateur }}</p>
+    </main>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    let fetchInterval
+
+    let notificationCount = 0;
+    function fetchDataNot(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+
+
+        $.ajax({
+            url: '/doc/fetch_permission/18',
+            method: 'GET',
+            data: { id_user: paragraphContent },
+            success: function(response){
+                if (response.data) {
+                    updateTableNot(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+
+
+function updateNotificationCount() {
+    // Update the paragraph content with the notification count
+  const notificationBarElement = document.getElementById('notification-bar');
+  notificationBarElement.textContent = `${notificationCount}`;
+}
+
+// Update notification count every 100 milliseconds (replace with a suitable interval)
+setInterval(updateNotificationCount, 100);
+
+
+});
+</script>
+
+
+
+    <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/assets/js/jstra/js/popper.min.js"></script>
+    <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
+    <script src="/static/assets/js/jstra/js/main.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    let fetchInterval;
+     let notificationCountCons = 0;
+    function fetchDataconsulation(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+        $.ajax({
+            url: '/doc/fecth_demande/18',
+            method: 'GET',
+            data: { id_user: paragraphContent },
+            success: function(response){
+                if (response.data) {
+                    updateTable(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+    function updateTable(data) {
+
+        data.forEach(function(item) {
+
+notificationCountCons=data.length;
+
+
+
+    });
+    }
+
+function updateNotificationCountCons() {
+    fetchDataconsulation(); // Charger les données initiales
+        fetchInterval = setInterval(fetchDataconsulation, 5000);
+    // Update the paragraph content with the notification count
+  const notificationBarElement = document.getElementById('notification-bar-consultation');
+  notificationBarElement.textContent = `${notificationCountCons}`;
+}
+
+// Update notification count every 100 milliseconds (replace with a suitable interval)
+setInterval(updateNotificationCountCons, 100);
+});
+</script>
+  <script>
+$(document).ready(function(){
+    let fetchInterval;
+     let notificationCountboite = 0;
+    function fetchData(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+        $.ajax({
+            url: '/doc/fetchboiteAclasser/18',
+            method: 'GET',
+            data: { id_user: paragraphContent },
+            success: function(response){
+                if (response.data) {
+                    updateTable(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+    function updateTable(data) {
+
+        data.forEach(function(item) {
+
+notificationCountboite=data.length;
+
+
+
+    });
+    }
+
+function updateNotificationCount() {
+    fetchData(); // Charger les données initiales
+        fetchInterval = setInterval(fetchData, 5000);
+    // Update the paragraph content with the notification count
+  const notificationBarElement = document.getElementById('notification-bar-boite-cloture');
+  notificationBarElement.textContent = `${notificationCountboite}`;
+}
+
+// Update notification count every 100 milliseconds (replace with a suitable interval)
+setInterval(updateNotificationCount, 100);
+});
+</script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    let fetchIntervalCons;
+    let fetchIntervalBoite;
+    let notificationCountCons = 0;
+    let notificationCountBoite = 0;
+
+    function fetchDataconsulation(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+        $.ajax({
+            url: '/doc/fecth_demande/18',
+            method: 'GET',
+            data: { id_user: paragraphContent },
+            success: function(response){
+                if (response.data) {
+                    notificationCountCons = response.data.length; // Mise à jour du nombre de notifications de consultation
+                    updateNotificationCount(); // Met à jour la somme totale des notifications
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+    function fetchData(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+        $.ajax({
+            url: '/doc/fetchboiteAclasser/18',
+            method: 'GET',
+            data: { id_user: paragraphContent },
+            success: function(response){
+                if (response.data) {
+                    notificationCountBoite = response.data.length; // Mise à jour du nombre de notifications de boîte
+                    updateNotificationCount(); // Met à jour la somme totale des notifications
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+    function updateNotificationCount() {
+        const totalNotificationCount = notificationCountCons + notificationCountBoite;
+        const notificationBarElementCons = document.getElementById('notification-bar-consultation');
+        const notificationBarElementBoite = document.getElementById('notification-bar-boite-cloture');
+        const notificationBarElementTotal = document.getElementById('notification-bar-total');
+
+        if (notificationBarElementCons) {
+            notificationBarElementCons.textContent = `${notificationCountCons}`;
+        }
+        if (notificationBarElementBoite) {
+            notificationBarElementBoite.textContent = `${notificationCountBoite}`;
+        }
+        if (notificationBarElementTotal) {
+            notificationBarElementTotal.textContent = `${totalNotificationCount}`;
+        }
+    }
+
+    // Initial fetching and setting up intervals
+    fetchDataconsulation();
+    fetchData();
+    fetchIntervalCons = setInterval(fetchDataconsulation, 5000);
+    fetchIntervalBoite = setInterval(fetchData, 5000);
+
+    // Update notification count every 100 milliseconds (replace with a suitable interval)
+    setInterval(updateNotificationCount, 100);
+});
+</script>
+  </body>
+</html>

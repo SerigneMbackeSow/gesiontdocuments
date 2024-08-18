@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" href=" /static/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/static/assets/styletra/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="
+https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+
+
+    <!-- Bootstrap CSS -->
+    <style>
+        label {
+            color: black
+        }
+    </style>
+    <link rel="stylesheet" href="/static/assets/styletra/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- For icons -->
+    <!-- Style -->
+    <!--<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">-->
+    <link href="/static/assets/styletra/css/style.css" rel="stylesheet">
+    <link href="/static/assets/styletra/css/style1.css" rel="stylesheet">
+    <title>TOM-MEDLOG GED</title>
+</head>
+<body>
+{% include 'templatetra/sidebar.html' %}
+<main>
+    <div class="header">
+        <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
+            <!-- Barre de recherche à gauche -->
+            <div class="d-flex align-items-center" style="width: 55%;">
+
+
+            </div>
+            {% if util.role == 'chef' %}
+                <div class="d-flex align-items-center">
+
+                    <a
+
+
+                            href="/doc/liste_permission/{{ util.id_utilisateur }}"
+                            id="navbarDropdownMenuLink"
+                            role="button"
+                            aria-expanded="false"
+                    >
+
+                        <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar"></span>
+                    </a>
+
+                </div>
+            {% endif %}
+            <div class="d-flex align-items-center">
+
+                <div class="text-right text-white mr-3">
+                    <p style="color: black" class="mb-0">{{ util.fullname }}</p>
+                    <p style="color: black" class="mb-0">{{ util.direction }}</p>
+                    <a style="color: red" href="/doc/deconnexion/">Se Déconnecter</a>
+                </div>
+                <img src="/static/images/imgtra/images/logo1.png" alt="Profile Image" class="rounded-circle profile-img"
+                     style="width: 80px; height: 80px;">
+            </div>
+        </div>
+    </div>
+    <div class="site-section">
+        <div class="container">
+
+            <a href="/archive/retour_profile/{{ util.id_user }}" class="btn btn-danger btn-lg ms-3"><i
+                    class="bi bi-arrow-left"></i> retour</a>
+            <div class="row justify-content-center align-items-center">
+                <div class="col-12">
+                    <div class="card shadow custom-card mx-auto">
+                        <div class="card-body p-4">
+                       <form method="POST" action="/archive/modifier_profile/">
+
+    <div class="text-center mb-4">
+        <p style="color: #000; font-size: 25px;">COMPTE: {{ util.fullname }}</p>
+    </div>
+    {% csrf_token %}
+
+    <!-- Nom Complet input -->
+    <div class="form-row">
+        <div class="col-md-6 mb-6">
+            <input type="hidden" name="id_user" value="{{ util.id_user }}">
+            <label for="fullname">Nom Complet</label>
+            <input name="fullname" type="text" id="fullname" class="form-control form-control-lg" value="{{ util.fullname }}" required/>
+        </div>
+             <div class="col-md-6 mb-6">
+            <label for="email">Email</label>
+            <input name="email" type="text" id="email" class="form-control form-control-lg" value="{{ util.email }}" placeholder="Email" required/>
+            {% if message %}
+                <p style="color: red">{{ message }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <!-- Mot de passe et Confirmer le mot de passe inputs sur la même ligne -->
+    <div class="form-row">
+        <div class="col-md-6 mb-6">
+            <label for="password">Mot de passe</label>
+            <input name="password" type="password" value="{{ util.password }}" id="password" class="form-control form-control-lg" placeholder="Mot de passe" required/>
+        </div>
+        <div class="col-md-6 mb-6">
+            <label for="confirm_password">Confirmer le mot de passe</label>
+            <input name="confirm_password" type="password" id="confirm_password" value="{{ util.password }}" class="form-control form-control-lg" placeholder="Confirmer le mot de passe" required/>
+        </div>
+    </div>
+
+    <br>
+    <div class="text-center mb-4">
+        <button type="submit" class="btn btn-info btn-icon btn-sm" style="padding: 10px 20px; font-size: 14px; width: 100px;">Valider</button>
+    </div>
+
+</form>
+
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+    var password = document.getElementById('password').value;
+    var confirmPassword = document.getElementById('confirm_password').value;
+
+    if (password !== confirmPassword) {
+        e.preventDefault();
+        alert('Les mots de passe ne correspondent pas.');
+    }
+});
+</script>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
+<script src="/static/assets/js/jstra/js/popper.min.js"></script>
+<script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
+<script src="/static/assets/js/jstra/js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</body>
+</html>

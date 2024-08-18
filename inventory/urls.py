@@ -24,4 +24,5 @@ urlpatterns = [
     path('users/', include('users.urls')),
     #path('store/', include('store.urls')),
     path('doc/', include('facturations.urls')),
+    path('archive/', include('archivedocuments.urls')),
 ]

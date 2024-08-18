@@ -1,0 +1,1265 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <!-- Ajoutez ce lien pour Bootstrap (si vous ne l'avez pas déjà ajouté) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        .d-flex {
+            display: flex;
+        }
+
+        .card-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.25rem; /* Espace entre les boutons */
+            margin-top: 0.5rem; /* Ajoute un espace entre le contenu de la carte et les boutons */
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+
+        .contenus-courants, .contenus-globals {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .card {
+            width: 10rem; /* Largeur des cartes */
+            height: auto; /* Hauteur automatique pour permettre l'ajustement en fonction du contenu */
+            min-height: 12rem; /* Hauteur minimale pour que la carte ait une taille constante */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0.5rem; /* Ajoute du padding autour du contenu de la carte */
+            box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1); /* Ajoute une ombre légère pour améliorer la visibilité */
+            border-radius: 0.5rem; /* Ajoute des coins arrondis */
+            background-color: #fff; /* Assure que la carte a un fond blanc */
+            overflow: hidden; /* Assure que le contenu ne déborde pas de la carte */
+        }
+
+        .card-img-top {
+            width: 100%; /* Largeur de l'image */
+            height: 7rem; /* Hauteur de l'image */
+            object-fit: cover; /* Maintient le ratio d'aspect de l'image */
+            margin-bottom: 0.5rem; /* Ajoute un espace entre l'image et le texte */
+        }
+
+        .card-body {
+            flex: 1; /* Permet au corps de la carte d'occuper l'espace restant */
+            padding: 0.5rem; /* Ajoute du padding autour du texte */
+            overflow: hidden; /* Assure que le texte ne déborde pas du conteneur */
+        }
+
+        .card-text {
+            font-size: 0.875rem; /* Réduit la taille de la police pour le texte */
+            margin: 0; /* Supprime les marges pour éviter les débordements */
+            overflow: hidden; /* Assure que le texte ne déborde pas du conteneur */
+            text-overflow: ellipsis; /* Ajoute des points de suspension si le texte est trop long */
+            white-space: nowrap; /* Empêche le texte de passer à la ligne suivante */
+        }
+
+        .btn {
+            width: 50%; /* Assure que les boutons utilisent toute la largeur de la carte */
+            margin-top: 0.5rem; /* Ajoute un espace entre le texte et les boutons */
+            font-size: 0.50rem; /* Réduit la taille de la police des boutons */
+            padding: 0.5rem; /* Ajoute du padding interne aux boutons */
+            box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur totale du bouton */
+        }
+
+
+        .disabled-link {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+
+    </style>
+    <link rel="stylesheet" href=" /static/fonts/icomoon/style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css"
+          rel="stylesheet">
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <link rel="stylesheet" href="/static/assets/styletra/css/owl.carousel.min.css">
+    <!-- Pour les icones -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/assets/styletra/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- For icons -->
+    <!-- Style -->
+    <!--<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">-->
+    <link href="/static/assets/styletra/css/style.css" rel="stylesheet">
+    <link href="/static/assets/styletra/css/style1.css" rel="stylesheet">
+    <title>TOM-MEDLOG GED</title>
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var id_user = '{{ util.id_user }}';
+        var id_prt = '{{ dossier_crt.id_dossier }}';
+        var direction = '{{ util.direction }}';
+        var role = '{{ util.role }}';
+        var managementDirection = '{{ util.direction }}' === 'management';
+        var fetchInterval;
+
+        function fetchDossiers() {
+            $.ajax({
+                url: '/archive/fetch_dossiers/',
+                method: 'GET',
+                data: {
+                    id_user: id_user,
+                    id_prt: id_prt
+                },
+                success: function(data) {
+                    var dossiers = data.lst_dos;
+                    var documents = data.lst_docs;
+                    var tout_documents = data.tout_docs;
+                    var contenusCourants = $('.contenus-courants');
+                    var contenusGlobals = $('.contenus-globals');
+                    contenusCourants.empty();
+                    contenusGlobals.empty();
+
+                    dossiers.forEach(function(ldos) {
+                        var dossierCard = `
+                            <div class="card" style="width: 7rem; height: 6rem;">
+                                <div style="position: absolute; top: 10px; right: 10px;">
+                                    ${role !== 'agent' && ldos.direction === direction ? `
+                                    <button type="button" class="btn p-0 open-modal" style="color: black"
+                                            data-toggle="modal"
+                                            data-target="#detailModaldossier" data-nom="${ldos.nom}"
+                                            data-numero-direction="${ldos.direction}"
+                                            data-date-creation="${ldos.date_creation}"
+                                            data-id_parent="${ldos.id_parent}"
+                                            data-iddossier="${ldos.id_dossier}">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>` : ''}
+                                </div>
+                                <a href="/archive/liste_dossier/${id_user}/${ldos.id_dossier}"
+                                   class="${ldos.acces == 1 ? 'disabled-link' : ''}">
+                                    <img class="card-img-top" src="${ldos.acces == 1 ? '/static/images/imgtra/image-dossier-blocke.png' : '/static/images/imgtra/image-dossier.jpg'}"
+                                         alt="Card image cap" style="width: 4rem; height: 3rem;">
+                                    <div class="card-body">
+                                        <p class="card-text">${ldos.nom}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        `;
+                        contenusCourants.append(dossierCard);
+                    });
+
+                    documents.forEach(function(ldoc) {
+                        var documentCard = `
+                            <div class="card" style="width: 7rem; height: 7rem;">
+                                <div style="position: absolute; top: 8px; right: 8px;">
+                                    ${role === 'chef' && ldoc.direction === direction ? `
+                                    <button type="button" class="btn  p-0 open-modal" style="color: black"
+                                            data-toggle="modal"
+                                            data-target="#detailModal" data-nom="${ldoc.nom}"
+                                            data-id-document="${ldoc.id_document}"
+                                            data-numero-document="${ldoc.numero_document}"
+                                            data-date-creation="${ldoc.date_creation}"
+                                            data-eta="${ldoc.eta}"
+                                            data-bl="${ldoc.bl}" data-client="${ldoc.client}"
+                                            data-vessel="${ldoc.vessel}"
+                                            data-numero-voyage="${ldoc.numero_voyage}"
+                                            data-journal="${ldoc.journal}"
+                                            data-montant="${ldoc.montant}">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>` : ''}
+                                    ${ldoc.acces == 1 && ldoc.etat != 0 ? `
+                                    <button type="button" class="btn btn-sm open-modal" style="color: black"
+                                            data-toggle="modal"
+                                            data-target="#demandepermissiondocumentModal"
+                                            data-iduser="${id_user}"
+                                            data-iddossier="${id_prt}"
+                                            data-idobjet="${ldoc.id_document}">
+                                        <i class="bi bi-unlock"></i>
+                                    </button>` : ''}
+                                    ${role === 'chef' && ldoc.direction === direction ? `
+                                    <a href="/archive/restraindre_page/${id_user}/${ldoc.id_document}/document" style="color:black">
+                                        <i class="fas fa-lock"></i>
+                                    </a>` : ''}
+                                </div>
+                                <a href="/archive/affiche_document/${id_user}/${ldoc.id_document}"
+                                   class="${ldoc.acces == 1 ? 'disabled-link' : ''}">
+                                    <img class="card-img-top" src="${ldoc.acces == 1 ? '/static/images/imgtra/image-fichier-blocke.jpg' : '/static/images/imgtra/image-fichier.jpg'}"
+                                         alt="Card image cap" style="width: 4rem; height: 3rem;">
+                                    <div class="card-body">
+                                        <p class="card-text">${ldoc.nom}</p>
+                                    </div>
+                                </a>
+                                ${ldoc.acces == 1 && ldoc.etat == 0 ? '<p>En Cours</p>' : ''}
+                                ${ldoc.acces == 1 && ldoc.etat == 2 ? '<p>Refusée</p>' : ''}
+                            </div>
+                        `;
+                        contenusCourants.append(documentCard);
+                    });
+
+                    tout_documents.forEach(function(ldoc) {
+                        var documentCard = `
+                            <div class="card" style="width: 7rem; height: 7rem;">
+                                <div style="position: absolute; top: 8px; right: 8px;">
+ ${role === 'chef' && ldoc.direction === direction ? `
+                                    <button type="button" class="btn  p-0 open-modal" style="color: black"
+                                            data-toggle="modal"
+                                            data-target="#detailModal" data-nom="${ldoc.nom}"
+                                            data-id-document="${ldoc.id_document}"
+                                            data-numero-document="${ldoc.numero_document}"
+                                            data-date-creation="${ldoc.date_creation}"
+                                            data-eta="${ldoc.eta}"
+                                            data-bl="${ldoc.bl}" data-client="${ldoc.client}"
+                                            data-vessel="${ldoc.vessel}"
+                                            data-numero-voyage="${ldoc.numero_voyage}"
+                                            data-journal="${ldoc.journal}"
+                                            data-montant="${ldoc.montant}">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>` : ''}
+                                    ${ldoc.acces == 1 && ldoc.etat != 0 && ldoc.direction !== direction ? `
+                                    <button type="button" class="btn btn-sm open-modal" style="color: black"
+                                            data-toggle="modal"
+                                            data-target="#demandepermissiondocumentModal"
+                                            data-iduser="${id_user}"
+                                            data-iddossier="${id_prt}"
+                                            data-idobjet="${ldoc.id_document}">
+                                        <i class="bi bi-unlock"></i>
+                                    </button>` : ''}
+                                    ${role === 'chef' && ldoc.direction === direction ? `
+                                    <a href="/archive/restraindre_page/${id_user}/${ldoc.id_document}/document" style="color:black">
+                                        <i class="fas fa-lock"></i>
+                                    </a>` : ''}
+                                </div>
+                                <a href="/archive/affiche_document/${id_user}/${ldoc.id_document}"
+                                   class="${ldoc.acces == 5 && ldoc.etat == 5 && ldoc.direction != direction || ldoc.acces == 1 && ldoc.etat == 2 || ldoc.acces == 1 && ldoc.etat == 0 ? 'disabled-link' : ''}">
+                                    <img class="card-img-top" src="${ldoc.acces == 5 && ldoc.etat == 5 && ldoc.direction != direction || ldoc.acces == 1 && ldoc.etat == 2 || ldoc.acces == 1 && ldoc.etat == 0 ? '/static/images/imgtra/image-fichier-blocke.jpg' : '/static/images/imgtra/image-fichier.jpg'}"
+                                         alt="Card image cap" style="width: 4rem; height: 3rem;">
+                                    <div class="card-body">
+                                        <p class="card-text">${ldoc.nom}</p>
+                                        <p style="display: none;" class="card-text">${ ldoc.date_creation }</p>
+                                                <p style="display: none;" class="card-text">${ ldoc.eta }</p>
+                                                <p style="display: none;" class="card-text">${ ldoc.bl }</p>
+                                                <p style="display: none;" class="card-text">${ ldoc.client }</p>
+                                                <p style="display: none;" class="card-text">${ ldoc.vessel }</p>
+                                                <p style="display: none;" class="card-text">${ ldoc.numero_voyage }</p>
+                                                <p style="display: none;" class="card-text">${ ldoc.journal }</p>
+                                                <p style="display: none;" class="card-text">${ ldoc.montant }</p>
+
+                                    </div>
+                                </a>
+                                ${ldoc.acces == 1 && ldoc.etat == 0 ? '<p>En Cours</p>' : ''}
+                                ${ldoc.acces == 1 && ldoc.etat == 2 ? '<p>Refusée</p>' : ''}
+                            </div>
+                        `;
+                        contenusGlobals.append(documentCard);
+                    });
+                }
+            });
+        }
+
+        fetchDossiers();
+        fetchInterval = setInterval(fetchDossiers, 500); // Recharger toutes les 10 secondes
+
+        function stopFetching() {
+            clearInterval(fetchInterval);
+        }
+
+        $("#myInputGlobalSearch").on("keyup", function () {
+            var value = $(this).val().toLowerCase().trim();
+
+            if (value) {
+                stopFetching();  // Arrêter le fetch des données
+                $(".contenus-courants").hide();
+                $(".contenus-globals .card").each(function () {
+                    var isVisible = $(this).find(".card-text").toArray().some(function (element) {
+                        return $(element).text().toLowerCase().indexOf(value) !== -1;
+                        stopFetching();
+                    });
+                    $(this).toggle(isVisible);
+                    stopFetching();
+                });
+            } else {
+                $(".contenus-globals .card").hide();
+                $(".contenus-courants").show();
+                //fetchInterval = setInterval(fetchDossiers, 500);  // Reprendre le fetch si la recherche est vide
+            }
+        });
+
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase().trim();
+
+            if (value) {
+                stopFetching();  // Arrêter le fetch des données
+                 $(".contenus-globals .card").hide();
+                $(".contenus-courants .card").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) !== -1);
+                });
+            } else {
+                fetchInterval = setInterval(fetchDossiers, 500);  // Reprendre le fetch si la recherche est vide
+            }
+        });
+       // fetchInterval = setInterval(fetchDossiers, 500);
+    });
+
+</script>
+
+
+
+</head>
+<body>
+<!-- INCLUSION DU SIDEBAR-->
+{% include 'templatetra/sidebar.html' %}
+
+
+<main>
+    <div class="header">
+        <div class="header-content d-flex justify-content-between align-items-center py-3 px-4">
+            <!-- Barre de recherche à gauche -->
+            <div class="d-flex align-items-center" style="width: 55%;">
+                <input class="form-control" id="myInputGlobalSearch" type="text" onkeyup="filterTable()"
+                       placeholder="Global Search">
+                <!--<form class="form-inline my-2" style="width: 100%;" sty>
+                    <input class="form-control mr-2 search-bar w-100" type="search" placeholder="Search" aria-label="Search">
+                </form>-->
+            </div>
+            {% if util.role == 'chef' %}
+                <div class="d-flex align-items-center">
+
+                    <a
+
+
+                            href="/archive/demande_permission_recue/{{ util.id_user }}"
+                            id="navbarDropdownMenuLink"
+                            role="button"
+                            aria-expanded="false"
+                    >
+                        <i class="fas fa-bell" style="color: black"></i>
+                        <span class="badge rounded-pill badge-notification bg-danger" id="notification-bar"></span>
+                    </a>
+
+                </div>
+            {% endif %}
+
+            <div class="d-flex align-items-center">
+
+                <div class="text-right text-white mr-3">
+                    <p style="color: black" class="mb-0">{{ util.fullname }}</p>
+                    <p style="color: black" class="mb-0">{{ util.direction }}</p>
+                    <a style="color: red" href="/doc/deconnexion/">Se Déconnecter</a>
+                </div>
+                <img src="/static/images/imgtra/images/logo1.png" alt="Profile Image"
+                     class="rounded-circle profile-img" style="width: 80px; height: 80px;">
+            </div>
+        </div>
+
+    </div>
+    <div class="site-section">
+        {#% if util.direction == 'ADMIN' %#}
+
+        {#% else %#}
+
+
+        {#% endif %#}
+        <div style="display: flex; justify-content: center; width: 100%;">
+
+            <main style="width: 100%;">
+
+
+                <div class="site-section">
+
+                    <div class="container">
+
+            {% if util.role == "chef" and dossier_crt.id_parent and  util.direction ==  dossier_crt.direction%}
+
+                <button class="btn btn-info btn-icon btn-sm" style="padding: 6px 6px; font-size: 14px; width: 100px;"
+                data-toggle="modal" data-target="#ajouterDossierModal"
+                data-iduserr="{{ util.id_user }}" data-iddossierr="{{ dossier_crt.id_dossier }}">
+            <i class="bi bi-plus-lg"></i> Dossier
+        </button>
+                {% if not dossier_racine.id_dossier == dossier_crt.id_parent %}
+ <button class="btn btn-info btn-icon btn-sm" style="padding: 6px 6px; font-size: 14px; width: 100px;"
+                data-toggle="modal" data-target="#ajouterdocumentModal"
+                data-iduser="{{ util.id_user }}" data-iddossier="{{ dossier_crt.id_dossier }}">
+            <i class="bi bi-plus-lg"></i> Document
+        </button>
+                    {% endif %}
+                      {% endif %}
+                    {% if util.role == 'agent' and dossier_crt.id_parent and not  dossier_racine.id_dossier == dossier_crt.id_parent%}
+                         <button class="btn btn-info btn-icon btn-sm" style="padding: 6px 6px; font-size: 14px; width: 100px;"
+                data-toggle="modal" data-target="#ajouterdocumentModal"
+                data-iduser="{{ util.id_user }}" data-iddossier="{{ dossier_crt.id_dossier }}">
+            <i class="bi bi-plus-lg"></i> Document
+        </button>
+                    {% endif %}
+                        <p>Tapez un mot à rechercher</p>
+                        <input class="form-control" id="myInput" type="text" onkeyup="filterTable()"
+                               placeholder="Search..">
+                        <br>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                {% for dossier in arborescence %}
+                                  {% if dossier.id_parent %}
+                                      <li class="breadcrumb-item">
+                                        <a href="/archive/liste_dossier/{{ util.id_user }}/{{ dossier.id_dossier }}"
+                                           style="color: black">
+                                            {{ dossier.nom }}
+                                        </a>
+                                    </li>
+                                    {% else %}
+                                      <li class="breadcrumb-item">
+                                        <a href="/archive/dossier_racine/{{ util.id_user }}"
+                                           style="color: black">
+                                            {{ dossier.nom }}
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ol>
+                        </nav>
+                        <!--------Recherche -->
+                        <!--h2>Filterable Cards</h2-->
+
+
+                        <br><br>
+
+                        <div class="d-flex flex-wrap" style="gap: 1rem;">
+                            <div class="contenus-courants">
+
+
+                            </div>
+                            <div class="contenus-globals">
+
+
+                            </div>
+                        </div>
+
+
+                        <!----------------Modale Ajout Documnet ------------------>
+
+                        <!-- Modal Structure -->
+                        <div class="modal fade" id="ajouterdocumentModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Ajouter Document</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST" action="/archive/ajouter_document/"
+                                                  enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <input name="id_user" type="hidden" id="id_user_input"
+                                                       placeholder="ID User" required>
+                                                <input name="id_parent" type="hidden" id="id_dossier_input"
+                                                       placeholder="ID Dossier" required>
+
+                                                <div class="form-row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="numero">Identifiant</label>
+                                                        <input type="text" name="numero" id="numero"
+                                                               class="form-control form-control-lg"
+                                                               placeholder="Identifiant" required/>
+                                                        {% if message %}
+                                                            <p style="color: red">{{ message }}</p>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="bl">BL</label>
+                                                        <input type="text" name="bl" id="bl"
+                                                               class="form-control form-control-lg" placeholder="BL"/>
+                                                        {% if messagebl %}
+                                                            <p style="color: red">{{ messagebl }}</p>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="montant">Montant</label>
+                                                        <input type="number" name="montant" id="montant"
+                                                               class="form-control form-control-lg"
+                                                               placeholder="Montant" min="0"/>
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="journal">Journal</label>
+                                                        <input type="text" name="journal" id="journal"
+                                                               class="form-control form-control-lg"
+                                                               placeholder="Journal"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="eta">ETA</label>
+                                                        <input type="datetime-local" name="eta" id="eta"
+                                                               class="form-control form-control-lg" placeholder="ETA"/>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="client">Client</label>
+                                                        <input type="text" name="client" id="client"
+                                                               class="form-control form-control-lg"
+                                                               placeholder="Client"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="navire">Vessel</label>
+                                                        <input type="text" name="navire" id="navire"
+                                                               class="form-control form-control-lg"
+                                                               placeholder="Vessel"/>
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="voyage">Numero Voyage</label>
+                                                        <input type="text" name="voyage" id="voyage"
+                                                               class="form-control form-control-lg"
+                                                               placeholder="Numero Voyage"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="col-md-12 mb-3">
+                                                        <label for="file">Charger le fichier</label>
+                                                        <input type="file" name="fichier" id="file"
+                                                               class="form-control form-control-lg" required/>
+                                                    </div>
+                                                </div>
+
+
+
+                                               <div class="modal-footer d-flex justify-content-center align-items-center"
+                                                     style="gap: 10px;">
+                                                    <button type="button" class="btn-danger" data-dismiss="modal"
+                                                            style="padding: 5px 18px; background-color: red; color: white; border: none; border-radius: 4px;">
+                                                        Fermer
+                                                    </button>
+                                                    <button type="submit" class="btn-info"
+                                                            style="padding: 5px 5px;  border: none; border-radius: 4px;">
+                                                        Enregistrer
+                                                    </button>
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!-- Modal Structure -->
+<div class="modal fade" id="ajouterDossierModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ajouter Dossier</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form method="POST" action="/archive/ajouter_dossier/">
+                    {% csrf_token %}
+                    <input name="id_user" type="hidden" id="id_user_input" placeholder="ID User">
+                    <input name="id_parent" type="hidden" id="id_dossier_input" placeholder="ID Dossier">
+                    <input name="service" type="hidden" id="service" placeholder="service" value="service">
+
+                    <div class="form-group mb-4">
+                        <label for="direction">Direction</label>
+                        <input type="text" class="form-control form-control-lg" name="direction" id="direction" value="{{ util.direction }}" readonly required>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="nom">Nom</label>
+                        <input type="text" name="nom" id="nom" class="form-control form-control-lg" placeholder="Nom" required>
+                        {% if message %}
+                            <p style="color: red">{{ message }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="modal-footer d-flex justify-content-center align-items-center" style="gap: 10px;">
+                        <button type="button" class="btn-danger" data-dismiss="modal" style="padding: 5px 18px; background-color: red; color: white; border: none; border-radius: 4px;">
+                            Fermer
+                        </button>
+                        <button type="submit" class="btn-info" style="padding: 5px 18px; border: none; border-radius: 4px;">
+                            Enregistrer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Icône pour ouvrir le modal -->
+
+                    <!-- Modal Bootstrap -->
+                    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog"
+                         aria-labelledby="detailModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="detailModalLabel">Détails du Document</h5>
+
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form id="modalForm" method="POST" action="/archive/update_document/"
+                                    enctype="multipart/form-data">
+                                        <div class="form-row">
+                                                    <div class="col-md-12 mb-12">
+                                            <!--<label for="nomDocument">Chemin D'acces</label>
+                                            <p id="arborescence"  class="form-control" style="color:black"> </p>-->
+                                        </div>
+                                             <input type="hidden" value="{{ util.id_user }}" class="form-control" id="notjtkt" name="id_user" readonly>
+                                            <input type="hidden" value="{{ dossier_crt.id_dossier}}" class="form-control" id="notjtktggh" name="doscrt" readonly>
+                                            <input type="hidden"  class="form-control" id="idDocument" name="document_id" readonly>
+                                            <input type="hidden"  class="form-control" id="detailtt" name="detailtt" readonly>
+                                        </div>
+                                        <div class="form-row">
+                                                    <div class="col-md-12 mb-3">
+                                                        <label for="file">Charger le fichier</label>
+                                                        <input type="file" name="fichier" id="file"
+                                                               class="form-control form-control-lg"/>
+                                                    </div>
+                                                </div>
+                                        <div class="form-row">
+                                                    <div class="col-md-6 mb-3">
+                                            <label for="nomDocument">Nom</label>
+                                            <input type="text" class="form-control" id="nomDocument" name="nom" readonly>
+                                        </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                            <label for="numeroDocument">Numéro</label>
+                                            <input type="text" class="form-control" id="numeroDocument"
+                                                   name="numero_document">
+                                        </div>
+                                            {% csrf_token %}
+                                        </div>
+                                        <div class="form-row">
+                                                    <div class="col-md-6 mb-3">
+                                            <label for="dateCreation">Date de Création</label>
+                                            <input type="text" class="form-control" id="dateCreation"
+                                                   name="date_creation" readonly>
+                                        </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                            <label for="eta">ETA</label>
+                                            <input type="datetime-local" class="form-control" id="eta" name="eta">
+                                        </div>
+                                        </div>
+                                        <div class="form-row">
+                                                    <div class="col-md-6 mb-3">
+                                            <label for="bl">BL</label>
+                                            <input type="text" class="form-control" id="bl" name="bl">
+                                        </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                            <label for="client">Client</label>
+                                            <input type="text" class="form-control" id="client" name="client">
+                                        </div>
+                                        </div>
+                                       <div class="form-row">
+                                                    <div class="col-md-6 mb-3">
+                                            <label for="vessel">Vessel</label>
+                                            <input type="text" class="form-control" id="vessel" name="vessel">
+                                        </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                            <label for="numeroVoyage">Numéro de Voyage</label>
+                                            <input type="text" class="form-control" id="numeroVoyage"
+                                                   name="numero_voyage">
+                                        </div>
+                                       </div>
+                                        <div class="form-row">
+                                                    <div class="col-md-6 mb-3">
+                                            <label for="journal">Journal</label>
+                                            <input type="text" class="form-control" id="journal" name="journal"
+                                                   placeholder="Journal">
+                                        </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                            <label for="montant">Montant</label>
+                                            <input type="text" class="form-control" id="montant" name="montant"
+                                                   placeholder="Montant">
+                                        </div>
+                                        </div>
+
+                                               <div class="modal-footer d-flex justify-content-center align-items-center"
+                                                     style="gap: 10px;">
+                                                    <button type="button" class="btn-danger" data-dismiss="modal"
+                                                            style="padding: 5px 18px; background-color: red; color: white; border: none; border-radius: 4px;">
+                                                        Fermer
+                                                    </button>
+                                                    <button type="submit" class="btn-info"
+                                                            style="padding: 5px 5px;  border: none; border-radius: 4px;">
+                                                        Enregistrer
+                                                    </button>
+                                                </div>
+                                    </form>
+                                </div>
+
+
+                        </div>
+                    </div>
+
+                    <!-- Inclure les scripts de Bootstrap et jQuery -->
+                    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+                    <script>
+                        $('#detailModal').on('show.bs.modal', function (event) {
+                            var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
+                            var modal = $(this);
+
+                            // Remplir les champs du modal avec les données du bouton
+                            modal.find('#nomDocument').val(button.data('nom'));
+                            modal.find('#idDocument').val(button.data('id-document'));
+                            modal.find('#numeroDocument').val(button.data('numero-document'));
+                            modal.find('#dateCreation').val(button.data('date-creation'));
+                            modal.find('#eta').val(button.data('eta'));
+                            modal.find('#bl').val(button.data('bl'));
+                            modal.find('#client').val(button.data('client'));
+                            modal.find('#vessel').val(button.data('vessel'));
+                            modal.find('#numeroVoyage').val(button.data('numero-voyage'));
+                            modal.find('#journal').val(button.data('journal'));
+                            modal.find('#montant').val(button.data('montant'));
+                        });
+                    </script>
+                    <!---------fin Script ------------------>
+                    <!----------------Ajout Access -------------------->
+
+                    <div class="modal fade" id="ajouterAccesModal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Ajouter Dossier</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="/archive/ajout_acces/">
+                                        <input name="id_util" type="text" id="id_user_input" placeholder="ID User">
+                                        <input name="id_parent" type="text" id="id_dossier_input"
+                                               placeholder="ID Dossier">
+                                        <input name="objet" type="text" id="objet" placeholder="objet" value="dossier">
+
+                                        {% csrf_token %}
+
+                                        <div class="form-group mb-4">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Prénom</th>
+                                                    <th scope="col">Nom</th>
+                                                    <th scope="col" class="col-3">Selection</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                {% for agt in agt_dir %}
+                                                    <tr>
+                                                        <td>{{ agt.fullname }}</td>
+
+                                                        <td class="col-2">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="agt" id="agt-{{ agt.id_utilisateur }}"
+                                                                       value="{{ agt.id_utilisateur }}">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                               <div class="modal-footer d-flex justify-content-center align-items-center"
+                                                     style="gap: 10px;">
+                                                    <button type="button" class="btn-danger" data-dismiss="modal"
+                                                            style="padding: 5px 18px; background-color: red; color: white; border: none; border-radius: 4px;">
+                                                        Fermer
+                                                    </button>
+                                                    <button type="submit" class="btn-info"
+                                                            style="padding: 5px 5px;  border: none; border-radius: 4px;">
+                                                        Enregistrer
+                                                    </button>
+                                                </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+
+                    <!-----------Essaie ---------------->
+                    <div class="modal fade" id="demandepermissiondossierssssssssss" tabindex="-1"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Demande de Permission</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="/archive/ajouter_permission/">
+
+                                        <input name="id_user" type="hidden" class="form-control" id="idUser" readonly
+                                               value="{{ util.id_user }}">
+
+
+                                        <input name="dossier" type="hidden" class="form-control" id="idDossier" readonly>
+
+
+                                        <input name="objet" type="hidden" class="form-control" id="idObjet" readonly>
+
+                                        <input name="type" type="hidden" placeholder="dossier" value="dossier">
+                                        <div class="form-group mb-4">
+                                            {% csrf_token %}
+                                            <label for="mentions">Commentaire</label>
+                                            <input type="text" name="commentaire" id="commentaire"
+                                                   class="form-control form-control-lg" placeholder="Commentaire"/>
+
+                                            {% if message %}
+                                                <p style="color: red">{{ message }}</p>
+                                            {% endif %}
+                                        </div>
+
+
+                                               <div class="modal-footer d-flex justify-content-center align-items-center"
+                                                     style="gap: 10px;">
+                                                    <button type="button" class="btn-danger" data-dismiss="modal"
+                                                            style="padding: 5px 18px; background-color: red; color: white; border: none; border-radius: 4px;">
+                                                        Fermer
+                                                    </button>
+                                                    <button type="submit" class="btn-info"
+                                                            style="padding: 5px 5px;  border: none; border-radius: 4px;">
+                                                        Enregistrer
+                                                    </button>
+                                                </div>
+
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                    <!-----------------------Modale -------------------->
+                        <div class="modal fade" id="demandepermissiondocumentModal" tabindex="-1" role="dialog" aria-labelledby="demandepermissiondocumentModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="demandepermissiondocumentModalLabel">Demande de Permission</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="/archive/ajouter_permission/">
+
+                                        <input name="id_user" type="text" class="form-control" id="idUser" readonly
+                                               value="{{ util.id_user }}">
+
+                                        <input name="dossier" type="text" class="form-control" id="idDossier" readonly>
+
+                                        <input name="objet" type="text" class="form-control" id="idObjet" readonly>
+                                        <input name="type" type="text" id="type" placeholder="type" value="document">
+                                        <div class="form-group mb-4">
+                                            {% csrf_token %}
+                                            <label for="mentions">Commentaire</label>
+                                            <input type="text" name="commentaire" id="commentaire"
+                                                   class="form-control form-control-lg" placeholder="Commentaire"/>
+
+                                            {% if message %}
+                                                <p style="color: red">{{ message }}</p>
+                                            {% endif %}
+                                        </div>
+
+                                               <div class="modal-footer d-flex justify-content-center align-items-center"
+                                                     style="gap: 10px;">
+                                                    <button type="button" class="btn-danger" data-dismiss="modal"
+                                                            style="padding: 5px 18px; background-color: red; color: white; border: none; border-radius: 4px;">
+                                                        Fermer
+                                                    </button>
+                                                    <button type="submit" class="btn-info"
+                                                            style="padding: 5px 5px;  border: none; border-radius: 4px;">
+                                                        Enregistrer
+                                                    </button>
+                                                </div>
+
+
+                                    </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+                                        <!-- Modal -->
+<div class="modal fade" id="detailModaldossier" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Détails du dossier</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <form action="/archive/modifier_dossier_direction/" method="POST">
+         {% csrf_token %}
+        <input type="hidden" class="form-control" name="doslst" value="lstdos" />
+         <input type="hidden" class="form-control" name="id_user" value="{{ util.id_user }}" id="id_user" readonly>
+         <input type="hidden" class="form-control" name="id_dossier" id="iddossier"  placeholder="modaliddossier" readonly>
+
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="modalNom">Nom</label>
+                        <input type="text" name="nom"  class="form-control" id="modalNom" >
+                    </div>
+                 <div class="form-group">
+                        <label for="modalDateCreation">Direction</label>
+                        <input type="text" class="form-control" id="modalDateCreation" readonly>
+                    </div>
+
+                  <div class="modal-footer d-flex justify-content-center align-items-center"
+                                                     style="gap: 10px;">
+                                                    <button type="button" class="btn-danger" data-dismiss="modal"
+                                                            style="padding: 5px 18px; background-color: red; color: white; border: none; border-radius: 4px;">
+                                                        Fermer
+                                                    </button>
+                                                    <button type="submit" class="btn-info"
+                                                            style="padding: 5px 5px;  border: none; border-radius: 4px;">
+                                                        Enregistrer
+                                                    </button>
+                                                </div>
+
+        </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<p id="monutil" style="color: white">{{ util.id_user }}</p>
+
+
+
+            </main>
+ <script>
+        $(document).ready(function() {
+    $('.open-modal').on('click', function() {
+        // Récupérer les données à partir des attributs data-*
+        var nom = $(this).data('nom');
+        var numeroDirection = $(this).data('numero-direction');
+        var dateCreation = $(this).data('date-creation');
+        var idParent = $(this).data('id-parent');
+        var iddossier = $(this).data('iddossier');
+
+        // Remplir les champs du modal avec les valeurs récupérées
+        $('#modalNom').val(nom);
+        $('#modalNumeroDirection').val(numeroDirection); // Pre-select the direction
+        $('#modalDateCreation').val(numeroDirection);
+        $('#modalIdParent').val(idParent);
+        $('#iddossier').val(iddossier);
+
+        // Sélectionner la bonne option dans le select
+        $('#modalNumeroDirection').val(numeroDirection).change();
+    });
+});
+
+            </script>
+            <script>
+                function filterTable() {
+                    // Déclaration des variables
+                    var input, filter, table, tr, td, i, j, txtValue;
+                    input = document.getElementById("searchInput");
+                    filter = input.value.toLowerCase();
+                    table = document.getElementById("dataTable");
+                    tr = table.getElementsByTagName("tr");
+
+                    // Boucle sur toutes les lignes du tableau, sauf l'en-tête
+                    for (i = 1; i < tr.length; i++) {
+                        tr[i].style.display = "none"; // Cache la ligne par défaut
+                        td = tr[i].getElementsByTagName("td");
+                        // Boucle sur toutes les cellules de la ligne courante
+                        for (j = 0; j < td.length; j++) {
+                            if (td[j]) {
+                                txtValue = td[j].textContent || td[j].innerText;
+                                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                                    tr[i].style.display = ""; // Affiche la ligne si une cellule correspond
+                                    break; // Sort de la boucle pour passer à la ligne suivante
+                                }
+                            }
+                        }
+                    }
+                }
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    $("#myInput").on("keyup", function () {
+                        var value = $(this).val().toLowerCase();
+                        $("#myTable tr").filter(function () {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                        });
+                    });
+                });
+            </script>
+            <!-- modale------------>
+
+            <script src="/static/assets/js/jstra/js/jquery-3.3.1.min.js"></script>
+            <script src="/static/assets/js/jstra/js/popper.min.js"></script>
+            <script src="/static/assets/js/jstra/js/bootstrap.min.js"></script>
+            <script src="/static/assets/js/jstra/js/main.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+            <!--Aajouter Permission ---->
+
+
+            <!-----------Ajouter Permission Doocument--------------->
+            <!--Aajouter Permission ---->
+
+            <script>
+                $(document).ready(function () {
+                    $('#ajouterDossierModal').on('show.bs.modal', function (event) {
+                        var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
+                        var idUser = button.data('iduserr'); // Récupérer la valeur de data-iduser
+                        var idDossier = button.data('iddossierr'); // Récupérer la valeur de data-iddossier
+
+                        // Insérer les valeurs dans les inputs du modal
+                        var modal = $(this);
+                        modal.find('#id_user_input').val(idUser);
+                        modal.find('#id_dossier_input').val(idDossier);
+                    });
+                });
+
+            </script>
+            <!--mOdale Ajout Documnet -->
+
+            <script>
+                $(document).ready(function () {
+                    $('#ajouterdocumentModal').on('show.bs.modal', function (event) {
+                        var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
+                        var idUser = button.data('iduser'); // Récupérer la valeur de data-iduser
+                        var idDossier = button.data('iddossier'); // Récupérer la valeur de data-iddossier
+
+                        // Insérer les valeurs dans les inputs du modal
+                        var modal = $(this);
+                        modal.find('#id_user_input').val(idUser);
+                        modal.find('#id_dossier_input').val(idDossier);
+                    });
+                });
+
+            </script>
+            <!------------Script Arbo --------->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                function fetchArborescence() {
+                    const paragraphElement = document.getElementById('mondoc');
+                    const paragraphContent = paragraphElement.textContent;
+
+                    $.ajax({
+                        url: '/archive/fetch_arborescence/18',
+                        method: "GET",
+                        data: {id_dos: paragraphContent},
+                        success: function (response) {
+                            if (response.data) {
+                                const arborescence = response.data.reverse().join(' > '); // Joignez les éléments par ' > ' ou tout autre séparateur
+                                $('#arborescence').text(arborescence);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching data:', error);
+                        }
+                    });
+                }
+
+                $(document).ready(function () {
+                    fetchArborescence(); // Fetch initially
+                    setInterval(fetchArborescence, 500); // Fetch every 10 seconds
+                });
+            </script>
+            <!-----------script permission ---->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $('#demandepermissiondossiers').on('show.bs.modal', function (event) {
+                        var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
+                        var idUser = button.data('iduser'); // Extraire les infos à partir des attributs data-*
+                        var idDossier = button.data('iddossier');
+                        var idObjet = button.data('idobjet');
+
+                        // Mettre à jour les champs du formulaire avec les valeurs extraites
+                        var modal = $(this);
+                        modal.find('#id_user_input').val(idUser);
+                        modal.find('#id_objet').val(idObjet);
+                    });
+                });
+            </script>
+            <!----------Script Essaie ----------------->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+            <script>
+                $(document).ready(function () {
+                    $('#demandepermissiondossierssssssssss').on('show.bs.modal', function (event) {
+                        var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
+                        var idUser = button.data('iduser'); // Récupère la valeur de l'attribut data-iduser
+                        var idDossier = button.data('iddossier'); // Récupère la valeur de l'attribut data-iddossier
+                        var idObjet = button.data('idobjet'); // Récupère la valeur de l'attribut data-idobjet
+
+                        // Insère les valeurs dans les champs du modal
+                        var modal = $(this);
+                        modal.find('.modal-body #idUser').val(idUser);
+                        modal.find('.modal-body #idDossier').val(idDossier);
+                        modal.find('.modal-body #idObjet').val(idObjet);
+                    });
+                });
+
+            </script>
+
+
+<script>
+                $(document).ready(function () {
+                    $('#demandepermissiondocumentModal').on('show.bs.modal', function (event) {
+                        var button = $(event.relatedTarget); // Bouton qui a déclenché le modal
+                        var idUser = button.data('iduser'); // Récupère la valeur de l'attribut data-iduser
+                        var idDossier = button.data('iddossier'); // Récupère la valeur de l'attribut data-iddossier
+                        var idObjet = button.data('idobjet'); // Récupère la valeur de l'attribut data-idobjet
+
+                        // Insère les valeurs dans les champs du modal
+                        var modal = $(this);
+                        modal.find('.modal-body #idUser').val(idUser);
+                        modal.find('.modal-body #idDossier').val(idDossier);
+                        modal.find('.modal-body #idObjet').val(idObjet);
+                    });
+                });
+
+            </script>
+<script>
+
+    $(document).ready(function() {
+    $('#detailModaldossier').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget); // Le bouton qui a ouvert le modal
+        var nom = button.data('nom');
+        var numeroDirection = button.data('numero-direction');
+        var dateCreation = button.data('date-creation');
+        var idParent = button.data('id_parent');
+        var idDossier = button.data('iddossier');
+
+
+        var modal = $(this);
+        modal.find('#modalNom').val(nom);
+        modal.find('#modalDateCreation').val(numeroDirection);
+        modal.find('#iddossier').val(idDossier);
+        //modal.find('#id_user').val(idParent); // Si nécessaire
+    });
+});
+
+</script>
+
+<script>
+$(document).ready(function(){
+    let fetchInterval
+
+    let notificationCount = 0;
+    function fetchDataNot(){
+        const paragraphElement = document.getElementById('monutil');
+        const paragraphContent = paragraphElement.textContent;
+
+
+        $.ajax({
+            url: '/archive/fetch_demande_acces/18',
+            method: 'GET',
+            data: { id_user: paragraphContent },
+            success: function(response){
+                if (response.data) {
+                    updateTableNot(response.data);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching data: ", status, error);
+            }
+        });
+    }
+
+    function updateTableNot(data) {
+    notificationCount=data.length;
+        //notificationCount=5;
+
+
+    }
+
+      function startFetchingDataNot() {
+        fetchDataNot(); // Charger les données initiales
+       fetchInterval = setInterval(fetchDataNot, 5000); // 5000ms = 5s
+    }
+
+function updateNotificationCount() {
+    // Update the paragraph content with the notification count
+  const notificationBarElement = document.getElementById('notification-bar');
+  notificationBarElement.textContent = `${notificationCount}`;
+}
+
+// Update notification count every 100 milliseconds (replace with a suitable interval)
+setInterval(updateNotificationCount, 100);
+    startFetchingDataNot();
+
+});
+</script>
+
+
+
+
+
+</body>
+</html>

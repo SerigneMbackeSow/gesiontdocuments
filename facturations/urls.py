@@ -163,13 +163,16 @@ urlpatterns = [
     path('fetch_document_boite/<int:id>',fetch_document_boite, name='listearchive'),
     path('fetch_boite/<int:id>',fetch_boite, name='listearchive'),
     path('fetch_tout/<int:id>',fect_tout_doc, name='listearchive'),
-    path('fetch_permission/<int:id>',fetch_permission, name='listearchive'),
+    #path('fetch_permission/<int:id>',fetch_permission, name='listearchive'),
     path('fecth_demande/<int:id>',fecth_demande, name='listearchive'),
     path('fetchboiteAclasser/<int:id>',fetchboiteAclasser, name='listearchive'),
     path('fetch_global_doc/<int:id>',fetch_global_doc, name='listearchive'),
     path('fretch_mes_demandes/<int:id>',fretch_mes_demandes, name='listearchive'),
     path('fetch_mes_consultations/<int:id>',fetch_mes_consultations, name='listearchive'),
-
+    path('fetch_permission/<int:id>',fetch_permission, name='listearchive'),
+    path('profile/<int:id_user>', profile_page, name='profile_page'),
+    path('modifier_profile/', modifier_profile, name='modifier_profile'),
+    path('retour_profile/<int:id_user>', retour_profile, name='retour_profile'),
 
 
 
